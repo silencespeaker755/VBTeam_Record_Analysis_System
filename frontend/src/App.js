@@ -7,6 +7,9 @@ import Homepage from "./homepage/Homepage";
 // Bar
 import Bar from "./bar/Bar";
 
+// Sign
+import SignIn from "./sign/SignIn";
+
 import "./App.css";
 
 export default function App() {
@@ -16,7 +19,7 @@ export default function App() {
     <>
       {location.pathname !== "/" && <Bar />}
       <Switch>
-        <Route exact path="/" component={null} />
+        <Route exact path="/" component={SignIn} />
         <Route exact path="/home" component={Homepage} />
         <Route exact path="/setting" component={null} />
         <Route exact path="/logout" component={null} />
