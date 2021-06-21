@@ -20,7 +20,7 @@ class CalendarService {
     });
     await newEvent.save();
 
-    return newEvent;
+    return newEvent._id;
   }
 
   static async deleteEvent({ eventId, userId }) {
@@ -52,12 +52,19 @@ class CalendarService {
     return updateEvent;
   }
 
-  static async attendEvent({ eventId, userId }) {
+  static async attendEvent({ eventId, userId, attend }) {
     const event = await Event.findById(eventId);
     if (!event) throw "Event not exist!";
 
+    console.log(event);
     const user = await User.findById(userId);
-    event.attendance.push(user);
+    console.log(user);
+    console.log(event.attendance.indexOf(user._id));
+    if (attend && event.attendance.indexOf(user._id) === -1)
+      event.attendance.push(user);
+    else if (!attend && event.attendance.indexOf(user._id) != -1)
+      event.attendance.splice(event.attendance.indexOf(user._id));
+
     await event.save();
 
     return event;
