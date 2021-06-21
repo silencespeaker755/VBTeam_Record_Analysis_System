@@ -19,7 +19,11 @@ export default function Homepage() {
       <div id="back-to-top-anchor" />
       <Calendar showErrorModel={() => setAlertModel(true)} />
       <ScrollTopButton>
-        <Fab color="secondary" size="small" aria-label="scroll back to top">
+        <Fab
+          aria-label="scroll back to top"
+          size="small"
+          style={{ backgroundColor: "#ffc800" }}
+        >
           <KeyboardArrowUpIcon />
         </Fab>
       </ScrollTopButton>
