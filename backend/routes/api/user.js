@@ -12,9 +12,9 @@ router.post("/signup", (req, res) => {
       console.log("user:", user);
       res.status(200).send("SignUp success!");
     })
-    .catch((e) => {
-      console.log(e);
-      res.status(401).send(e);
+    .catch((err) => {
+      console.log(err);
+      res.status(401).send(err);
     });
 });
 
@@ -27,9 +27,9 @@ router.post("/login", (req, res) => {
       console.log("user:", user);
       res.status(200).send("LogIn success!");
     })
-    .catch((e) => {
-      console.log(e);
-      res.status(401).send(e);
+    .catch((err) => {
+      console.log(err);
+      res.status(401).send(err);
     });
 });
 
