@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ScrollTop(props) {
-  const { children } = props;
+  const { children, inView } = props;
 
   const classes = useStyles();
   const trigger = useScrollTrigger({
@@ -32,7 +32,7 @@ export default function ScrollTop(props) {
   };
 
   return (
-    <Zoom in={trigger}>
+    <Zoom in={!inView}>
       <div onClick={handleClick} role="presentation" className={classes.root}>
         {children}
       </div>
