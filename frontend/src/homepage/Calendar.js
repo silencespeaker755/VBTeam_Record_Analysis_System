@@ -3,10 +3,11 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
 
-export default function Calendar() {
+export default function Calendar(props) {
+  const { showErrorModel } = props;
+
   const handleDateClick = (arg) => {
-    // bind with an arrow function
-    alert(arg.dateStr);
+    showErrorModel();
   };
 
   return (
