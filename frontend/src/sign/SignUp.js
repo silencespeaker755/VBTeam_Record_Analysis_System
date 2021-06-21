@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
-  signBox: {
-    marginTop: theme.spacing(25),
+  signUp: {
+    marginTop: theme.spacing(5),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -23,12 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignUp() {
   const classes = useStyles();
 
   return (
     <Container component="main" maxWidth="xs">
-      <div className={classes.signBox}>
+      <div className={classes.signUp}>
         <Typography component="h1" variant="h4">
           Sign up
         </Typography>
@@ -64,14 +62,6 @@ export default function SignIn() {
           >
             Sign Up
           </Button>
-          <Grid container>
-            <Grid item xs />
-            <Grid item>
-              <Link href="/" variant="body2">
-                Already registered sign in?
-              </Link>
-            </Grid>
-          </Grid>
         </form>
       </div>
     </Container>
