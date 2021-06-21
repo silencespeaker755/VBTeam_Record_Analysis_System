@@ -1,26 +1,30 @@
 import React from "react";
-import logo from "./logo.svg";
+import { Switch, Route, useHistory, useLocation } from "react-router-dom";
+
+// hompage
+import Homepage from "./homepage/Homepage";
+
+// Bar
+import Bar from "./bar/Bar";
+
+// Sign
+import SignUp from "./sign/SignUp";
+
 import "./App.css";
 
-function App() {
+export default function App() {
+  const location = useLocation();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {location.pathname !== "/" && <Bar />}
+      <Switch>
+        <Route exact path="/" component={SignUp} />
+        <Route exact path="/home" component={Homepage} />
+        <Route exact path="/setting" component={null} />
+        <Route exact path="/logout" component={null} />
+        <Route exact path="/postlist" component={null} />
+      </Switch>
+    </>
   );
 }
-
-export default App;
