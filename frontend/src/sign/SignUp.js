@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 6),
   },
 }));
 
@@ -36,11 +36,20 @@ export default function SignUp() {
             margin="normal"
             required
             fullWidth
+            id="username"
+            label="User Name"
+            name="username"
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
             id="email"
             label="Email Address"
             name="email"
             autoComplete="email"
-            autoFocus
           />
           <TextField
             variant="outlined"

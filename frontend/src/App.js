@@ -10,6 +10,9 @@ import Bar from "./bar/Bar";
 // Sign
 import SignIn from "./sign/SignIn";
 
+// Practice
+
+import Practice from "./practice/Practice";
 import "./App.css";
 
 export default function App() {
@@ -21,6 +24,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={SignIn} />
         <Route exact path="/home" component={Homepage} />
+        <Route exact path="/practice" component={Practice} />
         <Route exact path="/setting" component={null} />
         <Route exact path="/logout" component={null} />
         <Route exact path="/postlist" component={null} />
