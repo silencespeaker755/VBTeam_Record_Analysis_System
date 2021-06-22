@@ -12,7 +12,9 @@ import clsx from "clsx";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 import ListIcon from "@material-ui/icons/List";
+import MovieIcon from "@material-ui/icons/Movie";
 
 const useStyle = makeStyles((theme) => ({
   flex: {
@@ -66,14 +68,14 @@ export default function RightDrawer(props) {
     },
     {
       label: "My Post",
-      icon: <ListIcon />,
+      icon: <AssignmentIcon />,
       link: `/home`,
       event: null,
       visible: admin,
     },
     {
       label: "My Vedio",
-      icon: <ListIcon />,
+      icon: <MovieIcon />,
       link: `/home`,
       event: null,
       visible: admin,

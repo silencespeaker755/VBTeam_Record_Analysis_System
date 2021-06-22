@@ -2,6 +2,10 @@
   margin-top: -1px;
 }
 
+.fc-button {
+  box-shadow: none !important;
+}
+
 .test-day-class {
   position: relative;
 }

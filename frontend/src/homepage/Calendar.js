@@ -16,18 +16,20 @@ export default function Calendar(props) {
   };
 
   const handleEventRender = ({ event, el, view, timeText }) => {
-    const dateAttr = moment(event.start).format("YYYY-MM-DD");
-    if (!$(`[data-date='${dateAttr}']`).hasClass("detected")) {
-      $(`[data-date='${dateAttr}']`).append(
-        `
+    if (view.type !== "dayGridWeek") {
+      const dateAttr = moment(event.start).format("YYYY-MM-DD");
+      if (!$(`[data-date='${dateAttr}']`).hasClass("detected")) {
+        $(`[data-date='${dateAttr}']`).append(
+          `
         <span id='${dateAttr}'>
           <img src='create_pen.svg' class='custom_edit_pen' alt='modify calendar' />
         </span>
         <span class='custom_attend_number'>5</span>
         `
-      );
-      $(`#${dateAttr}`).on("click", handleEdit(event));
-      $(`[data-date='${dateAttr}']`).addClass("detected");
+        );
+        $(`#${dateAttr}`).on("click", handleEdit(event));
+        $(`[data-date='${dateAttr}']`).addClass("detected");
+      }
     }
     return el;
   };
