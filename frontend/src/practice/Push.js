@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -21,46 +21,68 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function Push({ setCards, cards }) {
   const classes = useStyles();
+
+  const [video, setVideo] = useState({
+    title: "",
+    url: "",
+    article: "",
+  });
+
+  const handleChange = (e, type) => {
+    setVideo({ ...video, [type]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setCards((pre) => {
+      return [...pre, video];
+    });
+    alert("upload");
+  };
 
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.signUp}>
         <Typography component="h1" variant="h4">
-          Sign up
+          Add Video
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
+            value={video.title}
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="username"
-            label="User Name"
-            name="username"
+            id="title"
+            label="Title"
+            name="title"
             autoFocus
+            onChange={(e) => handleChange(e, "title")}
           />
           <TextField
+            value={video.url}
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="video"
+            label="Video url"
+            name="video"
+            onChange={(e) => handleChange(e, "url")}
           />
           <TextField
-            variant="outlined"
+            value={video.article}
+            id="outlined-multiline-static"
+            label="Article"
             margin="normal"
+            multiline
+            rows={4}
             required
             fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            variant="outlined"
+            onChange={(e) => handleChange(e, "article")}
           />
           <Button
             type="submit"
@@ -68,8 +90,9 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={onSubmit}
           >
-            Sign Up
+            Add
           </Button>
         </form>
       </div>
