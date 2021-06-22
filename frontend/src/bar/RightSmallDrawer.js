@@ -18,7 +18,7 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import ListIcon from "@material-ui/icons/List";
 import MovieIcon from "@material-ui/icons/Movie";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import MailIcon from "@material-ui/icons/Mail";
+import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 
@@ -101,8 +101,8 @@ export default function RightSmallDrawer(props) {
       visible: admin,
     },
     {
-      label: "Mail",
-      icon: <MailIcon />,
+      label: "Videos",
+      icon: <VideoLibraryIcon />,
       link: "/home",
       event: null,
       visible: admin,

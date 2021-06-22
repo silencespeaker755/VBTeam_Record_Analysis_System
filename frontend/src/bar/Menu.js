@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Badge, ClickAwayListener, IconButton } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
+import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 
@@ -72,7 +72,7 @@ export default function Menu() {
           <div className={classes.flex}>
             <IconButton onClick={() => setType("mails")} component="span">
               <Badge badgeContent={0} color="secondary">
-                <MailIcon
+                <VideoLibraryIcon
                   style={{
                     color: type === "mails" ? "#ffb200" : "white",
                   }}
