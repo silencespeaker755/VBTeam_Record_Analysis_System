@@ -7,6 +7,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import Push from "./Push";
 
 const useStyles = makeStyles((theme) => ({
   control: {
@@ -45,19 +48,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Album() {
-  const [cards, setCard] = useState([
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [cards, setCards] = useState([
     {
       title: "土木杯",
       article: "輕鬆虐",
-      video: "https://www.youtube.com/embed/VbfpW0pbvaU",
+      url: "https://www.youtube.com/embed/VbfpW0pbvaU",
     },
     {
       title: "土木杯",
       article: "輕鬆虐",
-      video: "https://www.youtube.com/embed/VbfpW0pbvaU",
+      url: "https://www.youtube.com/embed/VbfpW0pbvaU",
     },
   ]);
-  const classes = useStyles();
 
   return (
     <>
@@ -76,7 +89,11 @@ export default function Album() {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleClickOpen}
+                  >
                     Upload video
                   </Button>
                 </Grid>
@@ -91,15 +108,15 @@ export default function Album() {
         </div>
         <Container className={classes.cardGrid}>
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={6}>
+            {cards.map((card, index) => (
+              <Grid item key={`${index}+${card.title}`} xs={12} sm={6} md={6}>
                 <Card className={classes.card}>
                   <div className={classes.cardMedia}>
                     <iframe
                       className={classes.cardVedio}
                       width="100%"
                       height="100%"
-                      src={card.video}
+                      src={card.url}
                       title="YouTube video player"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -125,6 +142,15 @@ export default function Album() {
             ))}
           </Grid>
         </Container>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogContent>
+            <Push setCards={setCards} cards={cards} />
+          </DialogContent>
+        </Dialog>
       </main>
     </>
   );
