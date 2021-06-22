@@ -6,6 +6,10 @@
   box-shadow: none !important;
 }
 
+.no-detected {
+  display: none;
+}
+
 .test-day-class {
   position: relative;
 }

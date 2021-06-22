@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
-import $, { data } from "jquery";
 import moment from "moment";
 import "../css/Calendar.css";
 
@@ -15,21 +14,40 @@ export default function Calendar(props) {
     setEdit(true);
   };
 
+  const createEditPen = (dateAttr, input = 5) => {
+    const newIcon = document.createElement("span");
+    newIcon.id = dateAttr;
+    const img = document.createElement("IMG");
+    img.classList.add("custom_edit_pen");
+    img.src = "create_pen.svg";
+    newIcon.appendChild(img);
+
+    const number = document.createElement("span");
+    number.classList.add("custom_attend_number");
+    number.textContent = input;
+    newIcon.appendChild(number);
+
+    return newIcon;
+  };
+
   const handleEventRender = ({ event, el, view, timeText }) => {
+    const dateAttr = moment(event.start).format("YYYY-MM-DD");
+    const item = document.querySelector(`[data-date='${dateAttr}']`);
     if (view.type !== "dayGridWeek") {
-      const dateAttr = moment(event.start).format("YYYY-MM-DD");
-      if (!$(`[data-date='${dateAttr}']`).hasClass("detected")) {
-        $(`[data-date='${dateAttr}']`).append(
-          `
-        <span id='${dateAttr}'>
-          <img src='create_pen.svg' class='custom_edit_pen' alt='modify calendar' />
-        </span>
-        <span class='custom_attend_number'>5</span>
-        `
-        );
-        $(`#${dateAttr}`).on("click", handleEdit(event));
-        $(`[data-date='${dateAttr}']`).addClass("detected");
+      if (!item.classList.contains("detected")) {
+        item.classList.remove("no-detected");
+        item.append(createEditPen(dateAttr));
+        item.classList.add("detected");
+        document
+          .getElementById(dateAttr)
+          .addEventListener("click", handleEdit(event));
       }
+    } else {
+      item.classList.remove("detected");
+      item.classList.add("no-detected");
+      document
+        .getElementById(dateAttr)
+        .removeEventListener("click", handleEdit(event));
     }
     return el;
   };
