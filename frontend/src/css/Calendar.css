@@ -1,0 +1,28 @@
+.fc-toolbar {
+  margin-top: -1px;
+}
+
+.test-day-class {
+  position: relative;
+}
+
+.custom_attend_number {
+  position: absolute;
+  height: 20px;
+  left: 15px;
+  top: 10px;
+  font-size: 10px;
+  color: brown;
+}
+
+.custom_edit_pen {
+  position: absolute;
+  height: 20px;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.custom_edit_pen:hover {
+  height: 24px;
+}
