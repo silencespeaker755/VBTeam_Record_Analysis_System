@@ -1,14 +1,31 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import { useQuery } from "react-query";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
+import instance from "../setting";
 import "../css/Calendar.css";
 
 export default function Calendar(props) {
   const { showErrorModel } = props;
   const [edit, setEdit] = useState(false);
+
+  const {
+    data: events = [],
+    isError: isEventsError,
+    isLoading: isEventsLoading,
+    refetch,
+  } = useQuery(
+    "calendarFetching",
+    async () => {
+      const { data } = await instance.get("/api/home/calendar");
+    },
+    {
+      retry: false,
+      onSuccess: () => {},
+    }
+  );
 
   const handleEdit = (event) => (e) => {
     setEdit(true);
