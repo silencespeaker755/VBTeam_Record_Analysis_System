@@ -4,9 +4,19 @@ import CalendarService from "../../../services/CalendarService";
 const router = Router();
 
 router.get("/", (req, res) => {
+  /*
+    #swagger.path = '/api/home/calendar'
+    #swagger.tags = ['Home/Calendar']
+  */
+
   CalendarService.getEvents()
     .then((events) => {
       console.log("Get all events:", events);
+      /*
+        #swagger.responses[200] = { 
+          schema: { $ref: '#/definitions/Event' }
+        }
+      */
       res.status(200).json({ events });
     })
     .catch((err) => {
@@ -16,12 +26,34 @@ router.get("/", (req, res) => {
 });
 
 router.post("/create", (req, res) => {
+  /*
+    #swagger.path = '/api/home/calendar/create'
+    #swagger.tags = ['Home/Calendar']
+    #swagger.parameters['event'] = {
+      in: 'body',
+      required: true,
+      schema: { $ref: '#/definitions/CreateEvent' }
+    }
+    #swagger.parameters['userId'] = {
+      in: 'body',
+      required: true,
+      type: 'string',
+    }
+  */
+
   console.log(req.body);
   const { event, userId } = req.body;
 
   CalendarService.createEvent({ event, userId })
     .then((eventId) => {
       console.log("Created eventId:", eventId);
+      /*
+        #swagger.responses[200] = { 
+          schema: {
+            id: 'string'
+          }
+        }
+      */
       res.status(200).json({ id: eventId });
     })
     .catch((err) => {
@@ -31,6 +63,21 @@ router.post("/create", (req, res) => {
 });
 
 router.post("/delete", (req, res) => {
+  /*
+    #swagger.path = '/api/home/calendar/delete'
+    #swagger.tags = ['Home/Calendar']
+    #swagger.parameters['eventId'] = {
+      in: 'body',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['userId'] = {
+      in: 'body',
+      required: true,
+      type: 'string',
+    }
+  */
+
   console.log(req.body);
   const { eventId, userId } = req.body;
 
@@ -46,12 +93,27 @@ router.post("/delete", (req, res) => {
 });
 
 router.post("/update", (req, res) => {
+  /*
+    #swagger.path = '/api/home/calendar/update'
+    #swagger.tags = ['Home/Calendar']
+    #swagger.parameters['event'] = {
+      in: 'body',
+      required: true,
+      schema: { $ref: '#/definitions/Event' }
+    }
+    #swagger.parameters['userId'] = {
+      in: 'body',
+      required: true,
+      type: 'string',
+    }
+  */
+
   console.log(req.body);
   const { event, userId } = req.body;
 
   CalendarService.updateEvent({ event, userId })
-    .then((event) => {
-      console.log("Updated event:", event);
+    .then((Event) => {
+      console.log("Updated event:", Event);
       res.status(200).send("Update success!");
     })
     .catch((err) => {
@@ -61,6 +123,21 @@ router.post("/update", (req, res) => {
 });
 
 router.post("/attend", (req, res) => {
+  /*
+    #swagger.path = '/api/home/calendar/attend'
+    #swagger.tags = ['Home/Calendar']
+    #swagger.parameters['eventId'] = {
+      in: 'body',
+      required: true,
+      type: 'string'
+    }
+    #swagger.parameters['userId'] = {
+      in: 'body',
+      required: true,
+      type: 'string',
+    }
+  */
+
   console.log(req.body);
   const { eventId, userId, attend } = req.body;
 

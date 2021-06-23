@@ -1,5 +1,6 @@
 import expressLoader from "./express";
 import mongooseLoader from "./mongoose";
+import swaggerLoader from "./swagger";
 
 export default async ({ expressApp }) => {
   const mongoConnection = await mongooseLoader();
@@ -7,4 +8,7 @@ export default async ({ expressApp }) => {
 
   await expressLoader({ app: expressApp });
   console.log("Express Initialized");
+
+  await swaggerLoader({ app: expressApp });
+  console.log("Swagger Initialized");
 };
