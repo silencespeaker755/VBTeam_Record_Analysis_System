@@ -6,6 +6,7 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
 import { useUserInfo } from "../hooks/useInfo";
+import PostModal from "./modals/PostModal";
 import instance from "../setting";
 import "../css/Calendar.css";
 
@@ -13,7 +14,8 @@ export default function Calendar(props) {
   const { showErrorModel } = props;
   const { userInfo, changeUser } = useUserInfo();
   const [edit, setEdit] = useState(false);
-  // const id = "60d2db2baabdc948653ff20e";
+  const [postModal, setPostModal] = useState(false);
+  const [currentDate, setCurrentDate] = useState("");
 
   const {
     data: events,
@@ -39,7 +41,6 @@ export default function Calendar(props) {
   };
 
   const handleEventRender = ({ event, el, view, timeText }) => {
-    console.log(event.extendedProps);
     const dateAttr = moment(event.start).format("YYYY-MM-DD");
     if (view.type !== "dayGridWeek") {
       if (!$(`#${dateAttr}`).hasClass("detected")) {
@@ -65,9 +66,22 @@ export default function Calendar(props) {
     return el;
   };
 
-  const handleDateClick = (e) => {
-    if (!edit) showErrorModel();
+  const handleDateClick = (event) => {
+    console.log(event, event.dateStr);
+    if (!edit) {
+      // showErrorModel();
+      setCurrentDate(event.dateStr);
+      setPostModal(true);
+    }
   };
+
+  const handleEventClick = ({ event }) => {
+    console.log(event);
+  };
+
+  useEffect(() => {
+    changeUser("60d2db2baabdc948653ff20e", true);
+  }, []);
 
   if (isEventsError) return "error";
   if (isEventsLoading) return "loading";
@@ -95,8 +109,14 @@ export default function Calendar(props) {
         dateClick={handleDateClick}
         droppable={false}
         initialDate="2021-06-01"
-        eventClick={() => {}}
+        eventClick={handleEventClick}
         // editable
+      />
+      <PostModal
+        open={postModal}
+        date={currentDate}
+        handleClose={() => setPostModal(false)}
+        refetchEvents={refetchEvents}
       />
     </div>
   );

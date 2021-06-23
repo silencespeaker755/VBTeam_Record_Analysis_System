@@ -6,6 +6,10 @@
   box-shadow: none !important;
 }
 
+.fc-event-title {
+  cursor: pointer;
+}
+
 .no-detected {
   display: none;
 }
