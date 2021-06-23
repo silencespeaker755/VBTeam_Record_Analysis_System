@@ -5,22 +5,28 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
+import { useUserInfo } from "../hooks/useInfo";
 import instance from "../setting";
 import "../css/Calendar.css";
 
 export default function Calendar(props) {
   const { showErrorModel } = props;
+  const { userInfo, changeUser } = useUserInfo();
   const [edit, setEdit] = useState(false);
+  // const id = "60d2db2baabdc948653ff20e";
 
   const {
-    data: events = [],
+    data: events,
     isError: isEventsError,
     isLoading: isEventsLoading,
-    refetch,
+    refetch: refetchEvents,
   } = useQuery(
     "calendarFetching",
     async () => {
-      const { data } = await instance.get("/api/home/calendar");
+      const { data = { events: [] } } = await instance.get(
+        "/api/home/calendar"
+      );
+      return data.events;
     },
     {
       retry: false,
@@ -33,10 +39,10 @@ export default function Calendar(props) {
   };
 
   const handleEventRender = ({ event, el, view, timeText }) => {
+    console.log(event.extendedProps);
     const dateAttr = moment(event.start).format("YYYY-MM-DD");
     if (view.type !== "dayGridWeek") {
       if (!$(`#${dateAttr}`).hasClass("detected")) {
-        console.log(dateAttr, $(`#${dateAttr}`).length);
         if (!$(`#${dateAttr}`).length || $(`#${dateAttr}`).has("no-detected")) {
           $(`#${dateAttr}`).remove();
           $(`[data-date='${dateAttr}']`).append(
@@ -63,6 +69,9 @@ export default function Calendar(props) {
     if (!edit) showErrorModel();
   };
 
+  if (isEventsError) return "error";
+  if (isEventsLoading) return "loading";
+
   return (
     <div
       style={{
@@ -82,16 +91,7 @@ export default function Calendar(props) {
           right: "dayGridDay,dayGridWeek,dayGridMonth",
         }}
         initialView="dayGridMonth"
-        events={[
-          { title: "event 1", date: "2021-06-01" },
-          { title: "event 2", date: "2021-06-02" },
-          {
-            title: "練球",
-            start: "2021-06-23T12:30:00",
-            end: "2021-06-25",
-          },
-          { title: "練球", start: "2021-06-23T14:30:00", end: "2021-06-25" },
-        ]}
+        events={events}
         dateClick={handleDateClick}
         droppable={false}
         initialDate="2021-06-01"
