@@ -9,8 +9,8 @@ router.post("/signup", (req, res) => {
 
   UserService.signUp({ name, email, password })
     .then((user) => {
-      console.log("user:", user);
-      res.status(200).send("SignUp success!");
+      console.log("User signup:", user);
+      res.status(200).json({ id: user._id, isAdmin: user.isAdmin });
     })
     .catch((err) => {
       console.log(err);
@@ -24,8 +24,8 @@ router.post("/login", (req, res) => {
 
   UserService.logIn({ email, password })
     .then((user) => {
-      console.log("user:", user);
-      res.status(200).send("LogIn success!");
+      console.log("User login:", user);
+      res.status(200).json({ id: user._id, isAdmin: user.isAdmin });
     })
     .catch((err) => {
       console.log(err);

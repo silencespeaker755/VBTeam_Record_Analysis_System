@@ -3,7 +3,11 @@ import User from "../models/User";
 
 class CalendarService {
   static async getEvents() {
-    return Event.find({});
+    const events = await Event.find({});
+    events.forEach((event) => {
+      event.id = event._id;
+    });
+    return events;
   }
 
   static async createEvent({ event, userId }) {
@@ -37,7 +41,7 @@ class CalendarService {
     const user = await User.findById(userId);
     if (!user.isAdmin) throw "Admin required!";
 
-    const updateEvent = await Event.findById(event._id);
+    const updateEvent = await Event.findById(event.id);
     if (!updateEvent) throw "Event not found!";
 
     updateEvent.start = event.start;

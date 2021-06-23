@@ -22,7 +22,7 @@ router.post("/create", (req, res) => {
   CalendarService.createEvent({ event, userId })
     .then((eventId) => {
       console.log("Created eventId:", eventId);
-      res.status(200).json(eventId);
+      res.status(200).json({ id: eventId });
     })
     .catch((err) => {
       console.log(err);
