@@ -11,7 +11,9 @@ import {
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
+import { useMutation } from "react-query";
 import SignUp from "./SignUp";
+import axios from "../setting";
 
 const blackTheme = createMuiTheme({
   palette: {
@@ -40,6 +42,14 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e, type) => {
+    setUser({ ...user, [type]: e.target.value });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,6 +57,24 @@ export default function SignIn() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const signin = useMutation(
+    async (err) => {
+      const data = await axios.post("/api/user/login", user);
+      return data;
+    },
+    {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+    }
+  );
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    signin.mutate();
+    handleClose();
   };
 
   return (
@@ -68,6 +96,7 @@ export default function SignIn() {
               type="email"
               autoComplete="email"
               autoFocus
+              onChange={(e) => handleChange(e, "email")}
             />
             <TextField
               variant="outlined"
@@ -79,6 +108,7 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(e) => handleChange(e, "password")}
             />
             <Button
               type="submit"
@@ -86,6 +116,8 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={(e) => onSubmit(e)}
+              disabled={user.email === "" || user.password === ""}
             >
               Sign In
             </Button>

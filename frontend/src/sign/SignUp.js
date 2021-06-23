@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useMutation } from "react-query";
-import axios from "axios";
+import axios from "../setting";
 
 const useStyles = makeStyles((theme) => ({
   signUp: {
@@ -35,11 +35,24 @@ export default function SignUp({ handleClose }) {
     setAccount({ ...account, [type]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const signup = useMutation(
+    async (err) => {
+      const data = await axios.post("/api/user/signup", account);
+      return data;
+    },
+    {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+    }
+  );
+
+  const onSubmit = async (e) => {
     e.preventDefault();
+    signup.mutate();
     handleClose();
   };
-  // const mutation = useMutation(()=>axios.post());
+
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.signUp}>
@@ -88,6 +101,12 @@ export default function SignUp({ handleClose }) {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={(e) => onSubmit(e)}
+            disabled={
+              account.name === "" ||
+              account.email === "" ||
+              account.password === ""
+            }
           >
             Sign Up
           </Button>
