@@ -32,39 +32,25 @@ export default function Calendar(props) {
     setEdit(true);
   };
 
-  const createEditPen = (dateAttr, input = 5) => {
-    const newIcon = document.createElement("span");
-    newIcon.id = dateAttr;
-    const img = document.createElement("IMG");
-    img.classList.add("custom_edit_pen");
-    img.src = "create_pen.svg";
-    newIcon.appendChild(img);
-
-    const number = document.createElement("span");
-    number.classList.add("custom_attend_number");
-    number.textContent = input;
-    newIcon.appendChild(number);
-
-    return newIcon;
-  };
-
   const handleEventRender = ({ event, el, view, timeText }) => {
-    // const dateAttr = moment(event.start).format("YYYY-MM-DD");
-    // const item = document.querySelector(`[data-date='${dateAttr}']`);
+    const dateAttr = moment(event.start).format("YYYY-MM-DD");
     if (view.type !== "dayGridWeek") {
-      const dateAttr = moment(event.start).format("YYYY-MM-DD");
-      if (!$(`[data-date='${dateAttr}']`).hasClass("detected")) {
+      if (!$(`#${dateAttr}`).hasClass("detected")) {
         $(`[data-date='${dateAttr}']`).append(
           `
         <span id='${dateAttr}'>
           <img src='create_pen.svg' class='custom_edit_pen' alt='modify calendar' />
+          <span class='custom_attend_number'>5</span>
         </span>
-        <span class='custom_attend_number'>5</span>
         `
         );
         $(`#${dateAttr}`).on("click", handleEdit(event));
-        $(`[data-date='${dateAttr}']`).addClass("detected");
+        $(`#${dateAttr}`).removeClass("no-detected");
+        $(`#${dateAttr}`).addClass("detected");
       }
+    } else {
+      $(`#${dateAttr}`).removeClass("detected");
+      $(`#${dateAttr}`).addClass("no-detected");
     }
     return el;
   };
