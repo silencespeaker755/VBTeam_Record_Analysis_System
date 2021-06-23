@@ -1,9 +1,11 @@
-import React from "react";
+import { React, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   signUp: {
@@ -21,16 +23,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp({ handleClose }) {
   const classes = useStyles();
+  const [account, setAccount] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
+  const handleChange = (e, type) => {
+    setAccount({ ...account, [type]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleClose();
+  };
+  // const mutation = useMutation(()=>axios.post());
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.signUp}>
         <Typography component="h1" variant="h4">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -40,16 +56,19 @@ export default function SignUp() {
             label="User Name"
             name="username"
             autoFocus
+            onChange={(e) => handleChange(e, "name")}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
+            type="email"
             fullWidth
             id="email"
             label="Email Address"
             name="email"
             autoComplete="email"
+            onChange={(e) => handleChange(e, "email")}
           />
           <TextField
             variant="outlined"
@@ -61,6 +80,7 @@ export default function SignUp() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(e) => handleChange(e, "password")}
           />
           <Button
             type="submit"

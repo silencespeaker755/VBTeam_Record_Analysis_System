@@ -56,7 +56,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h4">
             Sign In
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -65,6 +65,7 @@ export default function SignIn() {
               id="email"
               label="Email Address"
               name="email"
+              type="email"
               autoComplete="email"
               autoFocus
             />
@@ -79,7 +80,6 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-
             <Button
               type="submit"
               fullWidth
@@ -105,7 +105,7 @@ export default function SignIn() {
             aria-labelledby="form-dialog-title"
           >
             <DialogContent>
-              <SignUp />
+              <SignUp handleClose={handleClose} />
             </DialogContent>
           </Dialog>
         </div>

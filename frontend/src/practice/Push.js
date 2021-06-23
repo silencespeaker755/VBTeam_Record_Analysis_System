@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Push({ setCards, cards }) {
+export default function Push({ setCards, cards, handleClose }) {
   const classes = useStyles();
 
   const [video, setVideo] = useState({
@@ -39,7 +39,7 @@ export default function Push({ setCards, cards }) {
     setCards((pre) => {
       return [...pre, video];
     });
-    alert("upload");
+    handleClose();
   };
 
   return (
