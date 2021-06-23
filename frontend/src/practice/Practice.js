@@ -148,7 +148,7 @@ export default function Album() {
           aria-labelledby="form-dialog-title"
         >
           <DialogContent>
-            <Push setCards={setCards} cards={cards} />
+            <Push setCards={setCards} cards={cards} handleClose={handleClose} />
           </DialogContent>
         </Dialog>
       </main>
