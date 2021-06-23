@@ -27,6 +27,8 @@ module.exports = {
     "jsx-a11y/no-noninteractive-element-interactions": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "import/prefer-default-export": 0,
+    "no-underscore-dangle": 0,
+    "react/jsx-props-no-spreading": 0,
     "jsx-a11y/label-has-associated-control": [
       2,
       {
