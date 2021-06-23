@@ -7,6 +7,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
 import { useUserInfo } from "../hooks/useInfo";
 import PostModal from "./modals/PostModal";
+import EventModal from "./modals/EventModal";
 import instance from "../setting";
 import "../css/Calendar.css";
 
@@ -15,7 +16,9 @@ export default function Calendar(props) {
   const { userInfo, changeUser } = useUserInfo();
   const [edit, setEdit] = useState(false);
   const [postModal, setPostModal] = useState(false);
+  const [eventModal, setEventModal] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
+  const [currentEvent, setCurrentEvent] = useState({});
 
   const {
     data: events,
@@ -67,7 +70,6 @@ export default function Calendar(props) {
   };
 
   const handleDateClick = (event) => {
-    console.log(event, event.dateStr);
     if (!edit) {
       // showErrorModel();
       setCurrentDate(event.dateStr);
@@ -76,7 +78,8 @@ export default function Calendar(props) {
   };
 
   const handleEventClick = ({ event }) => {
-    console.log(event);
+    setCurrentEvent(event);
+    setEventModal(true);
   };
 
   useEffect(() => {
@@ -117,6 +120,11 @@ export default function Calendar(props) {
         date={currentDate}
         handleClose={() => setPostModal(false)}
         refetchEvents={refetchEvents}
+      />
+      <EventModal
+        open={eventModal}
+        event={currentEvent}
+        handleClose={() => setEventModal(false)}
       />
     </div>
   );

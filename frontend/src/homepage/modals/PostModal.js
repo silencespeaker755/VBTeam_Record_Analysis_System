@@ -15,7 +15,7 @@ import axios from "../../setting";
 import { useUserInfo } from "../../hooks/useInfo";
 
 const useStyles = makeStyles((theme) => ({
-  signUp: {
+  frame: {
     marginTop: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
@@ -62,7 +62,6 @@ export default function PostModal(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     updateForm();
-    console.log("hah");
   };
 
   useEffect(() => setInfo((t) => initForm), [date]);
@@ -75,7 +74,7 @@ export default function PostModal(props) {
     >
       <DialogContent>
         <Container component="main" maxWidth="xs">
-          <div className={classes.signUp}>
+          <div className={classes.frame}>
             <Typography component="h1" variant="h4">
               {date}
             </Typography>
