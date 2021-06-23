@@ -62,9 +62,6 @@ export default function Calendar(props) {
     } else {
       item.classList.remove("detected");
       item.classList.add("no-detected");
-      document
-        .getElementById(dateAttr)
-        .removeEventListener("click", handleEdit(event));
     }
     return el;
   };
