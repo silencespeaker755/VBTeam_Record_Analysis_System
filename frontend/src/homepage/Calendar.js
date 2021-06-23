@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import $ from "jquery";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
@@ -9,6 +9,7 @@ import { useUserInfo } from "../hooks/useInfo";
 import PostModal from "./modals/PostModal";
 import EventModal from "./modals/EventModal";
 import instance from "../setting";
+import AttendModal from "./modals/AttendModal";
 import "../css/Calendar.css";
 
 export default function Calendar(props) {
@@ -17,6 +18,7 @@ export default function Calendar(props) {
   const [edit, setEdit] = useState(false);
   const [postModal, setPostModal] = useState(false);
   const [eventModal, setEventModal] = useState(false);
+  const [attendModal, setAttendModal] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
   const [currentEvent, setCurrentEvent] = useState({});
 
@@ -39,8 +41,30 @@ export default function Calendar(props) {
     }
   );
 
+  const { mutate: updateAttender } = useMutation(
+    async () => {
+      setEdit(true);
+      await instance.post("/api/home/calendar/attend", {
+        eventId: currentEvent.extendedProps._id,
+        userId: userInfo.id,
+        isAdmin: userInfo.isAdmin,
+      });
+    },
+    {
+      onSuccess: () => {
+        refetchEvents();
+        setAttendModal(true);
+      },
+      onError: () => {
+        setEdit(false);
+        showErrorModel();
+      },
+    }
+  );
+
   const handleEdit = (event) => (e) => {
-    setEdit(true);
+    setCurrentEvent(event);
+    updateAttender();
   };
 
   const handleEventRender = ({ event, el, view, timeText }) => {
@@ -53,7 +77,7 @@ export default function Calendar(props) {
             `
             <span id='${dateAttr}'>
               <img src='create_pen.svg' class='custom_edit_pen' alt='modify calendar' />
-              <span class='custom_attend_number'>5</span>
+              <span class='custom_attend_number'>${event.extendedProps.attendance.length}</span>
             </span>
             `
           );
@@ -71,7 +95,6 @@ export default function Calendar(props) {
 
   const handleDateClick = (event) => {
     if (!edit) {
-      // showErrorModel();
       setCurrentDate(event.dateStr);
       setPostModal(true);
     }
@@ -125,6 +148,14 @@ export default function Calendar(props) {
         open={eventModal}
         event={currentEvent}
         handleClose={() => setEventModal(false)}
+      />
+      <AttendModal
+        open={attendModal}
+        event={currentEvent}
+        onClose={() => {
+          setAttendModal(false);
+          setEdit(false);
+        }}
       />
     </div>
   );

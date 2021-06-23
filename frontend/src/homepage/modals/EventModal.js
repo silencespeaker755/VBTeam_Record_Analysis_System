@@ -69,9 +69,15 @@ export default function EventModal(props) {
   const endTime = moment(end).format("YYYY-MM-DD hh:mm:ss");
 
   const mappingArrayToText = (array) => {
-    return array.map((el, i, all) => {
+    if (array.length === 0 || (array.length === 1 && array[0] === ""))
       return (
         <Typography variant="body2" component="p">
+          &nbsp;none
+        </Typography>
+      );
+    return array.map((el, i, all) => {
+      return (
+        <Typography key={el} variant="body2" component="p">
           &nbsp;{el}
         </Typography>
       );
