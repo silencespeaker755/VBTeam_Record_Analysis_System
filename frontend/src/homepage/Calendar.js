@@ -36,14 +36,18 @@ export default function Calendar(props) {
     const dateAttr = moment(event.start).format("YYYY-MM-DD");
     if (view.type !== "dayGridWeek") {
       if (!$(`#${dateAttr}`).hasClass("detected")) {
-        $(`[data-date='${dateAttr}']`).append(
-          `
-        <span id='${dateAttr}'>
-          <img src='create_pen.svg' class='custom_edit_pen' alt='modify calendar' />
-          <span class='custom_attend_number'>5</span>
-        </span>
-        `
-        );
+        console.log(dateAttr, $(`#${dateAttr}`).length);
+        if (!$(`#${dateAttr}`).length || $(`#${dateAttr}`).has("no-detected")) {
+          $(`#${dateAttr}`).remove();
+          $(`[data-date='${dateAttr}']`).append(
+            `
+            <span id='${dateAttr}'>
+              <img src='create_pen.svg' class='custom_edit_pen' alt='modify calendar' />
+              <span class='custom_attend_number'>5</span>
+            </span>
+            `
+          );
+        }
         $(`#${dateAttr}`).on("click", handleEdit(event));
         $(`#${dateAttr}`).removeClass("no-detected");
         $(`#${dateAttr}`).addClass("detected");
@@ -89,9 +93,10 @@ export default function Calendar(props) {
           { title: "練球", start: "2021-06-23T14:30:00", end: "2021-06-25" },
         ]}
         dateClick={handleDateClick}
+        droppable={false}
         initialDate="2021-06-01"
         eventClick={() => {}}
-        editable
+        // editable
       />
     </div>
   );
