@@ -80,7 +80,7 @@ export default function RightSmallDrawer(props) {
       visible: admin,
     },
     {
-      label: "My Vedio",
+      label: "My Video",
       icon: <MovieIcon />,
       link: `/home`,
       event: null,

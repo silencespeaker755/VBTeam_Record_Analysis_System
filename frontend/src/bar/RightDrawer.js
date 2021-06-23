@@ -74,7 +74,7 @@ export default function RightDrawer(props) {
       visible: admin,
     },
     {
-      label: "My Vedio",
+      label: "My Video",
       icon: <MovieIcon />,
       link: `/home`,
       event: null,

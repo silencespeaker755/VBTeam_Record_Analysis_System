@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import $ from "jquery";
 import { useQuery } from "react-query";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
@@ -48,23 +49,22 @@ export default function Calendar(props) {
   };
 
   const handleEventRender = ({ event, el, view, timeText }) => {
-    const dateAttr = moment(event.start).format("YYYY-MM-DD");
-    const item = document.querySelector(`[data-date='${dateAttr}']`);
+    // const dateAttr = moment(event.start).format("YYYY-MM-DD");
+    // const item = document.querySelector(`[data-date='${dateAttr}']`);
     if (view.type !== "dayGridWeek") {
-      if (!item.classList.contains("detected")) {
-        item.classList.remove("no-detected");
-        item.append(createEditPen(dateAttr));
-        item.classList.add("detected");
-        document
-          .getElementById(dateAttr)
-          .addEventListener("click", handleEdit(event));
+      const dateAttr = moment(event.start).format("YYYY-MM-DD");
+      if (!$(`[data-date='${dateAttr}']`).hasClass("detected")) {
+        $(`[data-date='${dateAttr}']`).append(
+          `
+        <span id='${dateAttr}'>
+          <img src='create_pen.svg' class='custom_edit_pen' alt='modify calendar' />
+        </span>
+        <span class='custom_attend_number'>5</span>
+        `
+        );
+        $(`#${dateAttr}`).on("click", handleEdit(event));
+        $(`[data-date='${dateAttr}']`).addClass("detected");
       }
-    } else {
-      item.classList.remove("detected");
-      item.classList.add("no-detected");
-      document
-        .getElementById(dateAttr)
-        .removeEventListener("click", handleEdit(event));
     }
     return el;
   };
