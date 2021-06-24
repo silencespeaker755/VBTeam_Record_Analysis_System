@@ -4,6 +4,9 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { useMutation } from "react-query";
+import { useUserInfo } from "../hooks/useInfo";
+import axios from "../setting";
 
 const useStyles = makeStyles((theme) => ({
   signUp: {
@@ -23,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Push({ setCards, cards, handleClose }) {
   const classes = useStyles();
-
+  const { userInfo } = useUserInfo();
   const [video, setVideo] = useState({
     title: "",
     url: "",
@@ -33,6 +36,20 @@ export default function Push({ setCards, cards, handleClose }) {
   const handleChange = (e, type) => {
     setVideo({ ...video, [type]: e.target.value });
   };
+
+  const signin = useMutation(
+    async (err) => {
+      const time = new Date();
+      const user = userInfo.id;
+      const data = await axios.post("/api/practice/updoad", video);
+      return data;
+    },
+    {
+      onSuccess: ({ data }) => {
+        console.log(data);
+      },
+    }
+  );
 
   const onSubmit = (e) => {
     e.preventDefault();
