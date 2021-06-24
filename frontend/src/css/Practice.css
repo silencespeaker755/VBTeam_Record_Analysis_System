@@ -15,11 +15,4 @@
   .grid {
     column-count: 1;
   }
-  .grid div {
-    margin: 0 3px 10px 3px;
-  }
-  .grid div div {
-    margin: 0;
-    padding: 0 6px 0px 6px;
-  }
 }

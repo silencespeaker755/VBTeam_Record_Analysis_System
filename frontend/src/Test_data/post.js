@@ -27,6 +27,18 @@ const posts = [
       "What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly ",
     url: "",
   },
+  {
+    title: "Test",
+    article:
+      "What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is a",
+    url: "",
+  },
+  {
+    title: "Test",
+    article:
+      "What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is and is not greatly What we think HCI research is a",
+    url: "",
+  },
 ];
 
 export default posts;
