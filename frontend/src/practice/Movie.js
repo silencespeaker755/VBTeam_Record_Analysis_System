@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   card: {
     width: "100%",
+    height: "100%",
     display: "flex",
     flexDirection: "column",
   },
@@ -34,6 +35,31 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Movie({ title, url, article }) {
   const movieClasses = useStyles();
+  const tempArtic = article.split("\n");
+  const mappingArrayToText = (array) => {
+    if (array.length === 0 || (array.length === 1 && array[0] === ""))
+      return (
+        <Typography
+          variant="body2"
+          component="p"
+          className={movieClasses.article}
+        >
+          &nbsp;none
+        </Typography>
+      );
+    return array.map((el, i, all) => {
+      return (
+        <Typography
+          key={el}
+          variant="body2"
+          component="p"
+          className={movieClasses.article}
+        >
+          &nbsp;{el}
+        </Typography>
+      );
+    });
+  };
 
   return (
     <>
@@ -55,14 +81,7 @@ export default function Movie({ title, url, article }) {
             <Typography gutterBottom variant="h5" component="h2">
               {title}
             </Typography>
-            <Typography
-              gutterBottom
-              variant="body2"
-              className={movieClasses.article}
-              component="p"
-            >
-              {article}
-            </Typography>
+            {mappingArrayToText(tempArtic)}
           </CardContent>
           <CardActions>
             <Button size="small" color="primary">

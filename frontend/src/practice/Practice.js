@@ -23,11 +23,6 @@ const useStyles = makeStyles((theme) => ({
   cardGrid: {
     padding: theme.spacing(8, 0, 8, 0),
   },
-  card: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-  },
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
