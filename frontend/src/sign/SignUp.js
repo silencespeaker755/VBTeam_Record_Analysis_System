@@ -46,6 +46,8 @@ export default function SignUp({ handleClose }) {
     },
     {
       onSuccess: ({ data }) => {
+        localStorage.setItem("isAdmin", data.isAdmin);
+        localStorage.setItem("id", data.id);
         changeUser(data.id, data.isAdmin);
         history.push("/home");
       },

@@ -15,7 +15,7 @@ import "../css/Calendar.css";
 
 export default function Calendar(props) {
   const { showErrorModel } = props;
-  const { changeUser } = useUserInfo();
+  const { userInfo } = useUserInfo();
   const [edit, setEdit] = useState(false);
   const [postModal, setPostModal] = useState(false);
   const [eventModal, setEventModal] = useState(false);
@@ -81,7 +81,7 @@ export default function Calendar(props) {
   };
 
   const handleDateClick = (event) => {
-    if (!edit) {
+    if (!edit && userInfo.isAdmin) {
       setCurrentDate(event.dateStr);
       setPostModal(true);
     }
@@ -91,10 +91,6 @@ export default function Calendar(props) {
     setCurrentEvent(event);
     setEventModal(true);
   };
-
-  // useEffect(() => {
-  //   changeUser("60d2db2baabdc948653ff20e", true);
-  // }, []);
 
   if (isEventsError) return "error";
   if (isEventsLoading || isLoading) return <Loading />;

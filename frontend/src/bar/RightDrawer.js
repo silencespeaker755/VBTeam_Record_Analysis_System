@@ -89,6 +89,11 @@ export default function RightDrawer(props) {
     },
   ];
 
+  const handleLogOut = () => {
+    localStorage.removeItem("id");
+    localStorage.removeItem("isAdmin");
+  };
+
   return (
     <Drawer
       anchor="right"
@@ -124,7 +129,7 @@ export default function RightDrawer(props) {
         </div>
       </div>
       <div className={classes.width_100} onClick={toggleDrawer(false)}>
-        <Link to="/" className={classes.link} onClick={() => {}}>
+        <Link to="/" className={classes.link} onClick={handleLogOut}>
           <ListItem className={classes.listItem} button>
             <ListItemIcon className={classes.white}>
               <ExitToAppIcon />

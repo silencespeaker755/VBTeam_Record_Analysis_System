@@ -13,6 +13,7 @@ import { useMutation } from "react-query";
 import { useImmer } from "../../hooks/useImmer";
 import axios from "../../setting";
 import { useUserInfo } from "../../hooks/useInfo";
+import Loading from "../../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   frame: {
@@ -74,103 +75,107 @@ export default function PostModal(props) {
     >
       <DialogContent>
         <Container component="main" maxWidth="xs">
-          <div className={classes.frame}>
-            <Typography component="h1" variant="h4">
-              {date}
-            </Typography>
-            <form className={classes.form} onSubmit={handleSubmit}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="title"
-                label="title"
-                name="Title"
-                value={info.title}
-                onChange={(e) =>
-                  setInfo((t) => {
-                    t.title = e.target.value;
-                  })
-                }
-                autoFocus
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="place"
-                label="place"
-                name="Adress"
-                value={info.place}
-                onChange={(e) =>
-                  setInfo((t) => {
-                    t.place = e.target.value;
-                  })
-                }
-                autoComplete="place"
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="start"
-                label="start"
-                name="Start Date"
-                value={info.start}
-                onChange={(e) =>
-                  setInfo((t) => {
-                    t.start = e.target.value;
-                  })
-                }
-                autoComplete="current-start"
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="end"
-                label="end"
-                name="End Date"
-                value={info.end}
-                onChange={(e) =>
-                  setInfo((t) => {
-                    t.end = e.target.value;
-                  })
-                }
-                autoComplete="current-end"
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="notes"
-                label="notes"
-                name="Notes"
-                multiline
-                value={info.notes}
-                onChange={(e) =>
-                  setInfo((t) => {
-                    t.notes = e.target.value;
-                  })
-                }
-                autoComplete="current-notes"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleSubmit}
-                onSubmit={handleSubmit}
-              >
-                Announce
-              </Button>
-            </form>
-          </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div className={classes.frame}>
+              <Typography component="h1" variant="h4">
+                {date}
+              </Typography>
+              <form className={classes.form} onSubmit={handleSubmit}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="title"
+                  label="title"
+                  name="Title"
+                  value={info.title}
+                  onChange={(e) =>
+                    setInfo((t) => {
+                      t.title = e.target.value;
+                    })
+                  }
+                  autoFocus
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="place"
+                  label="place"
+                  name="Adress"
+                  value={info.place}
+                  onChange={(e) =>
+                    setInfo((t) => {
+                      t.place = e.target.value;
+                    })
+                  }
+                  autoComplete="place"
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="start"
+                  label="start"
+                  name="Start Date"
+                  value={info.start}
+                  onChange={(e) =>
+                    setInfo((t) => {
+                      t.start = e.target.value;
+                    })
+                  }
+                  autoComplete="current-start"
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="end"
+                  label="end"
+                  name="End Date"
+                  value={info.end}
+                  onChange={(e) =>
+                    setInfo((t) => {
+                      t.end = e.target.value;
+                    })
+                  }
+                  autoComplete="current-end"
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="notes"
+                  label="notes"
+                  name="Notes"
+                  multiline
+                  value={info.notes}
+                  onChange={(e) =>
+                    setInfo((t) => {
+                      t.notes = e.target.value;
+                    })
+                  }
+                  autoComplete="current-notes"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={handleSubmit}
+                  onSubmit={handleSubmit}
+                >
+                  Announce
+                </Button>
+              </form>
+            </div>
+          )}
         </Container>
       </DialogContent>
     </Dialog>
