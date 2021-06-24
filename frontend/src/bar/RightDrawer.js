@@ -62,7 +62,7 @@ export default function RightDrawer(props) {
     {
       label: "My account",
       icon: <AccountCircleIcon />,
-      link: `/home`,
+      link: `/home/profile`,
       event: null,
       visible: admin,
     },
@@ -97,7 +97,7 @@ export default function RightDrawer(props) {
       open={open}
       onClose={toggleDrawer(false)}
     >
-      <div className={classes.list} onClick={() => toggleDrawer(false)}>
+      <div className={classes.list} onClick={toggleDrawer(false)}>
         <div className={classes.listItems}>
           <List>
             {menuList.map((item) => (

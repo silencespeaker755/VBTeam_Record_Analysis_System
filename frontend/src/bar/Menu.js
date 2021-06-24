@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Badge, ClickAwayListener, IconButton } from "@material-ui/core";
+import {
+  Badge,
+  ClickAwayListener,
+  IconButton,
+  createMuiTheme,
+} from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -10,16 +15,28 @@ import EqualizerIcon from "@material-ui/icons/Equalizer";
 import RightDrawer from "./RightDrawer";
 import RightSmallDrawer from "./RightSmallDrawer";
 
-const useStyles = makeStyles((theme) => ({
+const theme = createMuiTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 800,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+});
+
+const useStyles = makeStyles(() => ({
   section: {
     display: "none",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "flex",
     },
   },
   smallSection: {
     display: "flex",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "none",
     },
   },

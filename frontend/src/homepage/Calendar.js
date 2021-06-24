@@ -15,7 +15,7 @@ import "../css/Calendar.css";
 
 export default function Calendar(props) {
   const { showErrorModel } = props;
-  const { userInfo, changeUser } = useUserInfo();
+  const { changeUser } = useUserInfo();
   const [edit, setEdit] = useState(false);
   const [postModal, setPostModal] = useState(false);
   const [eventModal, setEventModal] = useState(false);

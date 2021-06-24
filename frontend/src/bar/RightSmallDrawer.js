@@ -68,7 +68,7 @@ export default function RightSmallDrawer(props) {
     {
       label: "My account",
       icon: <AccountCircleIcon />,
-      link: `/home`,
+      link: `/home/profile`,
       event: null,
       visible: admin,
     },
