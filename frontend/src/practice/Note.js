@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
   card: {
     display: "flex",
     flexDirection: "column",
+    marginBottom: "30px",
+    breakInside: "avoid-column",
   },
   cardContent: {
     height: "100%",
@@ -53,32 +55,28 @@ export default function Note({ title, article }) {
   };
 
   return (
-    <>
-      <Grid item xs={12} sm={6} md={6}>
-        <Card className={noteClasses.card}>
-          <CardContent className={noteClasses.cardContent}>
-            <Typography gutterBottom variant="h4" component="h2">
-              {title}
-            </Typography>
-            <Divider />
-            <div
-              style={{
-                paddingTop: "20px",
-              }}
-            >
-              {mappingArrayToText(tempArtic)}
-            </div>
-          </CardContent>
-          <CardActions>
-            <Button size="small" color="primary">
-              View
-            </Button>
-            <Button size="small" color="primary">
-              Edit
-            </Button>
-          </CardActions>
-        </Card>
-      </Grid>
-    </>
+    <Card className={noteClasses.card}>
+      <CardContent className={noteClasses.cardContent}>
+        <Typography gutterBottom variant="h4" component="h2">
+          {title}
+        </Typography>
+        <Divider />
+        <div
+          style={{
+            paddingTop: "20px",
+          }}
+        >
+          {mappingArrayToText(tempArtic)}
+        </div>
+      </CardContent>
+      <CardActions>
+        <Button size="small" color="primary">
+          View
+        </Button>
+        <Button size="small" color="primary">
+          Edit
+        </Button>
+      </CardActions>
+    </Card>
   );
 }
