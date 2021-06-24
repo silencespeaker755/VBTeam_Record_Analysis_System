@@ -101,7 +101,7 @@ export default function SignUp({ handleClose }) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={(e) => onSubmit(e)}
+            onClick={onSubmit}
             disabled={
               account.name === "" ||
               account.email === "" ||

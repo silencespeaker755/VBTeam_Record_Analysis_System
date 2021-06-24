@@ -62,28 +62,30 @@ export default function Push({ setCards, cards, handleClose }) {
             onChange={(e) => handleChange(e, "title")}
           />
           <TextField
+            value={video.article}
+            id="outlined-multiline-static"
+            label="Article"
+            margin="normal"
+            multiline
+            rows={6}
+            required
+            fullWidth
+            variant="outlined"
+            type="text"
+            onChange={(e) => handleChange(e, "article")}
+          />
+
+          <TextField
             value={video.url}
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             id="video"
             label="Video url"
             name="video"
             onChange={(e) => handleChange(e, "url")}
           />
-          <TextField
-            value={video.article}
-            id="outlined-multiline-static"
-            label="Article"
-            margin="normal"
-            multiline
-            rows={4}
-            required
-            fullWidth
-            variant="outlined"
-            onChange={(e) => handleChange(e, "article")}
-          />
+
           <Button
             type="submit"
             fullWidth
