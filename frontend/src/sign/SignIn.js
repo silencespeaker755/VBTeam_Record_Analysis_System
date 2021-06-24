@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -12,6 +13,7 @@ import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import { useMutation } from "react-query";
+import { useUserInfo } from "../hooks/useInfo";
 import SignUp from "./SignUp";
 import axios from "../setting";
 
@@ -41,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const history = useHistory();
+  const { changeUser } = useUserInfo();
   const [open, setOpen] = React.useState(false);
   const [user, setUser] = useState({
     email: "",
@@ -65,8 +69,11 @@ export default function SignIn() {
       return data;
     },
     {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: ({ data }) => {
+        localStorage.setItem("isAdmin", data.isAdmin);
+        localStorage.setItem("id", data.id);
+        changeUser(data.id, data.isAdmin);
+        history.push("/home");
       },
     }
   );

@@ -1,10 +1,12 @@
 import { React, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useMutation } from "react-query";
+import { useUserInfo } from "../hooks/useInfo";
 import axios from "../setting";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp({ handleClose }) {
   const classes = useStyles();
+  const history = useHistory();
+  const { changeUser } = useUserInfo();
   const [account, setAccount] = useState({
     name: "",
     email: "",
@@ -41,8 +45,11 @@ export default function SignUp({ handleClose }) {
       return data;
     },
     {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: ({ data }) => {
+        localStorage.setItem("isAdmin", data.isAdmin);
+        localStorage.setItem("id", data.id);
+        changeUser(data.id, data.isAdmin);
+        history.push("/home");
       },
     }
   );

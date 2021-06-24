@@ -3,11 +3,7 @@ import User from "../models/User";
 
 class CalendarService {
   static async getEvents() {
-    const events = await Event.find({});
-    events.forEach((event) => {
-      event.id = event._id;
-    });
-    return events;
+    return Event.find({});
   }
 
   static async createEvent({ event, userId }) {
@@ -66,7 +62,7 @@ class CalendarService {
     console.log(event.attendance.indexOf(user._id));
     if (attend && event.attendance.indexOf(user._id) === -1)
       event.attendance.push(user);
-    else if (!attend && event.attendance.indexOf(user._id) != -1)
+    else if (!attend && event.attendance.indexOf(user._id) !== -1)
       event.attendance.splice(event.attendance.indexOf(user._id));
 
     await event.save();

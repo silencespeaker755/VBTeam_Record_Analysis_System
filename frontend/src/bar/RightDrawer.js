@@ -62,7 +62,7 @@ export default function RightDrawer(props) {
     {
       label: "My account",
       icon: <AccountCircleIcon />,
-      link: `/home`,
+      link: `/home/profile`,
       event: null,
       visible: admin,
     },
@@ -89,6 +89,11 @@ export default function RightDrawer(props) {
     },
   ];
 
+  const handleLogOut = () => {
+    localStorage.removeItem("id");
+    localStorage.removeItem("isAdmin");
+  };
+
   return (
     <Drawer
       anchor="right"
@@ -97,7 +102,7 @@ export default function RightDrawer(props) {
       open={open}
       onClose={toggleDrawer(false)}
     >
-      <div className={classes.list} onClick={() => toggleDrawer(false)}>
+      <div className={classes.list} onClick={toggleDrawer(false)}>
         <div className={classes.listItems}>
           <List>
             {menuList.map((item) => (
@@ -124,7 +129,7 @@ export default function RightDrawer(props) {
         </div>
       </div>
       <div className={classes.width_100} onClick={toggleDrawer(false)}>
-        <Link to="/" className={classes.link} onClick={() => {}}>
+        <Link to="/" className={classes.link} onClick={handleLogOut}>
           <ListItem className={classes.listItem} button>
             <ListItemIcon className={classes.white}>
               <ExitToAppIcon />
