@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import { useMutation, useQuery } from "react-query";
-import FullCalendar from "@fullcalendar/react"; // must go before plugins
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
 import { useUserInfo } from "../hooks/useInfo";
+import instance from "../setting";
 import PostModal from "./modals/PostModal";
 import EventModal from "./modals/EventModal";
-import instance from "../setting";
 import AttendModal from "./modals/AttendModal";
+import Loading from "../components/Loading";
 import "../css/Calendar.css";
 
 export default function Calendar(props) {
@@ -21,6 +22,7 @@ export default function Calendar(props) {
   const [attendModal, setAttendModal] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
   const [currentEvent, setCurrentEvent] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     data: events,
@@ -37,34 +39,19 @@ export default function Calendar(props) {
     },
     {
       retry: false,
-      onSuccess: () => {},
-    }
-  );
-
-  const { mutate: updateAttender } = useMutation(
-    async () => {
-      setEdit(true);
-      await instance.post("/api/home/calendar/attend", {
-        eventId: currentEvent.extendedProps._id,
-        userId: userInfo.id,
-        isAdmin: userInfo.isAdmin,
-      });
-    },
-    {
-      onSuccess: () => {
-        refetchEvents();
-        setAttendModal(true);
-      },
-      onError: () => {
-        setEdit(false);
-        showErrorModel();
-      },
+      onSuccess: () => setIsLoading(false),
     }
   );
 
   const handleEdit = (event) => (e) => {
+    setEdit(true);
     setCurrentEvent(event);
-    updateAttender();
+    setAttendModal(true);
+  };
+
+  const handleEditFinish = () => {
+    setAttendModal(false);
+    setEdit(false);
   };
 
   const handleEventRender = ({ event, el, view, timeText }) => {
@@ -110,16 +97,10 @@ export default function Calendar(props) {
   }, []);
 
   if (isEventsError) return "error";
-  if (isEventsLoading) return "loading";
+  if (isEventsLoading || isLoading) return <Loading />;
 
   return (
-    <div
-      style={{
-        margin: "40px",
-        border: "20px solid #a78758",
-        borderRadius: "25px",
-      }}
-    >
+    <div className="calendar-frame">
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         viewClassNames="control-modify-entry"
@@ -148,14 +129,21 @@ export default function Calendar(props) {
         open={eventModal}
         event={currentEvent}
         handleClose={() => setEventModal(false)}
+        showEventModal={() => setEventModal(true)}
+        showErrorModel={showErrorModel}
+        setLoading={setIsLoading}
+        refetchEvents={refetchEvents}
       />
       <AttendModal
         open={attendModal}
         event={currentEvent}
-        onClose={() => {
-          setAttendModal(false);
-          setEdit(false);
+        onClose={handleEditFinish}
+        handleError={() => {
+          handleEditFinish();
+          showErrorModel();
         }}
+        refetchEvents={refetchEvents}
+        setLoading={setIsLoading}
       />
     </div>
   );

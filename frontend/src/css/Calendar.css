@@ -18,6 +18,12 @@
   position: relative;
 }
 
+.calendar-frame {
+  margin: 50px;
+  border: 20px solid #a78758;
+  border-radius: 25px;
+}
+
 .custom_attend_number {
   position: absolute;
   height: 20px;
