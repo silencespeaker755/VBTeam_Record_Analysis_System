@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     display: "flex",
     flexDirection: "column",
+    marginBottom: "30px",
+    breakInside: "avoid-column",
   },
   cardMedia: {
     width: "100%",
@@ -65,40 +67,34 @@ export default function Movie({ title, url, article }) {
   };
 
   return (
-    <>
-      <Grid item xs={12} sm={6} md={6}>
-        <Card className={movieClasses.card}>
-          <div className={movieClasses.cardMedia}>
-            <iframe
-              className={movieClasses.cardVedio}
-              width="100%"
-              height="100%"
-              src={url}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-          <CardContent className={movieClasses.cardContent}>
-            <Typography gutterBottom variant="h4" component="h2">
-              {title}
-            </Typography>
-            <Divider />
-            <div style={{ paddingTop: "5px" }}>
-              {mappingArrayToText(tempArtic)}
-            </div>
-          </CardContent>
-          <CardActions>
-            <Button size="small" color="primary">
-              View
-            </Button>
-            <Button size="small" color="primary">
-              Edit
-            </Button>
-          </CardActions>
-        </Card>
-      </Grid>
-    </>
+    <Card className={movieClasses.card}>
+      <div className={movieClasses.cardMedia}>
+        <iframe
+          className={movieClasses.cardVedio}
+          width="100%"
+          height="100%"
+          src={url}
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+      <CardContent className={movieClasses.cardContent}>
+        <Typography gutterBottom variant="h4" component="h2">
+          {title}
+        </Typography>
+        <Divider />
+        <div style={{ paddingTop: "5px" }}>{mappingArrayToText(tempArtic)}</div>
+      </CardContent>
+      <CardActions>
+        <Button size="small" color="primary">
+          View
+        </Button>
+        <Button size="small" color="primary">
+          Edit
+        </Button>
+      </CardActions>
+    </Card>
   );
 }

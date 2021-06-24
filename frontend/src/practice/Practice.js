@@ -11,6 +11,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Movie from "./Movie";
 import Push from "./Push";
 import Note from "./Note";
+import "../css/Practice.css";
+import posts from "../Test_data/post";
 
 const useStyles = makeStyles((theme) => ({
   control: {
@@ -41,18 +43,7 @@ export default function Practice() {
     setOpen(false);
   };
 
-  const [cards, setCards] = useState([
-    {
-      title: "土木杯",
-      article: "輕鬆虐",
-      url: "https://www.youtube.com/embed/VbfpW0pbvaU",
-    },
-    {
-      title: "土木杯",
-      article: "輕鬆虐",
-      url: "https://www.youtube.com/embed/VbfpW0pbvaU",
-    },
-  ]);
+  const [cards, setCards] = useState(posts);
 
   return (
     <>
@@ -88,25 +79,23 @@ export default function Practice() {
             </div>
           </Container>
         </div>
-        <Container className={classes.cardGrid}>
-          <Grid container spacing={4}>
-            {cards.map((card, index) =>
-              card.url === "" ? (
-                <Note
-                  key={`${index}+${card.title}`}
-                  title={card.title}
-                  article={card.article}
-                />
-              ) : (
-                <Movie
-                  key={`${index}+${card.title}`}
-                  title={card.title}
-                  url={card.url}
-                  article={card.article}
-                />
-              )
-            )}
-          </Grid>
+        <Container className="grid">
+          {cards.map((card, index) =>
+            card.url === "" ? (
+              <Note
+                key={`${index}+${card.title}`}
+                title={card.title}
+                article={card.article}
+              />
+            ) : (
+              <Movie
+                key={`${index}+${card.title}`}
+                title={card.title}
+                url={card.url}
+                article={card.article}
+              />
+            )
+          )}
         </Container>
         <Dialog
           open={open}

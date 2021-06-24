@@ -93,7 +93,12 @@ export default function Calendar(props) {
   };
 
   if (isEventsError) return "error";
-  if (isEventsLoading || isLoading) return <Loading />;
+  if (isEventsLoading || isLoading)
+    return (
+      <div className="margin-top-250">
+        <Loading />
+      </div>
+    );
 
   return (
     <div className="calendar-frame">
