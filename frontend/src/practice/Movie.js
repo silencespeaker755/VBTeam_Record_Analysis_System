@@ -6,13 +6,13 @@ import {
   CardActions,
   CardContent,
   Typography,
+  Divider,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   card: {
     width: "100%",
-    height: "100%",
     display: "flex",
     flexDirection: "column",
   },
@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     height: "0",
     paddingTop: "56.25%", // 16:9
     position: "relative",
+  },
+  cardContent: {
+    height: "100%",
   },
   cardVedio: {
     position: "absolute",
@@ -40,7 +43,7 @@ export default function Movie({ title, url, article }) {
     if (array.length === 0 || (array.length === 1 && array[0] === ""))
       return (
         <Typography
-          variant="body2"
+          variant="body1"
           component="p"
           className={movieClasses.article}
         >
@@ -51,7 +54,7 @@ export default function Movie({ title, url, article }) {
       return (
         <Typography
           key={el}
-          variant="body2"
+          variant="body1"
           component="p"
           className={movieClasses.article}
         >
@@ -77,11 +80,14 @@ export default function Movie({ title, url, article }) {
               allowFullScreen
             />
           </div>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+          <CardContent className={movieClasses.cardContent}>
+            <Typography gutterBottom variant="h4" component="h2">
               {title}
             </Typography>
-            {mappingArrayToText(tempArtic)}
+            <Divider />
+            <div style={{ paddingTop: "5px" }}>
+              {mappingArrayToText(tempArtic)}
+            </div>
           </CardContent>
           <CardActions>
             <Button size="small" color="primary">

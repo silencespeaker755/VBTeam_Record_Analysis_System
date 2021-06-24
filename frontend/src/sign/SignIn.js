@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import {
   createMuiTheme,
   ThemeProvider,
   makeStyles,
 } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
+import {
+  Button,
+  TextField,
+  Grid,
+  Typography,
+  Container,
+  Dialog,
+  DialogContent,
+} from "@material-ui/core";
 import { useMutation } from "react-query";
 import { useUserInfo } from "../hooks/useInfo";
 import SignUp from "./SignUp";

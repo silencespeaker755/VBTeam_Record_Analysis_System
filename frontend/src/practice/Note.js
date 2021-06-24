@@ -3,30 +3,20 @@ import {
   Grid,
   Button,
   Card,
-  CardMedia,
   CardActions,
   CardContent,
   Typography,
+  Divider,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    width: "100%",
-    height: "100%",
     display: "flex",
     flexDirection: "column",
   },
-  cardMedia: {
-    width: "100%",
-    height: "0",
-    paddingTop: "56.25%", // 16:9
-    position: "relative",
-  },
-  cardVedio: {
-    position: "absolute",
-    left: "0",
-    top: "0",
+  cardContent: {
+    height: "100%",
   },
   article: {
     wordWrap: "break-word",
@@ -35,15 +25,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Note({ title, article }) {
-  const movieClasses = useStyles();
+  const noteClasses = useStyles();
   const tempArtic = article.split("\n");
   const mappingArrayToText = (array) => {
     if (array.length === 0 || (array.length === 1 && array[0] === ""))
       return (
         <Typography
-          variant="body2"
+          variant="body1"
           component="p"
-          className={movieClasses.article}
+          className={noteClasses.article}
         >
           &nbsp;none
         </Typography>
@@ -52,9 +42,9 @@ export default function Note({ title, article }) {
       return (
         <Typography
           key={el}
-          variant="body2"
+          variant="body1"
           component="p"
-          className={movieClasses.article}
+          className={noteClasses.article}
         >
           &nbsp;{el}
         </Typography>
@@ -65,12 +55,19 @@ export default function Note({ title, article }) {
   return (
     <>
       <Grid item xs={12} sm={6} md={6}>
-        <Card className={movieClasses.card}>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+        <Card className={noteClasses.card}>
+          <CardContent className={noteClasses.cardContent}>
+            <Typography gutterBottom variant="h4" component="h2">
               {title}
             </Typography>
-            {mappingArrayToText(tempArtic)}
+            <Divider />
+            <div
+              style={{
+                paddingTop: "20px",
+              }}
+            >
+              {mappingArrayToText(tempArtic)}
+            </div>
           </CardContent>
           <CardActions>
             <Button size="small" color="primary">
