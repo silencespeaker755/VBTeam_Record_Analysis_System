@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
   CardActions,
   Typography,
-  TextField,
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -178,6 +176,7 @@ export default function EventModal(props) {
       <DeleteModal
         open={openDelete}
         date={date}
+        title={title}
         eventId={_id}
         handleOk={handleDeleteOk}
         onClose={handleDeleteClose}

@@ -92,9 +92,9 @@ export default function Calendar(props) {
     setEventModal(true);
   };
 
-  useEffect(() => {
-    changeUser("60d2db2baabdc948653ff20e", true);
-  }, []);
+  // useEffect(() => {
+  //   changeUser("60d2db2baabdc948653ff20e", true);
+  // }, []);
 
   if (isEventsError) return "error";
   if (isEventsLoading || isLoading) return <Loading />;

@@ -9,6 +9,7 @@ export default function DeleteModal(props) {
   const {
     open,
     date,
+    title,
     eventId,
     handleOk,
     onClose,
@@ -43,8 +44,8 @@ export default function DeleteModal(props) {
   return (
     <AlertModel
       open={open}
-      alertTitle={date}
-      alertDesciption="You will attend to in."
+      alertTitle={`${date}    ${title}`}
+      alertDesciption="Are you sure to delete this event ?"
       alertButton={
         <div>
           <Button onClick={onClose}>Cancel</Button>
