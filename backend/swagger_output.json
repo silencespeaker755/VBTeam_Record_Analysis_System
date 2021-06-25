@@ -15,6 +15,10 @@
     {
       "name": "Home",
       "description": "首頁 router"
+    },
+    {
+      "name": "Practice",
+      "description": "練習頁 router"
     }
   ],
   "schemes": [],
@@ -229,7 +233,7 @@
     "/api/home/calendar": {
       "get": {
         "tags": [
-          "Home/Calendar"
+          "Home"
         ],
         "description": "",
         "parameters": [],
@@ -249,7 +253,7 @@
     "/api/home/calendar/create": {
       "post": {
         "tags": [
-          "Home/Calendar"
+          "Home"
         ],
         "description": "",
         "parameters": [
@@ -279,6 +283,9 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           }
@@ -288,7 +295,7 @@
     "/api/home/calendar/delete": {
       "post": {
         "tags": [
-          "Home/Calendar"
+          "Home"
         ],
         "description": "",
         "parameters": [
@@ -327,6 +334,9 @@
           "200": {
             "description": "OK"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           }
@@ -336,7 +346,7 @@
     "/api/home/calendar/update": {
       "post": {
         "tags": [
-          "Home/Calendar"
+          "Home"
         ],
         "description": "",
         "parameters": [
@@ -354,6 +364,9 @@
           "200": {
             "description": "OK"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           }
@@ -363,7 +376,7 @@
     "/api/home/calendar/attend": {
       "post": {
         "tags": [
-          "Home/Calendar"
+          "Home"
         ],
         "description": "",
         "parameters": [
@@ -401,7 +414,7 @@
         }
       }
     },
-    "/api/practice": {
+    "/api/practice/posts": {
       "get": {
         "tags": [
           "Practice"
@@ -422,7 +435,7 @@
         }
       }
     },
-    "/api/practice/upload": {
+    "/api/practice/posts/upload": {
       "post": {
         "tags": [
           "Practice"
@@ -435,12 +448,7 @@
             "required": true,
             "type": "object",
             "schema": {
-              "type": "object",
-              "properties": {
-                "post": {
-                  "$ref": "#/definitions/Article"
-                }
-              }
+              "$ref": "#/definitions/UploadPost"
             }
           }
         ],
@@ -459,6 +467,87 @@
                 "name": "main"
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/practice/posts/delete": {
+      "post": {
+        "tags": [
+          "Practice"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "postId": {
+              "in": "body",
+              "required": true,
+              "type": "string"
+            },
+            "userId": {
+              "in": "body",
+              "required": true,
+              "type": "string"
+            },
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "postId": {
+                  "example": "any"
+                },
+                "userId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/practice/posts/update": {
+      "post": {
+        "tags": [
+          "Practice"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/UpdatePost"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -718,10 +807,85 @@
         "uploadTime"
       ]
     },
+    "UploadPost": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "example": "6/24 練球筆記"
+            },
+            "content": {
+              "type": "string",
+              "example": "腳動起來！"
+            },
+            "uploadTime": {
+              "type": "string",
+              "example": "2021-06-23T22:15:55"
+            }
+          },
+          "required": [
+            "title",
+            "content",
+            "uploadTime"
+          ]
+        },
+        "userId": {
+          "type": "string",
+          "example": "60d2cbeb9a8b913f2ef10193"
+        }
+      },
+      "required": [
+        "post",
+        "userId"
+      ]
+    },
+    "UpdatePost": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "60d619a8840ea7a2a66d43a3"
+            },
+            "title": {
+              "type": "string",
+              "example": "~~~~~~~6/24 練球筆記"
+            },
+            "content": {
+              "type": "string",
+              "example": "~~~~~~~腳動起來！"
+            },
+            "uploadTime": {
+              "type": "string",
+              "example": "2021-06-23T22:15:55"
+            }
+          },
+          "required": [
+            "_id",
+            "title",
+            "content",
+            "uploadTime"
+          ]
+        },
+        "userId": {
+          "type": "string",
+          "example": "60d2cbeb9a8b913f2ef10193"
+        }
+      },
+      "required": [
+        "post",
+        "userId"
+      ]
+    },
     "Posts": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Video"
+        "$ref": "#/definitions/Article"
       }
     }
   }

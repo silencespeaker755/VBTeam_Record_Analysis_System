@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from "./User";
 
 const videoSchema = new mongoose.Schema({
   url: { type: String, required: [true, '"url" field is required'] },
@@ -7,6 +8,7 @@ const videoSchema = new mongoose.Schema({
   uploader: {
     type: mongoose.Schema.Types.ObjectId,
     required: [true, '"uploader" field is required'],
+    ref: User,
   },
   uploadTime: {
     type: String,

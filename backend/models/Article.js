@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from "./User";
 
 const articleSchema = mongoose.Schema({
   title: {
@@ -9,6 +10,7 @@ const articleSchema = mongoose.Schema({
   uploader: {
     type: mongoose.Schema.Types.ObjectId,
     required: [true, '"uploader" field is required'],
+    ref: User,
   },
   uploadTime: {
     type: String,

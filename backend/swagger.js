@@ -12,7 +12,6 @@ const doc = {
   consumes: [], // by default: ['application/json']
   produces: [], // by default: ['application/json']
   tags: [
-    // by default: empty Array
     {
       name: "User", // Tag name
       description: "使用者 router", // Tag description
@@ -21,7 +20,10 @@ const doc = {
       name: "Home",
       description: "首頁 router",
     },
-    // { ... }
+    {
+      name: "Practice", // Tag name
+      description: "練習頁 router", // Tag description
+    },
   ],
   securityDefinitions: {}, // by default: empty object
   definitions: {
@@ -81,7 +83,24 @@ const doc = {
       $uploader: "60d2cbeb9a8b913f2ef10193",
       $uploadTime: "2021-06-23T22:15:55",
     },
-    Posts: [{ $ref: "#/definitions/Video" }],
+    UploadPost: {
+      $post: {
+        $title: "6/24 練球筆記",
+        $content: "腳動起來！",
+        $uploadTime: "2021-06-23T22:15:55",
+      },
+      $userId: "60d2cbeb9a8b913f2ef10193",
+    },
+    UpdatePost: {
+      $post: {
+        $_id: "60d619a8840ea7a2a66d43a3",
+        $title: "~~~~~~~6/24 練球筆記",
+        $content: "~~~~~~~腳動起來！",
+        $uploadTime: "2021-06-23T22:15:55",
+      },
+      $userId: "60d2cbeb9a8b913f2ef10193",
+    },
+    Posts: [{ $ref: "#/definitions/Article" }],
   },
 };
 
@@ -89,7 +108,7 @@ const outputFile = "./swagger_output.json";
 const endpointsFiles = [
   "./routes/api/user.js",
   "./routes/api/home/calendar.js",
-  "./routes/api/practice.js",
+  "./routes/api/practice/posts.js",
 ];
 
 swaggerAutogen()(outputFile, endpointsFiles, doc);
