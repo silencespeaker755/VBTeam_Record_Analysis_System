@@ -6,7 +6,7 @@ const router = Router();
 router.get("/", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar'
-    #swagger.tags = ['Home/Calendar']
+    #swagger.tags = ['Home']
   */
 
   CalendarService.getEvents()
@@ -28,7 +28,7 @@ router.get("/", (req, res) => {
 router.post("/create", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/create'
-    #swagger.tags = ['Home/Calendar']
+    #swagger.tags = ['Home']
     #swagger.parameters['obj'] = {
       in: 'body',
       required: true,
@@ -54,14 +54,18 @@ router.post("/create", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(404).send(err);
+      if (err === "Admin required!") {
+        res.status(403).send(err);
+      } else {
+        res.status(404).send(err);
+      }
     });
 });
 
 router.post("/delete", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/delete'
-    #swagger.tags = ['Home/Calendar']
+    #swagger.tags = ['Home']
     #swagger.parameters['obj'] = {
       "eventId": {
         in: 'body',
@@ -86,14 +90,18 @@ router.post("/delete", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(404).send(err);
+      if (err === "Admin required!") {
+        res.status(403).send(err);
+      } else {
+        res.status(404).send(err);
+      }
     });
 });
 
 router.post("/update", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/update'
-    #swagger.tags = ['Home/Calendar']
+    #swagger.tags = ['Home']
     #swagger.parameters['obj'] = {
       in: 'body',
       required: true,
@@ -112,14 +120,18 @@ router.post("/update", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(404).send(err);
+      if (err === "Admin required!") {
+        res.status(403).send(err);
+      } else {
+        res.status(404).send(err);
+      }
     });
 });
 
 router.post("/attend", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/attend'
-    #swagger.tags = ['Home/Calendar']
+    #swagger.tags = ['Home']
     #swagger.parameters['obj'] = {
       in: 'body',
       required: true,
