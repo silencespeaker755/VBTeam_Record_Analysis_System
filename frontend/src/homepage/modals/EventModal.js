@@ -12,7 +12,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import { useUserInfo } from "../../hooks/useInfo";
 import DeleteModal from "./DeleteModal";
-import "../../css/Card.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {

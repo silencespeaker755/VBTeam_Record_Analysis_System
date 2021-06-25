@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { isValidElement, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { useMutation } from "react-query";
+import { useUserInfo } from "../hooks/useInfo";
+import axios from "../setting";
 
 const useStyles = makeStyles((theme) => ({
   signUp: {
@@ -23,16 +26,34 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Push({ setCards, cards, handleClose }) {
   const classes = useStyles();
-
+  const { userInfo } = useUserInfo();
   const [video, setVideo] = useState({
     title: "",
     url: "",
-    article: "",
+    description: "",
   });
 
   const handleChange = (e, type) => {
     setVideo({ ...video, [type]: e.target.value });
   };
+
+  const push = useMutation(
+    async (err) => {
+      const time = new Date();
+      const user = userInfo.id;
+      const data = await axios.post("/api/practice/upload", {
+        ...video,
+        uploader: user,
+        uploadTime: time.toDateString(),
+      });
+      return data;
+    },
+    {
+      onSuccess: ({ data }) => {
+        console.log(data);
+      },
+    }
+  );
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -62,7 +83,7 @@ export default function Push({ setCards, cards, handleClose }) {
             onChange={(e) => handleChange(e, "title")}
           />
           <TextField
-            value={video.article}
+            value={video.description}
             id="outlined-multiline-static"
             label="Article"
             margin="normal"
@@ -72,7 +93,7 @@ export default function Push({ setCards, cards, handleClose }) {
             fullWidth
             variant="outlined"
             type="text"
-            onChange={(e) => handleChange(e, "article")}
+            onChange={(e) => handleChange(e, "description")}
           />
 
           <TextField
