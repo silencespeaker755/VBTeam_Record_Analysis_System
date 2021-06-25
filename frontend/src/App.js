@@ -30,7 +30,7 @@ export default function App() {
     const id = localStorage.getItem("id");
     if (id && isAdmin) {
       changeUser(id, isAdmin);
-      history.push("/home");
+      if (history.location.pathname === "/") history.push("/home");
     }
   }, []);
 
