@@ -7,20 +7,24 @@ router.post("/signup", (req, res) => {
   /*
     #swagger.path = '/api/user/signup'
     #swagger.tags = ['User']
-    #swagger.parameters['name'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
-    }
-    #swagger.parameters['password'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
-    }
-    #swagger.parameters['email'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
+    #swagger.parameters['obj'] = {
+      schema: {
+        "name": {
+          in: 'body',
+          required: true,
+          type: 'string',
+        }, 
+        "email": {
+          in: 'body',
+          required: true,
+          type: 'string',
+        }, 
+        "password": {
+          in: 'body',
+          required: true,
+          type: 'string',
+        }
+      }
     }
   */
 
@@ -33,8 +37,8 @@ router.post("/signup", (req, res) => {
       /*
         #swagger.responses[200] = { 
           schema: {
-            id: 'string',
-            isAdmin: 'boolean',
+            id: "60d0b2011e44bec4e4be3a52",
+            isAdmin: false,
           }
         }
       */
@@ -50,15 +54,19 @@ router.post("/login", (req, res) => {
   /*
     #swagger.path = '/api/user/login'
     #swagger.tags = ['User']
-    #swagger.parameters['email'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
-    }
-    #swagger.parameters['password'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
+    #swagger.parameters['obj'] = {
+      schema: {
+        "email": {
+          in: 'body',
+          required: true,
+          type: 'string',
+        }, 
+        "password": {
+          in: 'body',
+          required: true,
+          type: 'string',
+        }
+      }
     }
   */
 
@@ -71,8 +79,8 @@ router.post("/login", (req, res) => {
       /*
         #swagger.responses[200] = { 
           schema: {
-            id: 'string',
-            isAdmin: 'boolean',
+            id: "60d0b2011e44bec4e4be3a52",
+            isAdmin: false,
           }
         }
       */
