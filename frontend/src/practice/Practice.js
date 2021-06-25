@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Button,
   Container,
+  Grid,
   Dialog,
   DialogContent,
   Paper,
@@ -17,7 +18,6 @@ import {
 import Video from "./Video";
 import Push from "./Push";
 import Note from "./Note";
-import "../css/Practice.css";
 import posts from "../Test_data/post";
 
 const blackTheme = createMuiTheme({
@@ -117,9 +117,9 @@ export default function Practice() {
 
   return (
     <>
-      <main>
-        <div className={classes.edit}>
-          <ThemeProvider theme={blackTheme}>
+      <ThemeProvider theme={blackTheme}>
+        <main>
+          <div className={classes.edit}>
             <Button
               variant="contained"
               color="primary"
@@ -128,41 +128,46 @@ export default function Practice() {
             >
               Upload
             </Button>
-            <Button variant="outlined" color="primary" className={classes.btn}>
-              Delete
-            </Button>
-          </ThemeProvider>
-        </div>
+          </div>
 
-        <Paper elevation={3} className={classes.paper}>
-          <Paper square elevation={3} className={classes.tab}>
-            <Tabs
-              value={tab}
-              onChange={handleTab}
-              variant="scrollable"
-              scrollButtons="auto"
-              indicatorColor="primary"
-              textColor="primary"
-              aria-label="icon tabs example"
-              className={classes.tabs}
-            >
-              <Tab icon={<Visibility />} aria-label="all" />
-              <Tab icon={<Description />} aria-label="article" />
-              <Tab icon={<Movie />} aria-label="video" />
-            </Tabs>
+          <Paper elevation={3} className={classes.paper}>
+            <Paper square elevation={3} className={classes.tab}>
+              <Tabs
+                value={tab}
+                onChange={handleTab}
+                variant="scrollable"
+                indicatorColor="primary"
+                scrollButtons="on"
+                textColor="primary"
+                aria-label="icon tabs example"
+                className={classes.tabs}
+              >
+                <Tab icon={<Visibility />} aria-label="all" />
+                <Tab icon={<Description />} aria-label="article" />
+                <Tab icon={<Movie />} aria-label="video" />
+              </Tabs>
+            </Paper>
+            <Container className={classes.cardGrid}>
+              <Grid container spacing={4}>
+                {list}
+              </Grid>
+            </Container>
           </Paper>
-          <Container className="grid">{list}</Container>
-        </Paper>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogContent>
-            <Push setCards={setCards} cards={cards} handleClose={handleClose} />
-          </DialogContent>
-        </Dialog>
-      </main>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="form-dialog-title"
+          >
+            <DialogContent>
+              <Push
+                setCards={setCards}
+                cards={cards}
+                handleClose={handleClose}
+              />
+            </DialogContent>
+          </Dialog>
+        </main>
+      </ThemeProvider>
     </>
   );
 }

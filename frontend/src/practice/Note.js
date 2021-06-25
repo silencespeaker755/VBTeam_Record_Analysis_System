@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme) => ({
   card: {
     display: "flex",
     flexDirection: "column",
-    marginBottom: "30px",
-    breakInside: "avoid-column",
+    height: "600px",
   },
   cardContent: {
     height: "100%",
+    overflow: "auto",
   },
   article: {
     wordWrap: "break-word",
@@ -55,28 +55,34 @@ export default function Note({ title, description }) {
   };
 
   return (
-    <Card className={noteClasses.card}>
-      <CardContent className={noteClasses.cardContent}>
-        <Typography gutterBottom variant="h4" component="h2">
-          {title}
-        </Typography>
-        <Divider />
-        <div
-          style={{
-            paddingTop: "20px",
-          }}
+    <Grid item xs={12} sm={6} md={6} style={{ position: "relative" }}>
+      <Card className={noteClasses.card}>
+        <CardContent className={noteClasses.cardContent}>
+          <Typography gutterBottom variant="h4" component="h2">
+            {title}
+          </Typography>
+          <Divider />
+          <div
+            style={{
+              paddingTop: "20px",
+            }}
+          >
+            {mappingArrayToText(tempArtic)}
+          </div>
+        </CardContent>
+        <CardActions
+          style={{ position: "relative", bottom: "0px", height: "30px" }}
         >
-          {mappingArrayToText(tempArtic)}
-        </div>
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="primary">
-          View
-        </Button>
-        <Button size="small" color="primary">
-          Edit
-        </Button>
-      </CardActions>
-    </Card>
+          <div style={{ position: "absolute", bottom: "5px", right: "16px" }}>
+            <Button size="small" color="primary">
+              ...More
+            </Button>
+            <Button size="small" color="primary">
+              Edit
+            </Button>
+          </div>
+        </CardActions>
+      </Card>
+    </Grid>
   );
 }
