@@ -3,7 +3,7 @@ import User from "../models/User";
 
 class CalendarService {
   static async getEvents() {
-    return Event.find({});
+    return Event.find({}).populate("attendance");
   }
 
   static async createEvent({ event, userId }) {
