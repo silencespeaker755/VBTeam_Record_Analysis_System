@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { isValidElement, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -39,12 +39,14 @@ export default function Push({ setCards, cards, handleClose }) {
 
   const push = useMutation(
     async (err) => {
-      // const data = await axios.post("/api/practice/upload", {
-      //   ...video,
-      //   uploader: user,
-      //   uploadTime: time.toDateString,
-      // });
-      // return data;
+      const time = new Date();
+      const user = userInfo.id;
+      const data = await axios.post("/api/practice/upload", {
+        ...video,
+        uploader: user,
+        uploadTime: time.toDateString(),
+      });
+      return data;
     },
     {
       onSuccess: ({ data }) => {
@@ -55,12 +57,8 @@ export default function Push({ setCards, cards, handleClose }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const time = new Date();
-    const user = userInfo.id;
-    console.log({
-      ...video,
-      uploader: user,
-      uploadTime: time.toDateString(),
+    setCards((pre) => {
+      return [...pre, video];
     });
     handleClose();
   };

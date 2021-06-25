@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Movie({ title, url, description }) {
+export default function Video({ title, url, description }) {
   const movieClasses = useStyles();
   const tempArtic = description.split("\n");
   const mappingArrayToText = (array) => {

@@ -1,27 +1,35 @@
 import React, { useState } from "react";
 import {
   Button,
-  Grid,
-  Typography,
   Container,
   Dialog,
   DialogContent,
+  Paper,
+  Tabs,
+  Tab,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import Movie from "./Movie";
+import { Visibility, Description, Movie } from "@material-ui/icons";
+import {
+  createMuiTheme,
+  ThemeProvider,
+  makeStyles,
+} from "@material-ui/core/styles";
+import Video from "./Video";
 import Push from "./Push";
 import Note from "./Note";
 import "../css/Practice.css";
 import posts from "../Test_data/post";
 
+const blackTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#000000",
+    },
+  },
+});
+
 const useStyles = makeStyles((theme) => ({
-  control: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
+  edit: { padding: theme.spacing(8, 0, 1, 5) },
   cardGrid: {
     padding: theme.spacing(8, 0, 8, 0),
   },
@@ -29,74 +37,122 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
+  tab: {
+    width: "40%",
+    flexGrow: 1,
+    position: "absolute",
+    right: 0,
+    top: "-55px",
+  },
+  paper: {
+    padding: theme.spacing(5, 0, 5, 0),
+    margin: theme.spacing(0, 5, 0, 5),
+    position: "relative",
+  },
+  btn: {
+    height: "48px",
+    width: "10%",
+    margin: theme.spacing(0, 1, 0, 0),
+  },
 }));
 
 export default function Practice() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
+  const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState(0);
   const handleClickOpen = () => {
     setOpen(true);
+    console.log(tab);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+  const handleTab = (event, newValue) => {
+    setTab(newValue);
+  };
 
   const [cards, setCards] = useState(posts);
+
+  let list;
+  if (tab === 0) {
+    list = cards.map((card, index) =>
+      card.url === "" ? (
+        <Note
+          key={`${index}+${card.title}`}
+          title={card.title}
+          description={card.description}
+        />
+      ) : (
+        <Video
+          key={`${index}+${card.title}`}
+          title={card.title}
+          url={card.url}
+          description={card.description}
+        />
+      )
+    );
+  } else if (tab === 1) {
+    list = cards.map((card, index) =>
+      card.url === "" ? (
+        <Note
+          key={`${index}+${card.title}`}
+          title={card.title}
+          description={card.description}
+        />
+      ) : null
+    );
+  } else {
+    list = cards.map((card, index) =>
+      card.url === "" ? null : (
+        <Video
+          key={`${index}+${card.title}`}
+          title={card.title}
+          url={card.url}
+          description={card.description}
+        />
+      )
+    );
+  }
 
   return (
     <>
       <main>
-        <div className={classes.control}>
-          <Container maxWidth="sm">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="textPrimary"
-              gutterBottom
+        <div className={classes.edit}>
+          <ThemeProvider theme={blackTheme}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleClickOpen}
+              className={classes.btn}
             >
-              Practice
-            </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleClickOpen}
-                  >
-                    Upload video
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Delete video
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
-          </Container>
+              Upload
+            </Button>
+            <Button variant="outlined" color="primary" className={classes.btn}>
+              Delete
+            </Button>
+          </ThemeProvider>
         </div>
-        <Container className="grid">
-          {cards.map((card, index) =>
-            card.url === "" ? (
-              <Note
-                key={`${index}+${card.title}`}
-                title={card.title}
-                description={card.description}
-              />
-            ) : (
-              <Movie
-                key={`${index}+${card.title}`}
-                title={card.title}
-                url={card.url}
-                description={card.description}
-              />
-            )
-          )}
-        </Container>
+
+        <Paper elevation={3} className={classes.paper}>
+          <Paper square elevation={3} className={classes.tab}>
+            <Tabs
+              value={tab}
+              onChange={handleTab}
+              variant="scrollable"
+              scrollButtons="auto"
+              indicatorColor="primary"
+              textColor="primary"
+              aria-label="icon tabs example"
+              className={classes.tabs}
+            >
+              <Tab icon={<Visibility />} aria-label="all" />
+              <Tab icon={<Description />} aria-label="article" />
+              <Tab icon={<Movie />} aria-label="video" />
+            </Tabs>
+          </Paper>
+          <Container className="grid">{list}</Container>
+        </Paper>
         <Dialog
           open={open}
           onClose={handleClose}
