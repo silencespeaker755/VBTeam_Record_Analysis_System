@@ -30,19 +30,21 @@ export default function Push({ setCards, cards, handleClose }) {
   const [video, setVideo] = useState({
     title: "",
     url: "",
-    article: "",
+    description: "",
   });
 
   const handleChange = (e, type) => {
     setVideo({ ...video, [type]: e.target.value });
   };
 
-  const signin = useMutation(
+  const push = useMutation(
     async (err) => {
-      const time = new Date();
-      const user = userInfo.id;
-      const data = await axios.post("/api/practice/updoad", video);
-      return data;
+      // const data = await axios.post("/api/practice/upload", {
+      //   ...video,
+      //   uploader: user,
+      //   uploadTime: time.toDateString,
+      // });
+      // return data;
     },
     {
       onSuccess: ({ data }) => {
@@ -53,8 +55,12 @@ export default function Push({ setCards, cards, handleClose }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setCards((pre) => {
-      return [...pre, video];
+    const time = new Date();
+    const user = userInfo.id;
+    console.log({
+      ...video,
+      uploader: user,
+      uploadTime: time.toDateString(),
     });
     handleClose();
   };
@@ -79,7 +85,7 @@ export default function Push({ setCards, cards, handleClose }) {
             onChange={(e) => handleChange(e, "title")}
           />
           <TextField
-            value={video.article}
+            value={video.description}
             id="outlined-multiline-static"
             label="Article"
             margin="normal"
@@ -89,7 +95,7 @@ export default function Push({ setCards, cards, handleClose }) {
             fullWidth
             variant="outlined"
             type="text"
-            onChange={(e) => handleChange(e, "article")}
+            onChange={(e) => handleChange(e, "description")}
           />
 
           <TextField

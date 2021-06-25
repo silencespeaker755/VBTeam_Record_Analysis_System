@@ -85,14 +85,14 @@ export default function Practice() {
               <Note
                 key={`${index}+${card.title}`}
                 title={card.title}
-                article={card.article}
+                description={card.description}
               />
             ) : (
               <Movie
                 key={`${index}+${card.title}`}
                 title={card.title}
                 url={card.url}
-                article={card.article}
+                description={card.description}
               />
             )
           )}
