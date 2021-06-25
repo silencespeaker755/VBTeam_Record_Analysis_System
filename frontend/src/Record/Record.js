@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
@@ -37,6 +37,7 @@ const columnDir = {
 export default function Record() {
   const classes = useStyles();
   const [data, setData] = useImmer(RecordData);
+  const [current, setCurrent] = useState("");
 
   const mappingHeaderWithSubHeader = (header, subHeader) => {
     return (
@@ -64,7 +65,16 @@ export default function Record() {
           <div className="column-content-postion height-52">
             <EditableCell
               initialValue={item}
-              columnKey={key}
+              label={`${key}-${index}`}
+              current={current}
+              onClick={() => setCurrent(`${key}-${index}`)}
+              handleNext={() =>
+                setCurrent((pre) => {
+                  let temp = pre.split("-");
+                  temp = parseInt(temp[temp.length - 1], 10) + 1;
+                  return `${key}-${temp}`;
+                })
+              }
               Classes="width-100"
               updateMyData={(newValue) => {
                 setData((pre) => {
@@ -88,6 +98,16 @@ export default function Record() {
           >
             <EditableTextCeil
               initialValue={item[value]}
+              label={`${key}-${value}-${index}`}
+              current={current}
+              onClick={() => setCurrent(`${key}-${value}-${index}`)}
+              handleNext={() =>
+                setCurrent((pre) => {
+                  let temp = pre.split("-");
+                  temp = parseInt(temp[temp.length - 1], 10) + 1;
+                  return `${key}-${value}-${temp}`;
+                })
+              }
               updateMyData={(newValue) => {
                 setData((pre) => {
                   pre[index][key][value] = newValue;
@@ -98,6 +118,7 @@ export default function Record() {
         </TableCell>
       ));
     }
+
     return (
       <TableCell className="column-content-frame" align="center">
         <div className="flex-center height-52">
@@ -108,8 +129,16 @@ export default function Record() {
             >
               <EditableCell
                 initialValue={item[value]}
-                columnKey={key}
-                sectionKey={value}
+                label={`${key}-${value}-${index}`}
+                current={current}
+                onClick={() => setCurrent(`${key}-${value}-${index}`)}
+                handleNext={() =>
+                  setCurrent((pre) => {
+                    let temp = pre.split("-");
+                    temp = parseInt(temp[temp.length - 1], 10) + 1;
+                    return `${key}-${value}-${temp}`;
+                  })
+                }
                 updateMyData={(newValue) => {
                   setData((pre) => {
                     pre[index][key][value] = newValue;

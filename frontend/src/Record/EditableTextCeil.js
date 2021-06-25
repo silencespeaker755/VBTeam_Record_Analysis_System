@@ -13,10 +13,20 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function EditableTextCeil({ initialValue, updateMyData }) {
+export default function EditableTextCeil({
+  initialValue,
+  label,
+  current,
+  onClick,
+  handleNext,
+  editable = true,
+  updateMyData,
+}) {
   const classes = useStyles();
   const ref = useRef();
   const [value, setValue] = useState(initialValue);
+  let index = label.split("-");
+  index = index[index.length - 1];
 
   const onChange = (e) => {
     setValue(e.target.value);
@@ -25,6 +35,16 @@ export default function EditableTextCeil({ initialValue, updateMyData }) {
   const onBlur = () => {
     updateMyData(value);
   };
+
+  const onKeyUp = (e) => {
+    if (e.key === "Enter") {
+      handleNext();
+    }
+  };
+
+  useEffect(() => {
+    if (current === label) ref.current.focus();
+  }, [current]);
 
   useEffect(() => {
     setValue(initialValue);
@@ -37,6 +57,9 @@ export default function EditableTextCeil({ initialValue, updateMyData }) {
       className={classes.inputFrame}
       onChange={onChange}
       onBlur={onBlur}
+      onClick={onClick}
+      onKeyUp={onKeyUp}
+      readOnly={editable}
     />
   );
 }
