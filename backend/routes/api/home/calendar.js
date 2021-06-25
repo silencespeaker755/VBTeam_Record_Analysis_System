@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
       console.log("Get all events:", events);
       /*
         #swagger.responses[200] = { 
-          schema: { $ref: '#/definitions/Event' }
+          schema: { $ref: '#/definitions/Events' }
         }
       */
       res.status(200).json({ events });
@@ -29,15 +29,11 @@ router.post("/create", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/create'
     #swagger.tags = ['Home/Calendar']
-    #swagger.parameters['event'] = {
+    #swagger.parameters['obj'] = {
       in: 'body',
       required: true,
+      type: 'object',
       schema: { $ref: '#/definitions/CreateEvent' }
-    }
-    #swagger.parameters['userId'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
     }
   */
 
@@ -50,7 +46,7 @@ router.post("/create", (req, res) => {
       /*
         #swagger.responses[200] = { 
           schema: {
-            id: 'string'
+            id: "60d0b2011e44bec4e4be3a52"
           }
         }
       */
@@ -66,15 +62,17 @@ router.post("/delete", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/delete'
     #swagger.tags = ['Home/Calendar']
-    #swagger.parameters['eventId'] = {
-      in: 'body',
-      required: true,
-      type: 'string'
-    }
-    #swagger.parameters['userId'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
+    #swagger.parameters['obj'] = {
+      "eventId": {
+        in: 'body',
+        required: true,
+        type: 'string'
+      },
+      "userId": {
+        in: 'body',
+        required: true,
+        type: 'string',
+      }
     }
   */
 
@@ -96,15 +94,11 @@ router.post("/update", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/update'
     #swagger.tags = ['Home/Calendar']
-    #swagger.parameters['event'] = {
+    #swagger.parameters['obj'] = {
       in: 'body',
       required: true,
-      schema: { $ref: '#/definitions/Event' }
-    }
-    #swagger.parameters['userId'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
+      type: 'object',
+      schema: { $ref: '#/definitions/UpdateEvent'}
     }
   */
 
@@ -126,15 +120,15 @@ router.post("/attend", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/attend'
     #swagger.tags = ['Home/Calendar']
-    #swagger.parameters['eventId'] = {
+    #swagger.parameters['obj'] = {
       in: 'body',
       required: true,
-      type: 'string'
-    }
-    #swagger.parameters['userId'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
+      type: 'object',
+      schema: {
+        "eventId": "60d0b2011e44bec4e4be3a52",
+        "userId": "60d2cbeb9a8b913f2ef10193",
+        "attend": true
+      }
     }
   */
 

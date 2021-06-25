@@ -30,22 +30,82 @@
         "description": "",
         "parameters": [
           {
-            "name": "name",
-            "in": "body",
-            "required": true,
-            "type": "string"
+            "name": "obj",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "object",
+                  "properties": {
+                    "in": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "required": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                },
+                "email": {
+                  "type": "object",
+                  "properties": {
+                    "in": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "required": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                },
+                "password": {
+                  "type": "object",
+                  "properties": {
+                    "in": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "required": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "in": "query"
           },
           {
-            "name": "password",
+            "name": "obj",
             "in": "body",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in": "body",
-            "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -56,11 +116,11 @@
               "properties": {
                 "id": {
                   "type": "string",
-                  "example": "string"
+                  "example": "60d0b2011e44bec4e4be3a52"
                 },
                 "isAdmin": {
-                  "type": "string",
-                  "example": "boolean"
+                  "type": "boolean",
+                  "example": false
                 }
               },
               "xml": {
@@ -82,16 +142,62 @@
         "description": "",
         "parameters": [
           {
-            "name": "email",
-            "in": "body",
-            "required": true,
-            "type": "string"
+            "name": "obj",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "object",
+                  "properties": {
+                    "in": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "required": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                },
+                "password": {
+                  "type": "object",
+                  "properties": {
+                    "in": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "required": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "in": "query"
           },
           {
-            "name": "password",
+            "name": "obj",
             "in": "body",
-            "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -102,11 +208,11 @@
               "properties": {
                 "id": {
                   "type": "string",
-                  "example": "string"
+                  "example": "60d0b2011e44bec4e4be3a52"
                 },
                 "isAdmin": {
-                  "type": "string",
-                  "example": "boolean"
+                  "type": "boolean",
+                  "example": false
                 }
               },
               "xml": {
@@ -131,7 +237,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Event"
+              "$ref": "#/definitions/Events"
             }
           },
           "404": {
@@ -148,18 +254,194 @@
         "description": "",
         "parameters": [
           {
-            "name": "event",
+            "name": "obj",
             "in": "body",
             "required": true,
+            "type": "object",
             "schema": {
               "$ref": "#/definitions/CreateEvent"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "60d0b2011e44bec4e4be3a52"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/home/calendar/delete": {
+      "post": {
+        "tags": [
+          "Home/Calendar"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "eventId": {
+              "in": "body",
+              "required": true,
+              "type": "string"
+            },
+            "userId": {
+              "in": "body",
+              "required": true,
+              "type": "string"
+            },
+            "in": "query",
+            "type": "string"
           },
           {
-            "name": "userId",
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "eventId": {
+                  "example": "any"
+                },
+                "userId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/home/calendar/update": {
+      "post": {
+        "tags": [
+          "Home/Calendar"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
             "in": "body",
             "required": true,
-            "type": "string"
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/UpdateEvent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/home/calendar/attend": {
+      "post": {
+        "tags": [
+          "Home/Calendar"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "eventId": {
+                  "type": "string",
+                  "example": "60d0b2011e44bec4e4be3a52"
+                },
+                "userId": {
+                  "type": "string",
+                  "example": "60d2cbeb9a8b913f2ef10193"
+                },
+                "attend": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/practice": {
+      "get": {
+        "tags": [
+          "Practice"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "type": "array",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/practice/upload": {
+      "post": {
+        "tags": [
+          "Practice"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "post": {
+                  "$ref": "#/definitions/Article"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -183,106 +465,6 @@
           }
         }
       }
-    },
-    "/api/home/calendar/delete": {
-      "post": {
-        "tags": [
-          "Home/Calendar"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "eventId",
-            "in": "body",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "in": "body",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/home/calendar/update": {
-      "post": {
-        "tags": [
-          "Home/Calendar"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "event",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Event"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "body",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/home/calendar/attend": {
-      "post": {
-        "tags": [
-          "Home/Calendar"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "eventId",
-            "in": "body",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "in": "body",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
     }
   },
   "definitions": {
@@ -295,11 +477,11 @@
         },
         "start": {
           "type": "string",
-          "example": "20210621 18:00"
+          "example": "2021-06-21T18:00:00"
         },
         "end": {
           "type": "string",
-          "example": "20210621 20:00"
+          "example": "2021-06-21T20:00:00"
         },
         "title": {
           "type": "string",
@@ -330,18 +512,22 @@
         "place"
       ]
     },
-    "CreateEvent": {
+    "Events": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
+          "_id": {
+            "type": "string",
+            "example": "60d0b2011e44bec4e4be3a52"
+          },
           "start": {
             "type": "string",
-            "example": "20210621 18:00"
+            "example": "2021-06-21T18:00:00"
           },
           "end": {
             "type": "string",
-            "example": "20210621 20:00"
+            "example": "2021-06-21T20:00:00"
           },
           "title": {
             "type": "string",
@@ -351,16 +537,191 @@
             "type": "string",
             "example": "場一"
           },
+          "attendance": {
+            "type": "array",
+            "example": [
+              "60d2cbeb9a8b913f2ef10193"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
           "notes": {
             "type": "string",
             "example": "早點到！"
           }
         },
         "required": [
+          "_id",
           "start",
           "title",
           "place"
         ]
+      }
+    },
+    "CreateEvent": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "string",
+              "example": "2021-06-21T18:00:00"
+            },
+            "end": {
+              "type": "string",
+              "example": "2021-06-21T20:00:00"
+            },
+            "title": {
+              "type": "string",
+              "example": "練球"
+            },
+            "place": {
+              "type": "string",
+              "example": "場一"
+            },
+            "notes": {
+              "type": "string",
+              "example": "早點到！"
+            }
+          },
+          "required": [
+            "start",
+            "title",
+            "place"
+          ]
+        },
+        "userId": {
+          "type": "string",
+          "example": "60d2cbeb9a8b913f2ef10193"
+        }
+      },
+      "required": [
+        "event",
+        "userId"
+      ]
+    },
+    "UpdateEvent": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "60d0b2011e44bec4e4be3a52"
+            },
+            "start": {
+              "type": "string",
+              "example": "2021-06-21T18:00:00"
+            },
+            "end": {
+              "type": "string",
+              "example": "2021-06-21T20:00:00"
+            },
+            "title": {
+              "type": "string",
+              "example": "練球"
+            },
+            "place": {
+              "type": "string",
+              "example": "場一"
+            },
+            "notes": {
+              "type": "string",
+              "example": "早點到！"
+            }
+          },
+          "required": [
+            "_id",
+            "start",
+            "title",
+            "place"
+          ]
+        },
+        "userId": {
+          "type": "string",
+          "example": "60d2cbeb9a8b913f2ef10193"
+        }
+      },
+      "required": [
+        "event",
+        "userId"
+      ]
+    },
+    "Video": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "0d0b2011e44bec4e4be3a52"
+        },
+        "url": {
+          "type": "string",
+          "example": "https://www.youtube.com/watch?v=nqdCDPOHej8&ab_channel=VolleyballWorld"
+        },
+        "title": {
+          "type": "string",
+          "example": "6/24 練球影片"
+        },
+        "description": {
+          "type": "string",
+          "example": "猛！！！"
+        },
+        "uploader": {
+          "type": "string",
+          "example": "60d2cbeb9a8b913f2ef10193"
+        },
+        "uploadTime": {
+          "type": "string",
+          "example": "2021-06-22T03:12:54"
+        }
+      },
+      "required": [
+        "_id",
+        "url",
+        "title",
+        "uploader",
+        "uploadTime"
+      ]
+    },
+    "Article": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "0d0b2011e44bec4e4be3a52"
+        },
+        "title": {
+          "type": "string",
+          "example": "6/24 練球筆記"
+        },
+        "content": {
+          "type": "string",
+          "example": "腳動起來！"
+        },
+        "uploader": {
+          "type": "string",
+          "example": "60d2cbeb9a8b913f2ef10193"
+        },
+        "uploadTime": {
+          "type": "string",
+          "example": "2021-06-23T22:15:55"
+        }
+      },
+      "required": [
+        "_id",
+        "title",
+        "content",
+        "uploader",
+        "uploadTime"
+      ]
+    },
+    "Posts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Video"
       }
     }
   }

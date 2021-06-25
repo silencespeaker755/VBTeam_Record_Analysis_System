@@ -27,22 +27,61 @@ const doc = {
   definitions: {
     Event: {
       $_id: "60d0b2011e44bec4e4be3a52",
-      $start: "20210621 18:00",
-      end: "20210621 20:00",
+      $start: "2021-06-21T18:00:00",
+      end: "2021-06-21T20:00:00",
       $title: "練球",
       $place: "場一",
       attendance: ["60d2cbeb9a8b913f2ef10193"],
       notes: "早點到！",
     },
-    CreateEvent: [
+    Events: [
       {
-        $start: "20210621 18:00",
-        end: "20210621 20:00",
+        $_id: "60d0b2011e44bec4e4be3a52",
+        $start: "2021-06-21T18:00:00",
+        end: "2021-06-21T20:00:00",
+        $title: "練球",
+        $place: "場一",
+        attendance: ["60d2cbeb9a8b913f2ef10193"],
+        notes: "早點到！",
+      },
+    ],
+    CreateEvent: {
+      $event: {
+        $start: "2021-06-21T18:00:00",
+        end: "2021-06-21T20:00:00",
         $title: "練球",
         $place: "場一",
         notes: "早點到！",
       },
-    ],
+      $userId: "60d2cbeb9a8b913f2ef10193",
+    },
+    UpdateEvent: {
+      $event: {
+        $_id: "60d0b2011e44bec4e4be3a52",
+        $start: "2021-06-21T18:00:00",
+        end: "2021-06-21T20:00:00",
+        $title: "練球",
+        $place: "場一",
+        notes: "早點到！",
+      },
+      $userId: "60d2cbeb9a8b913f2ef10193",
+    },
+    Video: {
+      $_id: "0d0b2011e44bec4e4be3a52",
+      $url: "https://www.youtube.com/watch?v=nqdCDPOHej8&ab_channel=VolleyballWorld",
+      $title: "6/24 練球影片",
+      description: "猛！！！",
+      $uploader: "60d2cbeb9a8b913f2ef10193",
+      $uploadTime: "2021-06-22T03:12:54",
+    },
+    Article: {
+      $_id: "0d0b2011e44bec4e4be3a52",
+      $title: "6/24 練球筆記",
+      $content: "腳動起來！",
+      $uploader: "60d2cbeb9a8b913f2ef10193",
+      $uploadTime: "2021-06-23T22:15:55",
+    },
+    Posts: [{ $ref: "#/definitions/Video" }],
   },
 };
 
