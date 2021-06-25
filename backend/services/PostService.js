@@ -4,8 +4,8 @@ import Video from "../models/Video";
 
 class PostService {
   static async getPosts() {
-    const videos = await Video.find({});
-    const articles = await Article.find({});
+    const videos = await Video.find({}).populate("uploader");
+    const articles = await Article.find({}).populate("uploader");
     return [...videos, ...articles].sort((a, b) =>
       a.uploadTime < b.uploadTime ? 1 : -1
     );
