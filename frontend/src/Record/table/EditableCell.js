@@ -19,9 +19,10 @@ export default function EditableCell({
   label,
   current,
   handleClick,
-  handleBlur,
+  handleBlur = () => {},
   handleNext,
   Classes,
+  last = false,
   editable = true,
   updateMyData,
 }) {
@@ -34,19 +35,20 @@ export default function EditableCell({
   };
 
   const onBlur = (e) => {
-    if (e.relatedTarget && e.relatedTarget.type !== "text") handleBlur();
+    console.log(e.relatedTarget);
+    if (!e.relatedTarget) handleBlur();
     updateMyData(value);
   };
 
   const onKeyUp = (e) => {
     if (e.key === "Enter") {
       handleNext();
+      if (last) ref.current.blur();
     }
   };
 
   useEffect(() => {
     if (current === label) ref.current.focus();
-    else ref.current.blur();
   }, [current]);
 
   useEffect(() => {

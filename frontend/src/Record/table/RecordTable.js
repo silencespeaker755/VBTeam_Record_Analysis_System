@@ -79,13 +79,8 @@ export default function RecordTable() {
               current={current}
               handleClick={() => setCurrent(`${key}-${index}`)}
               handleBlur={() => setCurrent("")}
-              handleNext={() =>
-                setCurrent((pre) => {
-                  let temp = pre.split("-");
-                  temp = parseInt(temp[temp.length - 1], 10) + 1;
-                  return `${key}-${temp}`;
-                })
-              }
+              handleNext={() => setCurrent(() => `${key}-${index + 1}`)}
+              last={index === data.length - 1}
               Classes="width-100"
               updateMyData={(newValue) => {
                 setData((pre) => {
@@ -114,11 +109,7 @@ export default function RecordTable() {
               handleClick={() => setCurrent(`${key}-${value}-${index}`)}
               handleBlur={() => setCurrent("")}
               handleNext={() =>
-                setCurrent((pre) => {
-                  let temp = pre.split("-");
-                  temp = parseInt(temp[temp.length - 1], 10) + 1;
-                  return `${key}-${value}-${temp}`;
-                })
+                setCurrent(() => `${key}-${value}-${index + 1}`)
               }
               updateMyData={(newValue) => {
                 setData((pre) => {
@@ -146,12 +137,9 @@ export default function RecordTable() {
                 handleClick={() => setCurrent(`${key}-${value}-${index}`)}
                 handleBlur={() => setCurrent("")}
                 handleNext={() =>
-                  setCurrent((pre) => {
-                    let temp = pre.split("-");
-                    temp = parseInt(temp[temp.length - 1], 10) + 1;
-                    return `${key}-${value}-${temp}`;
-                  })
+                  setCurrent(() => `${key}-${value}-${index + 1}`)
                 }
+                last={index === data.length - 1}
                 updateMyData={(newValue) => {
                   setData((pre) => {
                     pre[index][key][value] = newValue;
