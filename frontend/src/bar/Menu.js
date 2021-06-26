@@ -100,7 +100,7 @@ export default function Menu() {
               onClick={() => setType("announcements")}
               component="span"
             >
-              <Badge badgeContent={1} color="secondary">
+              <Badge badgeContent={3} color="secondary">
                 <NotificationsIcon
                   style={{
                     color: type === "announcements" ? "#ffb200" : "white",

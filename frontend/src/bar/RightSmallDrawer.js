@@ -87,7 +87,7 @@ export default function RightSmallDrawer(props) {
       visible: admin,
     },
     {
-      label: "Ability",
+      label: "Analysis",
       icon: <EqualizerIcon />,
       link: "/home/record_list",
       event: null,
