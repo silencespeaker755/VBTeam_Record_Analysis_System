@@ -1,46 +1,41 @@
 import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 
 const useStyles = makeStyles(() => ({
   inputFrame: {
     height: "100%",
-    width: "50px",
+    minWidth: "24ch",
     border: 0,
-    padding: 0,
-    textAlign: "center",
+    padding: "0 0 0 5px",
+    textAlign: "left",
     background: "transparent",
     outlineColor: "#b9803a",
   },
 }));
 
-export default function EditableCell({
+export default function EditableTextCeil({
   initialValue,
   label,
   current,
-  onClick,
+  handleClick,
+  handleBlur,
   handleNext,
-  Classes,
   editable = true,
   updateMyData,
 }) {
   const classes = useStyles();
   const ref = useRef();
   const [value, setValue] = useState(initialValue);
+  let index = label.split("-");
+  index = index[index.length - 1];
 
   const onChange = (e) => {
     setValue(e.target.value);
   };
 
   const onBlur = () => {
+    handleBlur();
     updateMyData(value);
-  };
-
-  const onKeyUp = (e) => {
-    if (e.key === "Enter") {
-      handleNext();
-      ref.current.blur();
-    }
   };
 
   useEffect(() => {
@@ -52,14 +47,13 @@ export default function EditableCell({
   }, [initialValue]);
 
   return (
-    <input
+    <textarea
       ref={ref}
       value={value}
-      className={clsx(classes.inputFrame, { [Classes]: !!Classes })}
+      className={classes.inputFrame}
       onChange={onChange}
       onBlur={onBlur}
-      onClick={onClick}
-      onKeyUp={onKeyUp}
+      onClick={handleClick}
       readOnly={!editable}
     />
   );

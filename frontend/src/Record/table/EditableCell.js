@@ -1,38 +1,40 @@
 import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 
 const useStyles = makeStyles(() => ({
   inputFrame: {
     height: "100%",
-    minWidth: "24ch",
+    width: "50px",
     border: 0,
-    padding: "0 0 0 5px",
-    textAlign: "left",
+    padding: 0,
+    textAlign: "center",
     background: "transparent",
     outlineColor: "#b9803a",
   },
 }));
 
-export default function EditableTextCeil({
+export default function EditableCell({
   initialValue,
   label,
   current,
-  onClick,
+  handleClick,
+  handleBlur,
   handleNext,
+  Classes,
   editable = true,
   updateMyData,
 }) {
   const classes = useStyles();
   const ref = useRef();
   const [value, setValue] = useState(initialValue);
-  let index = label.split("-");
-  index = index[index.length - 1];
 
   const onChange = (e) => {
     setValue(e.target.value);
   };
 
-  const onBlur = () => {
+  const onBlur = (e) => {
+    if (e.relatedTarget && e.relatedTarget.type !== "text") handleBlur();
     updateMyData(value);
   };
 
@@ -44,6 +46,7 @@ export default function EditableTextCeil({
 
   useEffect(() => {
     if (current === label) ref.current.focus();
+    else ref.current.blur();
   }, [current]);
 
   useEffect(() => {
@@ -51,15 +54,15 @@ export default function EditableTextCeil({
   }, [initialValue]);
 
   return (
-    <textarea
+    <input
       ref={ref}
       value={value}
-      className={classes.inputFrame}
+      className={clsx(classes.inputFrame, { [Classes]: !!Classes })}
       onChange={onChange}
       onBlur={onBlur}
-      onClick={onClick}
+      onClick={handleClick}
       onKeyUp={onKeyUp}
-      readOnly={editable}
+      readOnly={!editable}
     />
   );
 }

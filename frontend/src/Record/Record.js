@@ -1,201 +1,71 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@material-ui/core";
-import { useImmer } from "../hooks/useImmer";
-import EditableCell from "./EditableCell";
-import EditableTextCeil from "./EditableTextCeil";
-import RecordData from "../Test_data/RecordData";
-import "../css/Record.css";
+import { Typography, Divider } from "@material-ui/core";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import { useInView } from "react-intersection-observer";
+import Fab from "@material-ui/core/Fab";
+import ScrollTopButton from "../components/ScrollTopButton";
+import RecordTable from "./table/RecordTable";
+import { game } from "../Test_data/recordData";
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 800,
-    borderCollapse: "separate",
+const useStyles = makeStyles(() => ({
+  root: {
+    marginTop: "20px",
   },
-});
-
-const columnDir = {
-  name: "背號",
-  handle: "接/舉球",
-  receive: "接發球",
-  attack: "攻擊",
-  fake: "吊球",
-  serve: "發球",
-  block: "欄網",
-  invalid: "犯規",
-  note: "",
-};
+  subtitle: { marginTop: "30px" },
+  center: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  title: {
+    fontWeight: 450,
+    marginBottom: "10px",
+  },
+  count: {
+    marginLeft: "50px",
+  },
+  divider: {
+    marginBottom: "67px",
+  },
+}));
 
 export default function Record() {
   const classes = useStyles();
-  const [data, setData] = useImmer(RecordData);
-  const [current, setCurrent] = useState("");
-
-  const mappingHeaderWithSubHeader = (header, subHeader) => {
-    return (
-      <div key={`header-${header}`}>
-        <div className="header">{header}</div>
-        <div className="flex-center subheader-border-top">
-          {subHeader.map((item, i) => (
-            <span key={`${header}-${item}`} className="subheader-postion">
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const mappingColumnWithContents = (index, key, item) => {
-    if (key === "name")
-      return (
-        <TableCell
-          key={`name-${item}`}
-          className="column-content-name column-content-frame width-100"
-          align="center"
-        >
-          <div className="column-content-postion height-52">
-            <EditableCell
-              initialValue={item}
-              label={`${key}-${index}`}
-              current={current}
-              onClick={() => setCurrent(`${key}-${index}`)}
-              handleNext={() =>
-                setCurrent((pre) => {
-                  let temp = pre.split("-");
-                  temp = parseInt(temp[temp.length - 1], 10) + 1;
-                  return `${key}-${temp}`;
-                })
-              }
-              Classes="width-100"
-              updateMyData={(newValue) => {
-                setData((pre) => {
-                  pre[index][key] = newValue;
-                });
-              }}
-            />
-          </div>
-        </TableCell>
-      );
-    if (key === "note") {
-      return Object.keys(item).map((value) => (
-        <TableCell
-          key={`${value}-${item[value]}`}
-          className="column-content-frame"
-          align="left"
-        >
-          <div
-            key={`${key}-${item[value]}`}
-            className="column-content-postion height-52"
-          >
-            <EditableTextCeil
-              initialValue={item[value]}
-              label={`${key}-${value}-${index}`}
-              current={current}
-              onClick={() => setCurrent(`${key}-${value}-${index}`)}
-              handleNext={() =>
-                setCurrent((pre) => {
-                  let temp = pre.split("-");
-                  temp = parseInt(temp[temp.length - 1], 10) + 1;
-                  return `${key}-${value}-${temp}`;
-                })
-              }
-              updateMyData={(newValue) => {
-                setData((pre) => {
-                  pre[index][key][value] = newValue;
-                });
-              }}
-            />
-          </div>
-        </TableCell>
-      ));
-    }
-
-    return (
-      <TableCell className="column-content-frame" align="center">
-        <div className="flex-center height-52">
-          {Object.keys(item).map((value, i) => (
-            <span
-              key={`${key}-${i}-${item[value]}`}
-              className="column-content-postion"
-            >
-              <EditableCell
-                initialValue={item[value]}
-                label={`${key}-${value}-${index}`}
-                current={current}
-                onClick={() => setCurrent(`${key}-${value}-${index}`)}
-                handleNext={() =>
-                  setCurrent((pre) => {
-                    let temp = pre.split("-");
-                    temp = parseInt(temp[temp.length - 1], 10) + 1;
-                    return `${key}-${value}-${temp}`;
-                  })
-                }
-                updateMyData={(newValue) => {
-                  setData((pre) => {
-                    pre[index][key][value] = newValue;
-                  });
-                }}
-              />
-            </span>
-          ))}
-        </div>
-      </TableCell>
-    );
-  };
+  const [ref, inView] = useInView();
 
   return (
-    <div className="margin-50">
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              {data.length !== 0 &&
-                Object.keys(data[0]).map((value) => {
-                  if (value === "name")
-                    return (
-                      <TableCell
-                        key={`${value}`}
-                        className="header-frame column-content-name width-60"
-                        align="center"
-                      >
-                        {columnDir[value]}
-                      </TableCell>
-                    );
-                  return (
-                    <TableCell
-                      key={`${value}`}
-                      className="header-frame width-120"
-                      align="center"
-                    >
-                      {mappingHeaderWithSubHeader(
-                        columnDir[value],
-                        Object.keys(data[0][value])
-                      )}
-                    </TableCell>
-                  );
-                })}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((row, i) => (
-              <TableRow key={row.name} hover>
-                {Object.keys(row).map((value) =>
-                  mappingColumnWithContents(i, value, row[value])
-                )}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <div className={classes.root}>
+      <div ref={ref} id="back-to-top-anchor">
+        <Typography className={classes.title} variant="h4" align="center">
+          {`${game.team} v.s. ${game.enemy}`}
+        </Typography>
+      </div>
+      {game.info.map((item, index) => (
+        <div key={`${item.name}-${index}`}>
+          {index !== 0 ? <Divider className={classes.divider} /> : null}
+          <div className={classes.subtitle}>
+            <Typography className={classes.time} variant="h6" align="center">
+              {item.round}
+            </Typography>
+            <Typography className={classes.time} variant="h6" align="center">
+              {item.date}&nbsp; {item.time}
+            </Typography>
+            <Typography className={classes.count} variant="h6" align="left">
+              比數： {item.result}
+            </Typography>
+          </div>
+          <RecordTable />
+        </div>
+      ))}
+      <ScrollTopButton inView={inView}>
+        <Fab
+          aria-label="scroll back to top"
+          size="small"
+          style={{ backgroundColor: "#ffc800" }}
+        >
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTopButton>
     </div>
   );
 }

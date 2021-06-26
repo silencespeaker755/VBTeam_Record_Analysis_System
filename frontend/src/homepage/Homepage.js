@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { useInView } from "react-intersection-observer";
-import ScrollTopButton from "./ScrollTopButton";
+import ScrollTopButton from "../components/ScrollTopButton";
 import Calendar from "./Calendar";
 import AlertModel from "../components/AlertModel";
 
