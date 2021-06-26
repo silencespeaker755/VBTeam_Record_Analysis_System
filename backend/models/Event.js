@@ -8,6 +8,7 @@ const eventSchema = new mongoose.Schema({
   attendance: {
     type: [mongoose.Schema.Types.ObjectId],
     required: [true, '"attendance" field is required'],
+    ref: "User",
   },
   notes: { type: String },
 });
