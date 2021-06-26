@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Container,
@@ -15,10 +15,11 @@ import {
   ThemeProvider,
   makeStyles,
 } from "@material-ui/core/styles";
+import { useQuery } from "react-query";
 import Video from "./Video";
 import Push from "./Push";
 import Note from "./Note";
-import posts from "../Test_data/post";
+import instance from "../setting";
 
 const blackTheme = createMuiTheme({
   palette: {
@@ -72,44 +73,63 @@ export default function Practice() {
     setTab(newValue);
   };
 
-  const [cards, setCards] = useState(posts);
+  const [cards, setCards] = useState([]);
+
+  const {
+    data: items,
+    isError: isEventsError,
+    isLoading: isEventsLoading,
+    refetch: refetchEvents,
+  } = useQuery(
+    "CardsFetching",
+    async () => {
+      const data = await instance.get("/api/practice/posts");
+      return data;
+    },
+    {
+      retry: false,
+      onSuccess: ({ data }) => {
+        setCards(data);
+      },
+    }
+  );
 
   let list;
   if (tab === 0) {
     list = cards.map((card, index) =>
-      card.url === "" ? (
+      !card.url ? (
         <Note
           key={`${index}+${card.title}`}
           title={card.title}
-          description={card.description}
+          content={card.content}
         />
       ) : (
         <Video
           key={`${index}+${card.title}`}
           title={card.title}
           url={card.url}
-          description={card.description}
+          content={card.content}
         />
       )
     );
   } else if (tab === 1) {
     list = cards.map((card, index) =>
-      card.url === "" ? (
+      !card.url ? (
         <Note
           key={`${index}+${card.title}`}
           title={card.title}
-          description={card.description}
+          content={card.content}
         />
       ) : null
     );
   } else {
     list = cards.map((card, index) =>
-      card.url === "" ? null : (
+      !card.url ? null : (
         <Video
           key={`${index}+${card.title}`}
           title={card.title}
           url={card.url}
-          description={card.description}
+          content={card.content}
         />
       )
     );

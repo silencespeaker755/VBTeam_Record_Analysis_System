@@ -30,7 +30,7 @@ export default function Push({ setCards, cards, handleClose }) {
   const [video, setVideo] = useState({
     title: "",
     url: "",
-    description: "",
+    content: "",
   });
 
   const handleChange = (e, type) => {
@@ -40,11 +40,11 @@ export default function Push({ setCards, cards, handleClose }) {
   const push = useMutation(
     async (err) => {
       const time = new Date();
+      const timeStr = time.toDateString();
       const user = userInfo.id;
-      const data = await axios.post("/api/practice/upload", {
-        ...video,
-        uploader: user,
-        uploadTime: time.toDateString(),
+      const data = await axios.post("/api/practice/posts/upload", {
+        post: { ...video, uploadTime: timeStr },
+        userId: user,
       });
       return data;
     },
@@ -57,9 +57,7 @@ export default function Push({ setCards, cards, handleClose }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setCards((pre) => {
-      return [...pre, video];
-    });
+    push.mutate();
     handleClose();
   };
 
@@ -83,7 +81,7 @@ export default function Push({ setCards, cards, handleClose }) {
             onChange={(e) => handleChange(e, "title")}
           />
           <TextField
-            value={video.description}
+            value={video.content}
             id="outlined-multiline-static"
             label="Article"
             margin="normal"
@@ -93,7 +91,7 @@ export default function Push({ setCards, cards, handleClose }) {
             fullWidth
             variant="outlined"
             type="text"
-            onChange={(e) => handleChange(e, "description")}
+            onChange={(e) => handleChange(e, "content")}
           />
 
           <TextField
@@ -114,6 +112,7 @@ export default function Push({ setCards, cards, handleClose }) {
             color="primary"
             className={classes.submit}
             onClick={onSubmit}
+            disabled={video.title === "" || video.content === ""}
           >
             Add
           </Button>

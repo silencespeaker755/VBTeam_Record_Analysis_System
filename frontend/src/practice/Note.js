@@ -26,9 +26,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Note({ title, description }) {
+export default function Note({ title, content }) {
   const noteClasses = useStyles();
-  const tempArtic = description.split("\n");
+  const tempArtic = content.split("\n");
   const mappingArrayToText = (array) => {
     if (array.length === 0 || (array.length === 1 && array[0] === ""))
       return (
