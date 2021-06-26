@@ -89,7 +89,7 @@ export default function RightSmallDrawer(props) {
     {
       label: "Ability",
       icon: <EqualizerIcon />,
-      link: "/home",
+      link: "/home/record_list",
       event: null,
       visible: admin,
     },
@@ -135,7 +135,7 @@ export default function RightSmallDrawer(props) {
         open={open}
         onClose={toggleDrawer(false)}
       >
-        <div className={classes.list} onClick={() => toggleDrawer(false)}>
+        <div className={classes.list} onClick={toggleDrawer(false)}>
           <div className={classes.listItems}>
             <List>
               {menuList.map((item) => (
