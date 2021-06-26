@@ -6,7 +6,7 @@ const router = Router();
 router.get("/", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar'
-    #swagger.tags = ['Home/Calendar']
+    #swagger.tags = ['Home']
   */
 
   CalendarService.getEvents()
@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
       console.log("Get all events:", events);
       /*
         #swagger.responses[200] = { 
-          schema: { $ref: '#/definitions/Event' }
+          schema: { $ref: '#/definitions/Events' }
         }
       */
       res.status(200).json({ events });
@@ -28,16 +28,12 @@ router.get("/", (req, res) => {
 router.post("/create", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/create'
-    #swagger.tags = ['Home/Calendar']
-    #swagger.parameters['event'] = {
+    #swagger.tags = ['Home']
+    #swagger.parameters['obj'] = {
       in: 'body',
       required: true,
+      type: 'object',
       schema: { $ref: '#/definitions/CreateEvent' }
-    }
-    #swagger.parameters['userId'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
     }
   */
 
@@ -50,7 +46,7 @@ router.post("/create", (req, res) => {
       /*
         #swagger.responses[200] = { 
           schema: {
-            id: 'string'
+            id: "60d0b2011e44bec4e4be3a52"
           }
         }
       */
@@ -58,23 +54,29 @@ router.post("/create", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(404).send(err);
+      if (err === "Admin required!") {
+        res.status(403).send(err);
+      } else {
+        res.status(404).send(err);
+      }
     });
 });
 
 router.post("/delete", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/delete'
-    #swagger.tags = ['Home/Calendar']
-    #swagger.parameters['eventId'] = {
-      in: 'body',
-      required: true,
-      type: 'string'
-    }
-    #swagger.parameters['userId'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
+    #swagger.tags = ['Home']
+    #swagger.parameters['obj'] = {
+      "eventId": {
+        in: 'body',
+        required: true,
+        type: 'string'
+      },
+      "userId": {
+        in: 'body',
+        required: true,
+        type: 'string',
+      }
     }
   */
 
@@ -88,23 +90,23 @@ router.post("/delete", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(404).send(err);
+      if (err === "Admin required!") {
+        res.status(403).send(err);
+      } else {
+        res.status(404).send(err);
+      }
     });
 });
 
 router.post("/update", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/update'
-    #swagger.tags = ['Home/Calendar']
-    #swagger.parameters['event'] = {
+    #swagger.tags = ['Home']
+    #swagger.parameters['obj'] = {
       in: 'body',
       required: true,
-      schema: { $ref: '#/definitions/Event' }
-    }
-    #swagger.parameters['userId'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
+      type: 'object',
+      schema: { $ref: '#/definitions/UpdateEvent'}
     }
   */
 
@@ -118,23 +120,27 @@ router.post("/update", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(404).send(err);
+      if (err === "Admin required!") {
+        res.status(403).send(err);
+      } else {
+        res.status(404).send(err);
+      }
     });
 });
 
 router.post("/attend", (req, res) => {
   /*
     #swagger.path = '/api/home/calendar/attend'
-    #swagger.tags = ['Home/Calendar']
-    #swagger.parameters['eventId'] = {
+    #swagger.tags = ['Home']
+    #swagger.parameters['obj'] = {
       in: 'body',
       required: true,
-      type: 'string'
-    }
-    #swagger.parameters['userId'] = {
-      in: 'body',
-      required: true,
-      type: 'string',
+      type: 'object',
+      schema: {
+        "eventId": "60d0b2011e44bec4e4be3a52",
+        "userId": "60d2cbeb9a8b913f2ef10193",
+        "attend": true
+      }
     }
   */
 
