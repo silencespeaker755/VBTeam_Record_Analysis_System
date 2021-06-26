@@ -8,7 +8,9 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Button,
 } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import { useImmer } from "../../hooks/useImmer";
 import EditableCell from "./EditableCell";
 import EditableTextCeil from "./EditableTextCeil";
@@ -39,6 +41,13 @@ export default function RecordTable() {
   const [data, setData] = useImmer(recordData);
   const [current, setCurrent] = useState("");
   const [update, setUpdate] = useState(false);
+
+  const AddNewMember = () => {
+    setData((pre) => {
+      pre.push(sample);
+      return pre;
+    });
+  };
 
   const mappingHeaderWithSubHeader = (header, subHeader) => {
     return (
@@ -156,11 +165,6 @@ export default function RecordTable() {
     );
   };
 
-  // useEffect(() => {
-  //   if (JSON.stringify(data) === JSON.stringify(recordData)) setUpdate(false);
-  //   else setUpdate(true);
-  // }, [data]);
-  // console.log(update);
   return (
     <div
       className="margin-50"
@@ -208,6 +212,11 @@ export default function RecordTable() {
           </TableBody>
         </Table>
       </TableContainer>
+      <div className="add-member-section">
+        <Button className="add-member-button" onClick={AddNewMember}>
+          <AddIcon />
+        </Button>
+      </div>
     </div>
   );
 }

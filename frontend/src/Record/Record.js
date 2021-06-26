@@ -7,7 +7,7 @@ import Fab from "@material-ui/core/Fab";
 import RecordTable from "./table/RecordTable";
 import ScrollTopButton from "../components/ScrollTopButton";
 import AddButton from "../components/AddButton";
-import AddModal from "./modal/Addmodal";
+import AddTableModal from "./modal/AddTablemodal";
 import { gameTemplate } from "../Test_data/recordData";
 import { useImmer } from "../hooks/useImmer";
 
@@ -72,7 +72,7 @@ export default function Record() {
           <KeyboardArrowUpIcon />
         </Fab>
       </ScrollTopButton>
-      <AddModal
+      <AddTableModal
         open={addModal}
         title={`${game.team} v.s. ${game.enemy}`}
         addTable={(info) =>
