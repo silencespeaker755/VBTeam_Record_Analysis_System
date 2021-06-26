@@ -19,6 +19,7 @@ export default function EditableCell({
   label,
   current,
   handleClick,
+  handleDoubleClick = () => {},
   handleBlur = () => {},
   handleNext,
   Classes,
@@ -35,7 +36,6 @@ export default function EditableCell({
   };
 
   const onBlur = (e) => {
-    console.log(e.relatedTarget);
     if (!e.relatedTarget) handleBlur();
     updateMyData(value);
   };
@@ -63,6 +63,7 @@ export default function EditableCell({
       onChange={onChange}
       onBlur={onBlur}
       onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
       onKeyUp={onKeyUp}
       readOnly={!editable}
     />

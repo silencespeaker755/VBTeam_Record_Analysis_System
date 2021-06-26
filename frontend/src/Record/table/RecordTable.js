@@ -11,6 +11,7 @@ import {
   Button,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 import { useImmer } from "../../hooks/useImmer";
 import EditableCell from "./EditableCell";
 import EditableTextCeil from "./EditableTextCeil";
@@ -40,13 +41,21 @@ export default function RecordTable() {
   const classes = useStyles();
   const [data, setData] = useImmer(recordData);
   const [current, setCurrent] = useState("");
-  const [update, setUpdate] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null);
 
   const AddNewMember = () => {
     setData((pre) => {
       pre.push(sample);
       return pre;
     });
+  };
+
+  const RemoveNewMember = () => {
+    setData((pre) => {
+      pre.splice(deleteIndex, 1);
+      return pre;
+    });
+    setDeleteIndex(null);
   };
 
   const mappingHeaderWithSubHeader = (header, subHeader) => {
@@ -77,9 +86,19 @@ export default function RecordTable() {
               initialValue={item}
               label={`${key}-${index}`}
               current={current}
-              handleClick={() => setCurrent(`${key}-${index}`)}
-              handleBlur={() => setCurrent("")}
-              handleNext={() => setCurrent(() => `${key}-${index + 1}`)}
+              handleClick={() => {
+                setCurrent(`${key}-${index}`);
+                setDeleteIndex(null);
+              }}
+              handleDoubleClick={() => setDeleteIndex(index)}
+              handleBlur={() => {
+                setCurrent("");
+                setDeleteIndex(null);
+              }}
+              handleNext={() => {
+                setCurrent(() => `${key}-${index + 1}`);
+                setDeleteIndex(null);
+              }}
               last={index === data.length - 1}
               Classes="width-100"
               updateMyData={(newValue) => {
@@ -106,7 +125,10 @@ export default function RecordTable() {
               initialValue={item[value]}
               label={`${key}-${value}-${index}`}
               current={current}
-              handleClick={() => setCurrent(`${key}-${value}-${index}`)}
+              handleClick={() => {
+                setCurrent(`${key}-${value}-${index}`);
+                setDeleteIndex(null);
+              }}
               handleBlur={() => setCurrent("")}
               handleNext={() =>
                 setCurrent(() => `${key}-${value}-${index + 1}`)
@@ -134,7 +156,10 @@ export default function RecordTable() {
                 initialValue={item[value]}
                 label={`${key}-${value}-${index}`}
                 current={current}
-                handleClick={() => setCurrent(`${key}-${value}-${index}`)}
+                handleClick={() => {
+                  setCurrent(`${key}-${value}-${index}`);
+                  setDeleteIndex(null);
+                }}
                 handleBlur={() => setCurrent("")}
                 handleNext={() =>
                   setCurrent(() => `${key}-${value}-${index + 1}`)
@@ -201,9 +226,15 @@ export default function RecordTable() {
         </Table>
       </TableContainer>
       <div className="add-member-section">
-        <Button className="add-member-button" onClick={AddNewMember}>
-          <AddIcon />
-        </Button>
+        {deleteIndex !== null && deleteIndex < data.length ? (
+          <Button className="add-member-button" onClick={RemoveNewMember}>
+            <RemoveIcon />
+          </Button>
+        ) : (
+          <Button className="add-member-button" onClick={AddNewMember}>
+            <AddIcon />
+          </Button>
+        )}
       </div>
     </div>
   );
