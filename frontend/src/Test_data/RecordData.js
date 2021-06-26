@@ -1,4 +1,4 @@
-export const game = {
+export const gameTemplate = {
   team: "台大資訊",
   enemy: "海洋工程",
   info: [
