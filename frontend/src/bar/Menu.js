@@ -112,7 +112,7 @@ export default function Menu() {
         </ClickAwayListener>
         <IconButton
           edge="end"
-          onClick={() => history.push("/home/record")} // TODO: link to analysis
+          onClick={() => history.push("/home/record_list")} // TODO: link to analysis
           color="inherit"
           component="span"
         >
