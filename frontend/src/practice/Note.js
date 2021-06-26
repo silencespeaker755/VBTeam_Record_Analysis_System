@@ -77,9 +77,6 @@ export default function Note({ title, description }) {
             <Button size="small" color="primary">
               ...More
             </Button>
-            <Button size="small" color="primary">
-              Edit
-            </Button>
           </div>
         </CardActions>
       </Card>

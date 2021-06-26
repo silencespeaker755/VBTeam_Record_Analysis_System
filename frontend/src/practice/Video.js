@@ -99,9 +99,6 @@ export default function Video({ title, url, description }) {
             <Button size="small" color="primary">
               ...More
             </Button>
-            <Button size="small" color="primary">
-              Edit
-            </Button>
           </div>
         </CardActions>
       </Card>
