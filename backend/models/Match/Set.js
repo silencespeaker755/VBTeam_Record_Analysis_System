@@ -2,16 +2,16 @@ import mongoose from "mongoose";
 import Data from "./Data";
 
 const setSchema = new mongoose.Schema({
+  number: {
+    type: Number,
+    required: [true, '"number" field is required'],
+  },
   teamScore: {
-    type: String,
+    type: Number,
     required: [true, '"teamScore" field is required'],
   },
   opponentScore: {
-    type: String,
-    required: [true, '"opponentScore" field is required'],
-  },
-  set: {
-    type: String,
+    type: Number,
     required: [true, '"opponentScore" field is required'],
   },
   data: {

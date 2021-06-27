@@ -31,6 +31,12 @@ const doc = {
   ],
   securityDefinitions: {}, // by default: empty object
   definitions: {
+    User: {
+      $_id: "60d2cbeb9a8b913f2ef10193",
+      $name: "謝心默",
+      $email: "monofika@gmail.com",
+      $password: "$jdaspfipjorlnfjdsod3r3vc",
+    },
     Event: {
       $_id: "60d0b2011e44bec4e4be3a52",
       $start: "2021-06-21T18:00:00",
@@ -105,21 +111,54 @@ const doc = {
       $userId: "60d2cbeb9a8b913f2ef10193",
     },
     Posts: [{ $ref: "#/definitions/Article" }],
-    Records: [
-      {
-        $_id: "60d619a88da34eda2a6ebc41",
-        $type: "2020大資盃",
-        $team: "台大資工",
-        $opponent: "淡江資工",
-        $date: "2020-09-24",
-      },
-    ],
-    createRecord: {
+    Record: {
+      $_id: "60d619a88da34eda2a6ebc41",
+      $type: "2020大資盃",
+      $team: "台大資工",
+      $opponent: "淡江資工",
+      $date: "2020-09-24",
+      sets: [],
+    },
+    Records: [{ $ref: "#/definitions/Record" }],
+    CreateRecord: {
       $record: {
         $type: "2020大資盃",
         $team: "台大資工",
         $opponent: "淡江資工",
         $date: "2020-09-24",
+      },
+      $userId: "60d08f760211c9a4925218a0",
+    },
+    UpdateRecord: {
+      $record: {
+        $_id: "60d619a88da34eda2a6ebc41",
+        $type: "2020大資盃",
+        $team: "台大資工",
+        $opponent: "淡江資工",
+        $date: "2020-09-24",
+        sets: [
+          {
+            _id: "60d619a88da34eda2a6ebc41",
+            $number: 1,
+            $teamScore: 25,
+            $opponentScore: 16,
+            data: [
+              {
+                _id: "60d619a88da34eda2a6ebc41",
+                name: "謝心默",
+                player: { $ref: "#/definitions/User" },
+                passesOrSets: { $good: 1, $ok: 2, $bad: 3 },
+                serveReceptions: { $good: 1, $ok: 2, $bad: 3 },
+                attacks: { $times: 3, $success: 2, $fail: 1 },
+                drops: { $times: 3, $success: 2, $fail: 1 },
+                serves: { $times: 3, $ace: 2, $fail: 1 },
+                blocks: { $success: 1, $effective: 2, $fail: 3 },
+                faults: { $times: 1, $types: ["觸網"] },
+                notes: "好強",
+              },
+            ],
+          },
+        ],
       },
       $userId: "60d08f760211c9a4925218a0",
     },

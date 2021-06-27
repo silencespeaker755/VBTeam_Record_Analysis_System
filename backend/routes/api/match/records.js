@@ -9,45 +9,41 @@ router.get("/", (req, res) => {
     #swagger.tags = ['Match']
   */
 
-  RecordService.getRecords()
-    .then((records) => {
-      console.log("Get all records:", records);
-      /*
-        #swagger.responses[200] = { 
-          type: 'array',
-          schema: { $ref: '#/definitions/Records' }
-        }
-      */
-      res.status(200).send(records);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(404).send(err);
-    });
-});
-
-router.get("/:recordId", (req, res) => {
-  /*
-    #swagger.path = '/api/match/records/:recordId'
-    #swagger.tags = ['Match']
-  */
-
-  const { userId } = req.body;
-  RecordService.getRecord({ recordId: req.params.recordId, userId })
-    .then((record) => {
-      console.log("Get record:", record);
-      /*
-        #swagger.responses[200] = { 
-          type: 'array',
-          schema: { $ref: '#/definitions/Records' }
-        }
-      */
-      res.status(200).send(record);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(404).send(err);
-    });
+  console.log(req.query);
+  const { recordId } = req.query;
+  if (recordId) {
+    RecordService.getRecord({ recordId })
+      .then((record) => {
+        console.log("Get record:", record);
+        /*
+          #swagger.responses[200] = { 
+            type: 'array',
+            schema: { $ref: '#/definitions/Records' }
+          }
+        */
+        res.status(200).send(record);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(404).send(err);
+      });
+  } else {
+    RecordService.getRecords()
+      .then((records) => {
+        console.log("Get all records:", records);
+        /*
+          #swagger.responses[200] = { 
+            type: 'array',
+            schema: { $ref: '#/definitions/Record' }
+          }
+        */
+        res.status(200).send(records);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(404).send(err);
+      });
+  }
 });
 
 router.post("/create", (req, res) => {
@@ -58,7 +54,7 @@ router.post("/create", (req, res) => {
       in: 'body',
       required: true,
       type: 'object',
-      schema: { $ref: '#/definitions/createRecord'} 
+      schema: { $ref: '#/definitions/CreateRecord'} 
     }
   */
 
@@ -71,7 +67,7 @@ router.post("/create", (req, res) => {
       /*
         #swagger.responses[200] = { 
           schema: {
-            id: 'string'
+            id: "60d619a88da34eda2a6ebc41"
           }
         }
       */
@@ -79,7 +75,7 @@ router.post("/create", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      if (err === "User not found!" || err === "Admin required") {
+      if (err === "Admin required") {
         res.status(403).send(err);
       } else {
         res.status(404).send(err);
@@ -87,70 +83,85 @@ router.post("/create", (req, res) => {
     });
 });
 
-// router.post("/delete", (req, res) => {
-//   /*
-//     #swagger.path = '/api/match/records/delete'
-//     #swagger.tags = ['Match']
-//     #swagger.parameters['obj'] = {
-//       "recordId": {
-//         in: 'body',
-//         required: true,
-//         type: 'string'
-//       },
-//       "userId": {
-//         in: 'body',
-//         required: true,
-//         type: 'string',
-//       }
-//     }
-//   */
+router.post("/delete", (req, res) => {
+  /*
+    #swagger.path = '/api/match/records/delete'
+    #swagger.tags = ['Match']
+    #swagger.parameters['obj'] = {
+      in: 'body',
+      required: true,
+      type: 'object',
+      schema: {
+        "recordId": "60d619a88da34eda2a6ebc41",
+        "setId": "60d619a88da34eda2a6ebc41",
+        "userId": "60d08f760211c9a4925218a0",
+      }
+    }
+  */
 
-//   console.log(req.body);
-//   const { postId, userId } = req.body;
+  console.log(req.body);
+  const { recordId, setId, userId } = req.body;
 
-//   RecordService.deleteRecord({ postId, userId })
-//     .then((post) => {
-//       console.log("Deleted record:", post);
-//       res.status(200).send("Delete success!");
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       if (err === "User not found!" || err === "") {
-//         res.status(403).send(err);
-//       } else {
-//         res.status(404).send(err);
-//       }
-//     });
-// });
+  if (setId) {
+    // delete Set
+    RecordService.deleteSet({ recordId, setId, userId })
+      .then((set) => {
+        console.log("Deleted set:", set);
+        res.status(200).send("Delete success!");
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err === "Admin required!") {
+          res.status(403).send(err);
+        } else {
+          res.status(404).send(err);
+        }
+      });
+  } else {
+    RecordService.deleteRecord({ recordId, userId })
+      .then((record) => {
+        console.log("Deleted record:", record);
+        res.status(200).send("Delete success!");
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err === "Admin required!") {
+          res.status(403).send(err);
+        } else {
+          res.status(404).send(err);
+        }
+      });
+  }
+});
 
-// router.post("/update", (req, res) => {
-//   /*
-//     #swagger.path = '/api/practice/posts/update'
-//     #swagger.tags = ['Practice']
-//     #swagger.parameters['obj'] = {
-//       in: 'body',
-//       required: true,
-//       type: 'object',
-//       schema: { $ref: '#/definitions/UpdatePost'}
-//     }
-//   */
+router.post("/update", (req, res) => {
+  /*
+    #swagger.path = '/api/match/records/update'
+    #swagger.tags = ['Match']
+    #swagger.parameters['obj'] = {
+      in: 'body',
+      required: true,
+      type: 'object',
+      schema: { $ref: '#/definitions/UpdateRecord'}
+    }
+  */
 
-//   console.log(req.body);
-//   const { post, userId } = req.body;
+  console.log(req.body);
+  const { record, userId } = req.body;
 
-//   RecordService.updateRecord({ post, userId })
-//     .then((Post) => {
-//       console.log("Updated event:", Post);
-//       res.status(200).send("Update success!");
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       if (err === "You are not the uploader!") {
-//         res.status(403).send(err);
-//       } else {
-//         res.status(404).send(err);
-//       }
-//     });
-// });
+  RecordService.updateRecord({ record, userId })
+    .then((Record) => {
+      console.log("Updated record:", Record);
+      res.status(200).send("Update success!");
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err === "Admin required!") {
+        res.status(403).send(err);
+      } else {
+        res.status(404).send(err);
+      }
+    });
+});
 
 export default router;

@@ -565,39 +565,11 @@
           "Match"
         ],
         "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "type": "array",
-            "schema": {
-              "$ref": "#/definitions/Records"
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/match/records/:recordId": {
-      "get": {
-        "tags": [
-          "Match"
-        ],
-        "description": "",
         "parameters": [
           {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "recordId",
+            "in": "query",
+            "type": "string"
           }
         ],
         "responses": {
@@ -605,7 +577,7 @@
             "description": "OK",
             "type": "array",
             "schema": {
-              "$ref": "#/definitions/Records"
+              "$ref": "#/definitions/Record"
             }
           },
           "404": {
@@ -627,7 +599,7 @@
             "required": true,
             "type": "object",
             "schema": {
-              "$ref": "#/definitions/createRecord"
+              "$ref": "#/definitions/CreateRecord"
             }
           }
         ],
@@ -639,7 +611,7 @@
               "properties": {
                 "id": {
                   "type": "string",
-                  "example": "string"
+                  "example": "60d619a88da34eda2a6ebc41"
                 }
               },
               "xml": {
@@ -665,32 +637,55 @@
         "parameters": [
           {
             "name": "obj",
-            "recordId": {
-              "in": "body",
-              "required": true,
-              "type": "string"
-            },
-            "userId": {
-              "in": "body",
-              "required": true,
-              "type": "string"
-            },
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "obj",
             "in": "body",
+            "required": true,
+            "type": "object",
             "schema": {
               "type": "object",
               "properties": {
-                "postId": {
-                  "example": "any"
+                "recordId": {
+                  "type": "string",
+                  "example": "60d619a88da34eda2a6ebc41"
+                },
+                "setId": {
+                  "type": "string",
+                  "example": "60d619a88da34eda2a6ebc41"
                 },
                 "userId": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "60d08f760211c9a4925218a0"
                 }
               }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/match/records/update": {
+      "post": {
+        "tags": [
+          "Match"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/UpdateRecord"
             }
           }
         ],
@@ -709,6 +704,33 @@
     }
   },
   "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "60d2cbeb9a8b913f2ef10193"
+        },
+        "name": {
+          "type": "string",
+          "example": "謝心默"
+        },
+        "email": {
+          "type": "string",
+          "example": "monofika@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "$jdaspfipjorlnfjdsod3r3vc"
+        }
+      },
+      "required": [
+        "_id",
+        "name",
+        "email",
+        "password"
+      ]
+    },
     "Event": {
       "type": "object",
       "properties": {
@@ -1040,42 +1062,50 @@
         "$ref": "#/definitions/Article"
       }
     },
+    "Record": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "60d619a88da34eda2a6ebc41"
+        },
+        "type": {
+          "type": "string",
+          "example": "2020大資盃"
+        },
+        "team": {
+          "type": "string",
+          "example": "台大資工"
+        },
+        "opponent": {
+          "type": "string",
+          "example": "淡江資工"
+        },
+        "date": {
+          "type": "string",
+          "example": "2020-09-24"
+        },
+        "sets": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        }
+      },
+      "required": [
+        "_id",
+        "type",
+        "team",
+        "opponent",
+        "date"
+      ]
+    },
     "Records": {
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "example": "60d619a88da34eda2a6ebc41"
-          },
-          "type": {
-            "type": "string",
-            "example": "2020大資盃"
-          },
-          "team": {
-            "type": "string",
-            "example": "台大資工"
-          },
-          "opponent": {
-            "type": "string",
-            "example": "淡江資工"
-          },
-          "date": {
-            "type": "string",
-            "example": "2020-09-24"
-          }
-        },
-        "required": [
-          "_id",
-          "type",
-          "team",
-          "opponent",
-          "date"
-        ]
+        "$ref": "#/definitions/Record"
       }
     },
-    "createRecord": {
+    "CreateRecord": {
       "type": "object",
       "properties": {
         "record": {
@@ -1099,6 +1129,257 @@
             }
           },
           "required": [
+            "type",
+            "team",
+            "opponent",
+            "date"
+          ]
+        },
+        "userId": {
+          "type": "string",
+          "example": "60d08f760211c9a4925218a0"
+        }
+      },
+      "required": [
+        "record",
+        "userId"
+      ]
+    },
+    "UpdateRecord": {
+      "type": "object",
+      "properties": {
+        "record": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "60d619a88da34eda2a6ebc41"
+            },
+            "type": {
+              "type": "string",
+              "example": "2020大資盃"
+            },
+            "team": {
+              "type": "string",
+              "example": "台大資工"
+            },
+            "opponent": {
+              "type": "string",
+              "example": "淡江資工"
+            },
+            "date": {
+              "type": "string",
+              "example": "2020-09-24"
+            },
+            "sets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "60d619a88da34eda2a6ebc41"
+                  },
+                  "number": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "teamScore": {
+                    "type": "number",
+                    "example": 25
+                  },
+                  "opponentScore": {
+                    "type": "number",
+                    "example": 16
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "60d619a88da34eda2a6ebc41"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "張翔文"
+                        },
+                        "user": {
+                          "$ref": "#/definitions/User"
+                        },
+                        "passesOrSets": {
+                          "type": "object",
+                          "properties": {
+                            "good": {
+                              "type": "number",
+                              "example": 1
+                            },
+                            "ok": {
+                              "type": "number",
+                              "example": 2
+                            },
+                            "bad": {
+                              "type": "number",
+                              "example": 3
+                            }
+                          },
+                          "required": [
+                            "good",
+                            "ok",
+                            "bad"
+                          ]
+                        },
+                        "serveReceptions": {
+                          "type": "object",
+                          "properties": {
+                            "good": {
+                              "type": "number",
+                              "example": 1
+                            },
+                            "ok": {
+                              "type": "number",
+                              "example": 2
+                            },
+                            "bad": {
+                              "type": "number",
+                              "example": 3
+                            }
+                          },
+                          "required": [
+                            "good",
+                            "ok",
+                            "bad"
+                          ]
+                        },
+                        "attacks": {
+                          "type": "object",
+                          "properties": {
+                            "times": {
+                              "type": "number",
+                              "example": 3
+                            },
+                            "success": {
+                              "type": "number",
+                              "example": 2
+                            },
+                            "fail": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          },
+                          "required": [
+                            "times",
+                            "success",
+                            "fail"
+                          ]
+                        },
+                        "drops": {
+                          "type": "object",
+                          "properties": {
+                            "times": {
+                              "type": "number",
+                              "example": 3
+                            },
+                            "success": {
+                              "type": "number",
+                              "example": 2
+                            },
+                            "fail": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          },
+                          "required": [
+                            "times",
+                            "success",
+                            "fail"
+                          ]
+                        },
+                        "serves": {
+                          "type": "object",
+                          "properties": {
+                            "times": {
+                              "type": "number",
+                              "example": 3
+                            },
+                            "ace": {
+                              "type": "number",
+                              "example": 2
+                            },
+                            "fail": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          },
+                          "required": [
+                            "times",
+                            "ace",
+                            "fail"
+                          ]
+                        },
+                        "blocks": {
+                          "type": "object",
+                          "properties": {
+                            "success": {
+                              "type": "number",
+                              "example": 1
+                            },
+                            "effective": {
+                              "type": "number",
+                              "example": 2
+                            },
+                            "fail": {
+                              "type": "number",
+                              "example": 3
+                            }
+                          },
+                          "required": [
+                            "success",
+                            "effective",
+                            "fail"
+                          ]
+                        },
+                        "faults": {
+                          "type": "object",
+                          "properties": {
+                            "times": {
+                              "type": "number",
+                              "example": 1
+                            },
+                            "types": {
+                              "type": "array",
+                              "example": [
+                                "觸網"
+                              ],
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": [
+                            "times",
+                            "types"
+                          ]
+                        },
+                        "notes": {
+                          "type": "string",
+                          "example": "好強"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "number",
+                  "teamScore",
+                  "opponentScore"
+                ]
+              }
+            }
+          },
+          "required": [
+            "_id",
             "type",
             "team",
             "opponent",
