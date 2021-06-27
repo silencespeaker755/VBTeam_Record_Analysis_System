@@ -29,6 +29,7 @@ module.exports = {
     "import/prefer-default-export": 0,
     "no-underscore-dangle": 0,
     "react/jsx-props-no-spreading": 0,
+    "import/no-unresolved": [2, { caseSensitive: false }],
     "jsx-a11y/label-has-associated-control": [
       2,
       {
