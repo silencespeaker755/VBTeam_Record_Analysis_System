@@ -24,15 +24,16 @@ const useStyles = makeStyles(() => ({
 
 export default function Match() {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <Link href="/home/record_list" underline={false}>
+        <Link href="/home/record_list" underline="none">
           <div className="btn">
             <span className="text">Analysis</span>
           </div>
         </Link>
-        <Link href="/home/article" underline={false}>
+        <Link href="/home/article" underline="none">
           <div className="btn">
             <span className="text">Article</span>
           </div>
