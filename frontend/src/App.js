@@ -16,6 +16,7 @@ import SignIn from "./sign/SignIn";
 // Practice
 
 import Practice from "./practice/Practice";
+import RecordList from "./Record/RecordList";
 import Record from "./Record/Record";
 import "./App.css";
 
@@ -43,6 +44,7 @@ export default function App() {
         <Route exact path="/home" component={Homepage} />
         <Route exact path="/practice" component={Practice} />
         <Route exact path="/home/profile" component={Profile} />
+        <Route exact path="/home/record_list" component={RecordList} />
         <Route exact path="/home/record" component={Record} />
         <Route exact path="/logout" component={null} />
         <Route exact path="/postlist" component={null} />
