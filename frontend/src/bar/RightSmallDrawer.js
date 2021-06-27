@@ -73,14 +73,14 @@ export default function RightSmallDrawer(props) {
       visible: admin,
     },
     {
-      label: "My Post",
+      label: "My Posts",
       icon: <AssignmentIcon />,
       link: `/home`,
       event: null,
       visible: admin,
     },
     {
-      label: "My Video",
+      label: "My Videos",
       icon: <MovieIcon />,
       link: `/home`,
       event: null,
@@ -108,9 +108,9 @@ export default function RightSmallDrawer(props) {
       visible: admin,
     },
     {
-      label: "Broadcast",
+      label: "Matches",
       icon: <OpenInNewIcon />,
-      link: "/",
+      link: "/home/match",
       event: null,
       visible: admin,
     },
