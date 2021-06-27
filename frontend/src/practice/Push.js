@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useMutation } from "react-query";
 import { useUserInfo } from "../hooks/useInfo";
-import axios from "../setting";
+import instance from "../setting";
 
 const useStyles = makeStyles((theme) => ({
   signUp: {
@@ -42,7 +42,7 @@ export default function Push({ refetchEvents, handleClose }) {
       const time = new Date();
       const timeStr = time.toString();
       const user = userInfo.id;
-      const data = await axios.post("/api/practice/posts/upload", {
+      const data = await instance.post("/api/practice/posts/upload", {
         post: {
           title: video.title,
           url: video.url,

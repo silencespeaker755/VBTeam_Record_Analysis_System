@@ -7,6 +7,7 @@ import {
   CardContent,
   Typography,
   Divider,
+  Link,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Note({ title, content }) {
+export default function Note({ id, title, content }) {
   const noteClasses = useStyles();
   const tempArtic = content.split("\n");
   const mappingArrayToText = (array) => {
@@ -74,9 +75,11 @@ export default function Note({ title, content }) {
           style={{ position: "relative", bottom: "0px", height: "30px" }}
         >
           <div style={{ position: "absolute", bottom: "5px", right: "16px" }}>
-            <Button size="small" color="primary">
-              ...More
-            </Button>
+            <Link underline="none" href={`/practice/${id}`}>
+              <Button size="small" color="primary">
+                ...More
+              </Button>
+            </Link>
           </div>
         </CardActions>
       </Card>

@@ -27,6 +27,14 @@ const blackTheme = createMuiTheme({
       main: "#000000",
     },
   },
+  overrides: {
+    MuiCard: {
+      root: {
+        boxShadow: "2px 2px 10px 2px rgba(0,0,0,0.3)",
+        "&:hover": { boxShadow: "2px 4px 20px 2px rgba(0,0,0,0.3)" },
+      },
+    },
+  },
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -79,16 +87,7 @@ export default function Practice() {
     },
     {
       retry: false,
-      onSuccess: () => {
-        console.log(cards);
-        console.log(
-          cards.sort((a, b) => {
-            const dateA = new Date(a.uploadTime);
-            const dateB = new Date(b.uploadTime);
-            return dateA - dateB;
-          })
-        );
-      },
+      onSuccess: () => {},
     }
   );
 
@@ -110,6 +109,7 @@ export default function Practice() {
           key={`${index}+${card.title}`}
           title={card.title}
           content={card.content}
+          id={card._id}
         />
       ) : (
         <Video
@@ -117,6 +117,7 @@ export default function Practice() {
           title={card.title}
           url={card.url}
           description={card.description}
+          id={card._id}
         />
       )
     );
@@ -127,6 +128,7 @@ export default function Practice() {
           key={`${index}+${card.title}`}
           title={card.title}
           content={card.content}
+          id={card._id}
         />
       ) : null
     );
@@ -138,6 +140,7 @@ export default function Practice() {
           title={card.title}
           url={card.url}
           description={card.description}
+          id={card._id}
         />
       )
     );
