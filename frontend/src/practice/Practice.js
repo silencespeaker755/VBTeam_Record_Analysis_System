@@ -71,11 +71,24 @@ export default function Practice() {
     "CardsFetching",
     async () => {
       const data = await instance.get("/api/practice/posts");
-      return data.data;
+      return data.data.sort((a, b) => {
+        const dateA = new Date(a.uploadTime);
+        const dateB = new Date(b.uploadTime);
+        return dateB - dateA;
+      });
     },
     {
       retry: false,
-      onSuccess: () => {},
+      onSuccess: () => {
+        console.log(cards);
+        console.log(
+          cards.sort((a, b) => {
+            const dateA = new Date(a.uploadTime);
+            const dateB = new Date(b.uploadTime);
+            return dateA - dateB;
+          })
+        );
+      },
     }
   );
 

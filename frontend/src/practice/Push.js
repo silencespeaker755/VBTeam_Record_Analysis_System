@@ -40,7 +40,7 @@ export default function Push({ refetchEvents, handleClose }) {
   const push = useMutation(
     async (err) => {
       const time = new Date();
-      const timeStr = time.toDateString();
+      const timeStr = time.toString();
       const user = userInfo.id;
       const data = await axios.post("/api/practice/posts/upload", {
         post: {
