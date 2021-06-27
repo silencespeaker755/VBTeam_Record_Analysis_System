@@ -7,6 +7,7 @@ import {
   CardContent,
   Typography,
   Divider,
+  Link,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { relativeTimeRounding } from "moment";
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardContent: {
     height: "100%",
-    overflow: "auto",
+    overflow: "scroll",
   },
   cardVedio: {
     position: "absolute",
@@ -40,9 +41,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Video({ title, url, description }) {
+export default function Video({ id, title, url, description }) {
   const movieClasses = useStyles();
-  const tempArtic = description.split("\n");
+  let tempArtic;
+  if (description) {
+    tempArtic = description.split("\n");
+  } else {
+    tempArtic = ["No description"];
+  }
+
   const mappingArrayToText = (array) => {
     if (array.length === 0 || (array.length === 1 && array[0] === ""))
       return (
@@ -96,12 +103,11 @@ export default function Video({ title, url, description }) {
           style={{ position: "relative", bottom: "0px", height: "30px" }}
         >
           <div style={{ position: "absolute", bottom: "5px", right: "16px" }}>
-            <Button size="small" color="primary">
-              ...More
-            </Button>
-            <Button size="small" color="primary">
-              Edit
-            </Button>
+            <Link underline="none" href={`/practice/${id}`}>
+              <Button size="small" color="primary">
+                ...More
+              </Button>
+            </Link>
           </div>
         </CardActions>
       </Card>

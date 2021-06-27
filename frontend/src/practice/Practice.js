@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Container,
@@ -15,15 +15,24 @@ import {
   ThemeProvider,
   makeStyles,
 } from "@material-ui/core/styles";
+import { useQuery } from "react-query";
 import Video from "./Video";
 import Push from "./Push";
 import Note from "./Note";
-import posts from "../Test_data/post";
+import instance from "../setting";
 
 const blackTheme = createMuiTheme({
   palette: {
     primary: {
       main: "#000000",
+    },
+  },
+  overrides: {
+    MuiCard: {
+      root: {
+        boxShadow: "2px 2px 10px 2px rgba(0,0,0,0.3)",
+        "&:hover": { boxShadow: "2px 4px 20px 2px rgba(0,0,0,0.3)" },
+      },
     },
   },
 });
@@ -57,12 +66,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Practice() {
+  let list;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
+  const {
+    data: cards = [],
+    isError: isEventsError,
+    isLoading: isEventsLoading,
+    refetch: refetchEvents,
+  } = useQuery(
+    "CardsFetching",
+    async () => {
+      const data = await instance.get("/api/practice/posts");
+      return data.data.sort((a, b) => {
+        const dateA = new Date(a.uploadTime);
+        const dateB = new Date(b.uploadTime);
+        return dateB - dateA;
+      });
+    },
+    {
+      retry: false,
+      onSuccess: () => {},
+    }
+  );
+
   const handleClickOpen = () => {
     setOpen(true);
-    console.log(tab);
   };
 
   const handleClose = () => {
@@ -72,16 +102,14 @@ export default function Practice() {
     setTab(newValue);
   };
 
-  const [cards, setCards] = useState(posts);
-
-  let list;
   if (tab === 0) {
     list = cards.map((card, index) =>
-      card.url === "" ? (
+      !card.url ? (
         <Note
           key={`${index}+${card.title}`}
           title={card.title}
-          description={card.description}
+          content={card.content}
+          id={card._id}
         />
       ) : (
         <Video
@@ -89,27 +117,30 @@ export default function Practice() {
           title={card.title}
           url={card.url}
           description={card.description}
+          id={card._id}
         />
       )
     );
   } else if (tab === 1) {
     list = cards.map((card, index) =>
-      card.url === "" ? (
+      !card.url ? (
         <Note
           key={`${index}+${card.title}`}
           title={card.title}
-          description={card.description}
+          content={card.content}
+          id={card._id}
         />
       ) : null
     );
   } else {
     list = cards.map((card, index) =>
-      card.url === "" ? null : (
+      !card.url ? null : (
         <Video
           key={`${index}+${card.title}`}
           title={card.title}
           url={card.url}
           description={card.description}
+          id={card._id}
         />
       )
     );
@@ -160,9 +191,9 @@ export default function Practice() {
           >
             <DialogContent>
               <Push
-                setCards={setCards}
                 cards={cards}
                 handleClose={handleClose}
+                refetchEvents={refetchEvents}
               />
             </DialogContent>
           </Dialog>
