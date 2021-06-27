@@ -6,8 +6,8 @@ import { Button, Fab } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   top: {
-    width: "40px",
-    height: "40px",
+    width: (props) => (props.height ? `${props.height}px` : "40px"),
+    height: (props) => (props.width ? `${props.width}px` : "40px"),
     position: "fixed",
     right: "18px",
     bottom: "72px",
@@ -15,13 +15,16 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     position: "fixed",
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    bottom: (props) => (props.bottom ? `${props.bottom}px` : theme.spacing(2)),
+    right: (props) => (props.right ? `${props.right}px` : theme.spacing(2)),
+    width: (props) => (props.height ? `${props.height}px` : "40px"),
+    height: (props) => (props.width ? `${props.width}px` : "40px"),
   },
 }));
 
-export default function AddButton({ inView, openModal }) {
-  const classes = useStyles();
+export default function AddButton(props) {
+  const { inView, openModal, height, width, bottom, right } = props;
+  const classes = useStyles(props);
 
   const handleClick = (event) => {
     const anchor = (event.target.ownerDocument || document).querySelector(
@@ -38,7 +41,11 @@ export default function AddButton({ inView, openModal }) {
       <Fab
         aria-label="scroll back to top"
         size="small"
-        style={{ backgroundColor: "#ffc800" }}
+        style={{
+          backgroundColor: "#ffc800",
+          height: `${height}px`,
+          width: `${width}px`,
+        }}
       >
         <AddIcon />
       </Fab>

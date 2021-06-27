@@ -1,15 +1,20 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useQuery } from "react-query";
 import {
   Typography,
-  Paper,
+  Button,
   Card,
   CardActionArea,
   Divider,
   InputBase,
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
+import axios from "../setting";
+import AddButton from "../components/AddButton";
+import AddMatchModal from "./modal/AddMatchModal";
+import Loading from "../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   flexCenter: {
@@ -20,14 +25,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
-    // filter: "grayscale(100%)",
   },
   outFrame: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
     alignItems: "center",
     width: "70%",
+    minHeight: "600px",
     maxWidth: "900px",
     margin: "50px 50px 10px 50px",
     border: "8px solid #a9794b",
@@ -45,8 +49,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
   },
   outCardFrame: {
-    height: "80px",
     width: "70%",
+    minHeight: "80px",
     borderRadius: "20px",
     margin: "8.5px auto",
     "&:last-child": {
@@ -56,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
   actionArea: {
     width: "100%",
     height: "100%",
+    minHeight: "80px",
     background: "antiquewhite",
     "&:hover": {
       background: "#bb9b78",
@@ -74,6 +79,10 @@ const useStyles = makeStyles((theme) => ({
     width: "70%",
     height: "2px",
     background: "white",
+  },
+  type: {
+    marginTop: "10px",
+    marginBottom: "-5px",
   },
   search: {
     position: "relative",
@@ -124,48 +133,74 @@ export default function RecordList() {
   const classes = useStyles();
   const history = useHistory();
   const [searchInput, setSearchInput] = useState("");
+  const [matchModal, setMatchModal] = useState(false);
 
-  const handleClick = () => {
-    history.push("/home/record");
+  const {
+    data: recordList = [],
+    isLoading: isListLoading,
+    refetch: refetchRecordList,
+    isFetching: isRecordListFetching,
+  } = useQuery(
+    "RecordList",
+    async () => {
+      const { data } = await axios.get("/api/match/records");
+      return data;
+    },
+    {
+      onSuccess: () => {},
+    }
+  );
+
+  const handleClick = (id) => () => {
+    history.push(`/home/record/${id}`);
   };
 
   const handleSearch = () => {};
 
+  if (isRecordListFetching || isListLoading) return <Loading />;
+
   return (
-    <div className={classes.flexCenter}>
-      <div className={classes.outFrame}>
-        <Typography className={classes.outTitle}>Analysis</Typography>
-        <Divider className={classes.divider} />
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
+    <>
+      <div className={classes.flexCenter}>
+        <div className={classes.outFrame}>
+          <Typography className={classes.outTitle}>Analysis</Typography>
+          <Divider className={classes.divider} />
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              onKeyUp={handleSearch}
+              onChange={(e) => setSearchInput(e.target.value)}
+              value={searchInput}
+            />
           </div>
-          <InputBase
-            placeholder="Search…"
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            onKeyUp={handleSearch}
-            onChange={(e) => setSearchInput(e.target.value)}
-            value={searchInput}
-          />
-        </div>
-        <div className={classes.outPaperFrame}>
-          {Array(10)
-            .fill(10)
-            .map(() => (
+          <div className={classes.outPaperFrame}>
+            {recordList.map((element) => (
               <Card className={classes.outCardFrame}>
                 <CardActionArea
                   className={classes.actionArea}
-                  onClick={handleClick}
+                  onClick={handleClick(element._id)}
                 >
+                  <Typography
+                    variant="body1"
+                    color="textSecondary"
+                    align="center"
+                    className={classes.type}
+                  >
+                    {element.type}
+                  </Typography>
                   <Typography
                     variant="h5"
                     className={classes.subtitle}
                     align="center"
                   >
-                    台大資訊 v.s. 海洋工程
+                    {element.team} v.s. {element.opponent}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -173,13 +208,27 @@ export default function RecordList() {
                     component="p"
                     align="center"
                   >
-                    2019-04-17
+                    {element.date}
                   </Typography>
                 </CardActionArea>
               </Card>
             ))}
+          </div>
         </div>
       </div>
-    </div>
+      <AddButton
+        inView
+        openModal={() => setMatchModal(true)}
+        height={60}
+        width={60}
+        bottom={48}
+        right={20}
+      />
+      <AddMatchModal
+        open={matchModal}
+        handleClose={() => setMatchModal(false)}
+        refetch={refetchRecordList}
+      />
+    </>
   );
 }

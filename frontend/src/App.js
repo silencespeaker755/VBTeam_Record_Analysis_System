@@ -45,6 +45,11 @@ export default function App() {
         <Route exact path="/practice" component={Practice} />
         <Route exact path="/home/profile" component={Profile} />
         <Route exact path="/home/record_list" component={RecordList} />
+        <Route
+          exact
+          path="/home/record/:recordId"
+          render={(props) => <Record match={props.match} />}
+        />
         <Route exact path="/home/record" component={Record} />
         <Route exact path="/logout" component={null} />
         <Route exact path="/postlist" component={null} />

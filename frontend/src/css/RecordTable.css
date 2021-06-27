@@ -77,6 +77,28 @@
   width: 100%;
 }
 
+.update-button {
+  position: absolute !important;
+  right: 10px;
+  top: -42px;
+  height: 30px;
+}
+
+.delete-button {
+  position: absolute !important;
+  right: 130px;
+  top: -42px;
+  height: 30px;
+}
+
+.edit-icon {
+  margin-right: 10px;
+}
+
+.delete-icon {
+  margin-right: 10px;
+}
+
 .margin-50 {
   margin: 50px;
 }

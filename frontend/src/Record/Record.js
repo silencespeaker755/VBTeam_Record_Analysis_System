@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Divider } from "@material-ui/core";
+import { useQuery } from "react-query";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { useInView } from "react-intersection-observer";
 import Fab from "@material-ui/core/Fab";
@@ -10,6 +11,8 @@ import AddButton from "../components/AddButton";
 import AddTableModal from "./modal/AddTablemodal";
 import { gameTemplate } from "../Test_data/recordData";
 import { useImmer } from "../hooks/useImmer";
+import axios from "../setting";
+import Loading from "../components/Loading";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -32,34 +35,72 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Record() {
+const dirNumber = {
+  1: "第一局",
+  2: "第二局",
+  3: "第三局",
+  4: "第四局",
+  5: "第五局",
+};
+
+export default function Record(props) {
+  const {
+    match: {
+      params: { recordId },
+    },
+  } = props;
   const classes = useStyles();
   const [ref, inView] = useInView();
-  const [game, setGame] = useImmer(gameTemplate);
   const [addModal, setAddModel] = useState(false);
+
+  const {
+    data: match = { sets: [] },
+    isLoading: isMatchLoading,
+    refetch: refetchMatch,
+    isFetching: isMatchFeting,
+  } = useQuery(
+    "Record",
+    async () => {
+      const { data } = await axios.get("/api/match/records", {
+        params: { recordId },
+      });
+      return data;
+    },
+    { onSuccess: () => {} }
+  );
+
+  if (isMatchLoading || isMatchFeting) return <Loading />;
 
   return (
     <div className={classes.root}>
       <div ref={ref} id="back-to-top-anchor">
         <Typography className={classes.title} variant="h4" align="center">
-          {`${game.team} v.s. ${game.enemy}`}
+          {`${match.team} v.s. ${match.opponent}`}
+        </Typography>
+        <Typography variant="h5" align="center">
+          {match.type}
         </Typography>
       </div>
-      {game.info.map((item, index) => (
-        <div key={`${item.name}-${index}`}>
+      {match.sets.map((item, index) => (
+        <div key={`${item.number}-${index}`}>
           {index !== 0 ? <Divider className={classes.divider} /> : null}
           <div className={classes.subtitle}>
-            <Typography className={classes.time} variant="h6" align="center">
-              {item.round}
+            <Typography variant="h6" align="center">
+              {dirNumber[item.number]}
             </Typography>
-            <Typography className={classes.time} variant="h6" align="center">
-              {item.date}&nbsp; {item.time}
+            <Typography variant="h6" align="center">
+              {match.date}
             </Typography>
             <Typography className={classes.count} variant="h6" align="left">
-              比數： {item.result}
+              比數： {`${item.teamScore} : ${item.opponentScore}`}
             </Typography>
           </div>
-          <RecordTable />
+          <RecordTable
+            initialData={item.data}
+            setsIndex={index}
+            match={match}
+            refetchMatch={refetchMatch}
+          />
         </div>
       ))}
       <AddButton inView={inView} openModal={() => setAddModel(true)} />
@@ -74,13 +115,9 @@ export default function Record() {
       </ScrollTopButton>
       <AddTableModal
         open={addModal}
-        title={`${game.team} v.s. ${game.enemy}`}
-        addTable={(info) =>
-          setGame((pre) => {
-            pre.info.push(info);
-            return pre;
-          })
-        }
+        title={`${match.team} v.s. ${match.opponent}`}
+        match={match}
+        refetchMatch={refetchMatch}
         handleClose={() => setAddModel(false)}
       />
     </div>
