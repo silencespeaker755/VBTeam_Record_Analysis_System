@@ -37,6 +37,8 @@ export default function App() {
     if (id && isAdmin) {
       changeUser(id, isAdmin);
       if (history.location.pathname === "/") history.push("/home");
+    } else {
+      history.push("/");
     }
   }, []);
 
