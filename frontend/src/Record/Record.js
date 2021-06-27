@@ -1,201 +1,125 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@material-ui/core";
+import { Typography, Divider } from "@material-ui/core";
+import { useQuery } from "react-query";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import { useInView } from "react-intersection-observer";
+import Fab from "@material-ui/core/Fab";
+import RecordTable from "./table/RecordTable";
+import ScrollTopButton from "../components/ScrollTopButton";
+import AddButton from "../components/AddButton";
+import AddTableModal from "./modal/AddTablemodal";
+import { gameTemplate } from "../Test_data/recordData";
 import { useImmer } from "../hooks/useImmer";
-import EditableCell from "./EditableCell";
-import EditableTextCeil from "./EditableTextCeil";
-import RecordData from "../Test_data/RecordData";
-import "../css/Record.css";
+import axios from "../setting";
+import Loading from "../components/Loading";
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 800,
-    borderCollapse: "separate",
+const useStyles = makeStyles(() => ({
+  root: {
+    marginTop: "20px",
   },
-});
+  subtitle: { marginTop: "30px" },
+  center: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  title: {
+    fontWeight: 450,
+    marginBottom: "10px",
+  },
+  count: {
+    marginLeft: "50px",
+  },
+  divider: {
+    marginBottom: "67px",
+  },
+}));
 
-const columnDir = {
-  name: "背號",
-  handle: "接/舉球",
-  receive: "接發球",
-  attack: "攻擊",
-  fake: "吊球",
-  serve: "發球",
-  block: "欄網",
-  invalid: "犯規",
-  note: "",
+const dirNumber = {
+  1: "第一局",
+  2: "第二局",
+  3: "第三局",
+  4: "第四局",
+  5: "第五局",
 };
 
-export default function Record() {
+export default function Record(props) {
+  const {
+    match: {
+      params: { recordId },
+    },
+  } = props;
   const classes = useStyles();
-  const [data, setData] = useImmer(RecordData);
-  const [current, setCurrent] = useState("");
+  const [ref, inView] = useInView();
+  const [addModal, setAddModel] = useState(false);
 
-  const mappingHeaderWithSubHeader = (header, subHeader) => {
-    return (
-      <div key={`header-${header}`}>
-        <div className="header">{header}</div>
-        <div className="flex-center subheader-border-top">
-          {subHeader.map((item, i) => (
-            <span key={`${header}-${item}`} className="subheader-postion">
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
-    );
-  };
+  const {
+    data: match = { sets: [] },
+    isLoading: isMatchLoading,
+    refetch: refetchMatch,
+    isFetching: isMatchFeting,
+  } = useQuery(
+    "Record",
+    async () => {
+      const { data } = await axios.get("/api/match/records", {
+        params: { recordId },
+      });
+      return data;
+    },
+    { onSuccess: () => {} }
+  );
 
-  const mappingColumnWithContents = (index, key, item) => {
-    if (key === "name")
-      return (
-        <TableCell
-          key={`name-${item}`}
-          className="column-content-name column-content-frame width-100"
-          align="center"
-        >
-          <div className="column-content-postion height-52">
-            <EditableCell
-              initialValue={item}
-              label={`${key}-${index}`}
-              current={current}
-              onClick={() => setCurrent(`${key}-${index}`)}
-              handleNext={() =>
-                setCurrent((pre) => {
-                  let temp = pre.split("-");
-                  temp = parseInt(temp[temp.length - 1], 10) + 1;
-                  return `${key}-${temp}`;
-                })
-              }
-              Classes="width-100"
-              updateMyData={(newValue) => {
-                setData((pre) => {
-                  pre[index][key] = newValue;
-                });
-              }}
-            />
-          </div>
-        </TableCell>
-      );
-    if (key === "note") {
-      return Object.keys(item).map((value) => (
-        <TableCell
-          key={`${value}-${item[value]}`}
-          className="column-content-frame"
-          align="left"
-        >
-          <div
-            key={`${key}-${item[value]}`}
-            className="column-content-postion height-52"
-          >
-            <EditableTextCeil
-              initialValue={item[value]}
-              label={`${key}-${value}-${index}`}
-              current={current}
-              onClick={() => setCurrent(`${key}-${value}-${index}`)}
-              handleNext={() =>
-                setCurrent((pre) => {
-                  let temp = pre.split("-");
-                  temp = parseInt(temp[temp.length - 1], 10) + 1;
-                  return `${key}-${value}-${temp}`;
-                })
-              }
-              updateMyData={(newValue) => {
-                setData((pre) => {
-                  pre[index][key][value] = newValue;
-                });
-              }}
-            />
-          </div>
-        </TableCell>
-      ));
-    }
-
-    return (
-      <TableCell className="column-content-frame" align="center">
-        <div className="flex-center height-52">
-          {Object.keys(item).map((value, i) => (
-            <span
-              key={`${key}-${i}-${item[value]}`}
-              className="column-content-postion"
-            >
-              <EditableCell
-                initialValue={item[value]}
-                label={`${key}-${value}-${index}`}
-                current={current}
-                onClick={() => setCurrent(`${key}-${value}-${index}`)}
-                handleNext={() =>
-                  setCurrent((pre) => {
-                    let temp = pre.split("-");
-                    temp = parseInt(temp[temp.length - 1], 10) + 1;
-                    return `${key}-${value}-${temp}`;
-                  })
-                }
-                updateMyData={(newValue) => {
-                  setData((pre) => {
-                    pre[index][key][value] = newValue;
-                  });
-                }}
-              />
-            </span>
-          ))}
-        </div>
-      </TableCell>
-    );
-  };
+  if (isMatchLoading || isMatchFeting) return <Loading />;
 
   return (
-    <div className="margin-50">
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              {data.length !== 0 &&
-                Object.keys(data[0]).map((value) => {
-                  if (value === "name")
-                    return (
-                      <TableCell
-                        key={`${value}`}
-                        className="header-frame column-content-name width-60"
-                        align="center"
-                      >
-                        {columnDir[value]}
-                      </TableCell>
-                    );
-                  return (
-                    <TableCell
-                      key={`${value}`}
-                      className="header-frame width-120"
-                      align="center"
-                    >
-                      {mappingHeaderWithSubHeader(
-                        columnDir[value],
-                        Object.keys(data[0][value])
-                      )}
-                    </TableCell>
-                  );
-                })}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((row, i) => (
-              <TableRow key={row.name} hover>
-                {Object.keys(row).map((value) =>
-                  mappingColumnWithContents(i, value, row[value])
-                )}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <div className={classes.root}>
+      <div ref={ref} id="back-to-top-anchor">
+        <Typography className={classes.title} variant="h4" align="center">
+          {`${match.team} v.s. ${match.opponent}`}
+        </Typography>
+        <Typography variant="h5" align="center">
+          {match.type}
+        </Typography>
+      </div>
+      {match.sets.map((item, index) => (
+        <div key={`${item.number}-${index}`}>
+          {index !== 0 ? <Divider className={classes.divider} /> : null}
+          <div className={classes.subtitle}>
+            <Typography variant="h6" align="center">
+              {dirNumber[item.number]}
+            </Typography>
+            <Typography variant="h6" align="center">
+              {match.date}
+            </Typography>
+            <Typography className={classes.count} variant="h6" align="left">
+              比數： {`${item.teamScore} : ${item.opponentScore}`}
+            </Typography>
+          </div>
+          <RecordTable
+            initialData={item.data}
+            setsIndex={index}
+            match={match}
+            refetchMatch={refetchMatch}
+          />
+        </div>
+      ))}
+      <AddButton inView={inView} openModal={() => setAddModel(true)} />
+      <ScrollTopButton inView={inView}>
+        <Fab
+          aria-label="scroll back to top"
+          size="small"
+          style={{ backgroundColor: "#ffc800" }}
+        >
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTopButton>
+      <AddTableModal
+        open={addModal}
+        title={`${match.team} v.s. ${match.opponent}`}
+        match={match}
+        refetchMatch={refetchMatch}
+        handleClose={() => setAddModel(false)}
+      />
     </div>
   );
 }

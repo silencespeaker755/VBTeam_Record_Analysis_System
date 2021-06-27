@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useMutation } from "react-query";
 import { useUserInfo } from "../hooks/useInfo";
-import axios from "../setting";
+import instance from "../setting";
 
 const useStyles = makeStyles((theme) => ({
   signUp: {
@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Push({ setCards, cards, handleClose }) {
+export default function Push({ refetchEvents, handleClose }) {
   const classes = useStyles();
   const { userInfo } = useUserInfo();
   const [video, setVideo] = useState({
     title: "",
     url: "",
-    description: "",
+    content: "",
   });
 
   const handleChange = (e, type) => {
@@ -40,26 +40,30 @@ export default function Push({ setCards, cards, handleClose }) {
   const push = useMutation(
     async (err) => {
       const time = new Date();
+      const timeStr = time.toString();
       const user = userInfo.id;
-      const data = await axios.post("/api/practice/upload", {
-        ...video,
-        uploader: user,
-        uploadTime: time.toDateString(),
+      const data = await instance.post("/api/practice/posts/upload", {
+        post: {
+          title: video.title,
+          url: video.url,
+          content: video.content,
+          description: video.content,
+          uploadTime: timeStr,
+        },
+        userId: user,
       });
       return data;
     },
     {
       onSuccess: ({ data }) => {
-        console.log(data);
+        refetchEvents();
       },
     }
   );
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setCards((pre) => {
-      return [...pre, video];
-    });
+    push.mutate();
     handleClose();
   };
 
@@ -83,7 +87,7 @@ export default function Push({ setCards, cards, handleClose }) {
             onChange={(e) => handleChange(e, "title")}
           />
           <TextField
-            value={video.description}
+            value={video.content}
             id="outlined-multiline-static"
             label="Article"
             margin="normal"
@@ -93,7 +97,7 @@ export default function Push({ setCards, cards, handleClose }) {
             fullWidth
             variant="outlined"
             type="text"
-            onChange={(e) => handleChange(e, "description")}
+            onChange={(e) => handleChange(e, "content")}
           />
 
           <TextField
@@ -114,6 +118,7 @@ export default function Push({ setCards, cards, handleClose }) {
             color="primary"
             className={classes.submit}
             onClick={onSubmit}
+            disabled={video.title === "" || video.content === ""}
           >
             Add
           </Button>

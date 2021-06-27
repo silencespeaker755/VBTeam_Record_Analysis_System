@@ -100,7 +100,7 @@ export default function Menu() {
               onClick={() => setType("announcements")}
               component="span"
             >
-              <Badge badgeContent={1} color="secondary">
+              <Badge badgeContent={3} color="secondary">
                 <NotificationsIcon
                   style={{
                     color: type === "announcements" ? "#ffb200" : "white",
@@ -112,7 +112,7 @@ export default function Menu() {
         </ClickAwayListener>
         <IconButton
           edge="end"
-          onClick={() => history.push("/home")} // TODO: link to analysis
+          onClick={() => history.push("/home/record_list")} // TODO: link to analysis
           color="inherit"
           component="span"
         >

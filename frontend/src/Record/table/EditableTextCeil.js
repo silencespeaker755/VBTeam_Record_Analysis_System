@@ -17,7 +17,8 @@ export default function EditableTextCeil({
   initialValue,
   label,
   current,
-  onClick,
+  handleClick,
+  handleBlur,
   handleNext,
   editable = true,
   updateMyData,
@@ -33,13 +34,8 @@ export default function EditableTextCeil({
   };
 
   const onBlur = () => {
+    handleBlur();
     updateMyData(value);
-  };
-
-  const onKeyUp = (e) => {
-    if (e.key === "Enter") {
-      handleNext();
-    }
   };
 
   useEffect(() => {
@@ -57,9 +53,8 @@ export default function EditableTextCeil({
       className={classes.inputFrame}
       onChange={onChange}
       onBlur={onBlur}
-      onClick={onClick}
-      onKeyUp={onKeyUp}
-      readOnly={editable}
+      onClick={handleClick}
+      readOnly={!editable}
     />
   );
 }

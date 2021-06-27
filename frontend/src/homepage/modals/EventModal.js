@@ -49,6 +49,13 @@ const useStyles = makeStyles((theme) => ({
   posUp: {
     marginTop: 4,
   },
+  outFrame: {
+    padding: 0,
+  },
+  actionArea: {
+    alignItems: "end",
+    flexDirection: "row-reverse",
+  },
 }));
 
 export default function EventModal(props) {
@@ -100,8 +107,8 @@ export default function EventModal(props) {
       );
     return array.map((el, i, all) => {
       return (
-        <Typography key={el} variant="body2" component="p">
-          &nbsp;{el}
+        <Typography key={el._id} variant="body2" component="p">
+          &nbsp;{el.name}
         </Typography>
       );
     });
@@ -114,7 +121,7 @@ export default function EventModal(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogContent>
+        <DialogContent className={classes.outFrame}>
           <Card className={classes.root}>
             <CardContent>
               <Typography variant="h5" component="h2">
@@ -159,7 +166,7 @@ export default function EventModal(props) {
               </Typography>
               {mappingArrayToText(attendance)}
             </CardContent>
-            <CardActions>
+            <CardActions className={classes.actionArea}>
               <Button size="small" onClick={handleClose}>
                 Got it
               </Button>

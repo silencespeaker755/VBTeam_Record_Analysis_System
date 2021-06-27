@@ -14,8 +14,13 @@ import Bar from "./bar/Bar";
 import SignIn from "./sign/SignIn";
 
 // Practice
-
 import Practice from "./practice/Practice";
+import Detail from "./practice/Detail";
+
+// Match
+import Match from "./match/Match";
+
+import RecordList from "./Record/RecordList";
 import Record from "./Record/Record";
 import "./App.css";
 
@@ -32,6 +37,8 @@ export default function App() {
     if (id && isAdmin) {
       changeUser(id, isAdmin);
       if (history.location.pathname === "/") history.push("/home");
+    } else {
+      history.push("/");
     }
   }, []);
 
@@ -41,11 +48,26 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={SignIn} />
         <Route exact path="/home" component={Homepage} />
-        <Route exact path="/practice" component={Practice} />
         <Route exact path="/home/profile" component={Profile} />
+        <Route exact path="/home/record_list" component={RecordList} />
+        <Route exact path="/home/record" component={Record} />
+        <Route exact path="/home/article" component={Practice} />
+        <Route
+          exact
+          path="/home/article/:articleId"
+          render={(props) => <Detail match={props.match} />}
+        />
+        <Route exact path="/home/profile" component={Profile} />
+        <Route exact path="/home/record_list" component={RecordList} />
+        <Route
+          exact
+          path="/home/record/:recordId"
+          render={(props) => <Record match={props.match} />}
+        />
         <Route exact path="/home/record" component={Record} />
         <Route exact path="/logout" component={null} />
         <Route exact path="/postlist" component={null} />
+        <Route exact path="/home/match" component={Match} />
       </Switch>
     </>
   );

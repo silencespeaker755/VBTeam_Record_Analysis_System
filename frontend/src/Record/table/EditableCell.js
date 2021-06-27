@@ -18,9 +18,12 @@ export default function EditableCell({
   initialValue,
   label,
   current,
-  onClick,
+  handleClick,
+  handleDoubleClick = () => {},
+  handleBlur = () => {},
   handleNext,
   Classes,
+  last = false,
   editable = true,
   updateMyData,
 }) {
@@ -32,14 +35,15 @@ export default function EditableCell({
     setValue(e.target.value);
   };
 
-  const onBlur = () => {
+  const onBlur = (e) => {
+    if (!e.relatedTarget) handleBlur();
     updateMyData(value);
   };
 
   const onKeyUp = (e) => {
     if (e.key === "Enter") {
       handleNext();
-      ref.current.blur();
+      if (last) ref.current.blur();
     }
   };
 
@@ -58,7 +62,8 @@ export default function EditableCell({
       className={clsx(classes.inputFrame, { [Classes]: !!Classes })}
       onChange={onChange}
       onBlur={onBlur}
-      onClick={onClick}
+      onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
       onKeyUp={onKeyUp}
       readOnly={!editable}
     />
