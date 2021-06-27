@@ -160,7 +160,6 @@ export default function Practice() {
               Upload
             </Button>
           </div>
-
           <Paper elevation={3} className={classes.paper}>
             <Paper square elevation={3} className={classes.tab}>
               <Tabs

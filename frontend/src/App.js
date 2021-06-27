@@ -17,6 +17,9 @@ import SignIn from "./sign/SignIn";
 import Practice from "./practice/Practice";
 import Detail from "./practice/Detail";
 
+// Match
+import Match from "./match/Match";
+
 import RecordList from "./Record/RecordList";
 import Record from "./Record/Record";
 import "./App.css";
@@ -43,6 +46,9 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={SignIn} />
         <Route exact path="/home" component={Homepage} />
+        <Route exact path="/home/profile" component={Profile} />
+        <Route exact path="/home/record_list" component={RecordList} />
+        <Route exact path="/home/record" component={Record} />
         <Route exact path="/practice" component={Practice} />
         <Route
           exact
