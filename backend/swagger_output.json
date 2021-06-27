@@ -19,6 +19,10 @@
     {
       "name": "Practice",
       "description": "練習頁 router"
+    },
+    {
+      "name": "Match",
+      "description": "比賽頁 router"
     }
   ],
   "schemes": [],
@@ -554,6 +558,154 @@
           }
         }
       }
+    },
+    "/api/match/records": {
+      "get": {
+        "tags": [
+          "Match"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "type": "array",
+            "schema": {
+              "$ref": "#/definitions/Records"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/match/records/:recordId": {
+      "get": {
+        "tags": [
+          "Match"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "type": "array",
+            "schema": {
+              "$ref": "#/definitions/Records"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/match/records/create": {
+      "post": {
+        "tags": [
+          "Match"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/createRecord"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/match/records/delete": {
+      "post": {
+        "tags": [
+          "Match"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "recordId": {
+              "in": "body",
+              "required": true,
+              "type": "string"
+            },
+            "userId": {
+              "in": "body",
+              "required": true,
+              "type": "string"
+            },
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "postId": {
+                  "example": "any"
+                },
+                "userId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -887,6 +1039,81 @@
       "items": {
         "$ref": "#/definitions/Article"
       }
+    },
+    "Records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "60d619a88da34eda2a6ebc41"
+          },
+          "type": {
+            "type": "string",
+            "example": "2020大資盃"
+          },
+          "team": {
+            "type": "string",
+            "example": "台大資工"
+          },
+          "opponent": {
+            "type": "string",
+            "example": "淡江資工"
+          },
+          "date": {
+            "type": "string",
+            "example": "2020-09-24"
+          }
+        },
+        "required": [
+          "_id",
+          "type",
+          "team",
+          "opponent",
+          "date"
+        ]
+      }
+    },
+    "createRecord": {
+      "type": "object",
+      "properties": {
+        "record": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "example": "2020大資盃"
+            },
+            "team": {
+              "type": "string",
+              "example": "台大資工"
+            },
+            "opponent": {
+              "type": "string",
+              "example": "淡江資工"
+            },
+            "date": {
+              "type": "string",
+              "example": "2020-09-24"
+            }
+          },
+          "required": [
+            "type",
+            "team",
+            "opponent",
+            "date"
+          ]
+        },
+        "userId": {
+          "type": "string",
+          "example": "60d08f760211c9a4925218a0"
+        }
+      },
+      "required": [
+        "record",
+        "userId"
+      ]
     }
   }
 }

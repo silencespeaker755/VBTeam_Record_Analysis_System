@@ -13,16 +13,20 @@ const doc = {
   produces: [], // by default: ['application/json']
   tags: [
     {
-      name: "User", // Tag name
-      description: "使用者 router", // Tag description
+      name: "User",
+      description: "使用者 router",
     },
     {
       name: "Home",
       description: "首頁 router",
     },
     {
-      name: "Practice", // Tag name
-      description: "練習頁 router", // Tag description
+      name: "Practice",
+      description: "練習頁 router",
+    },
+    {
+      name: "Match",
+      description: "比賽頁 router",
     },
   ],
   securityDefinitions: {}, // by default: empty object
@@ -101,6 +105,24 @@ const doc = {
       $userId: "60d2cbeb9a8b913f2ef10193",
     },
     Posts: [{ $ref: "#/definitions/Article" }],
+    Records: [
+      {
+        $_id: "60d619a88da34eda2a6ebc41",
+        $type: "2020大資盃",
+        $team: "台大資工",
+        $opponent: "淡江資工",
+        $date: "2020-09-24",
+      },
+    ],
+    createRecord: {
+      $record: {
+        $type: "2020大資盃",
+        $team: "台大資工",
+        $opponent: "淡江資工",
+        $date: "2020-09-24",
+      },
+      $userId: "60d08f760211c9a4925218a0",
+    },
   },
 };
 
@@ -109,6 +131,7 @@ const endpointsFiles = [
   "./routes/api/user.js",
   "./routes/api/home/calendar.js",
   "./routes/api/practice/posts.js",
+  "./routes/api/match/records.js",
 ];
 
 swaggerAutogen()(outputFile, endpointsFiles, doc);
