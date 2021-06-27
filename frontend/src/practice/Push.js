@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Push({ setCards, cards, handleClose }) {
+export default function Push({ refetchEvents, handleClose }) {
   const classes = useStyles();
   const { userInfo } = useUserInfo();
   const [video, setVideo] = useState({
@@ -43,14 +43,20 @@ export default function Push({ setCards, cards, handleClose }) {
       const timeStr = time.toDateString();
       const user = userInfo.id;
       const data = await axios.post("/api/practice/posts/upload", {
-        post: { ...video, uploadTime: timeStr },
+        post: {
+          title: video.title,
+          url: video.url,
+          content: video.content,
+          description: video.content,
+          uploadTime: timeStr,
+        },
         userId: user,
       });
       return data;
     },
     {
       onSuccess: ({ data }) => {
-        console.log(data);
+        refetchEvents();
       },
     }
   );

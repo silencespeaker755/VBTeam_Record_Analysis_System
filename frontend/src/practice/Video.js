@@ -40,9 +40,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Video({ title, url, content }) {
+export default function Video({ title, url, description }) {
   const movieClasses = useStyles();
-  const tempArtic = content.split("\n");
+  let tempArtic;
+  if (description) {
+    tempArtic = description.split("\n");
+  } else {
+    tempArtic = ["No description"];
+  }
+
   const mappingArrayToText = (array) => {
     if (array.length === 0 || (array.length === 1 && array[0] === ""))
       return (

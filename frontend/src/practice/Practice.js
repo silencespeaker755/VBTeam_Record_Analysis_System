@@ -58,12 +58,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Practice() {
+  let list;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
+  const {
+    data: cards = [],
+    isError: isEventsError,
+    isLoading: isEventsLoading,
+    refetch: refetchEvents,
+  } = useQuery(
+    "CardsFetching",
+    async () => {
+      const data = await instance.get("/api/practice/posts");
+      return data.data;
+    },
+    {
+      retry: false,
+      onSuccess: () => {},
+    }
+  );
+
   const handleClickOpen = () => {
     setOpen(true);
-    console.log(tab);
   };
 
   const handleClose = () => {
@@ -73,28 +90,6 @@ export default function Practice() {
     setTab(newValue);
   };
 
-  const [cards, setCards] = useState([]);
-
-  const {
-    data: items,
-    isError: isEventsError,
-    isLoading: isEventsLoading,
-    refetch: refetchEvents,
-  } = useQuery(
-    "CardsFetching",
-    async () => {
-      const data = await instance.get("/api/practice/posts");
-      return data;
-    },
-    {
-      retry: false,
-      onSuccess: ({ data }) => {
-        setCards(data);
-      },
-    }
-  );
-
-  let list;
   if (tab === 0) {
     list = cards.map((card, index) =>
       !card.url ? (
@@ -108,7 +103,7 @@ export default function Practice() {
           key={`${index}+${card.title}`}
           title={card.title}
           url={card.url}
-          content={card.content}
+          description={card.description}
         />
       )
     );
@@ -129,7 +124,7 @@ export default function Practice() {
           key={`${index}+${card.title}`}
           title={card.title}
           url={card.url}
-          content={card.content}
+          description={card.description}
         />
       )
     );
@@ -180,9 +175,9 @@ export default function Practice() {
           >
             <DialogContent>
               <Push
-                setCards={setCards}
                 cards={cards}
                 handleClose={handleClose}
+                refetchEvents={refetchEvents}
               />
             </DialogContent>
           </Dialog>
