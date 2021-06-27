@@ -49,10 +49,10 @@ export default function App() {
         <Route exact path="/home/profile" component={Profile} />
         <Route exact path="/home/record_list" component={RecordList} />
         <Route exact path="/home/record" component={Record} />
-        <Route exact path="/practice" component={Practice} />
+        <Route exact path="/home/article" component={Practice} />
         <Route
           exact
-          path="/practice/:articleId"
+          path="/home/article/:articleId"
           render={(props) => <Detail match={props.match} />}
         />
         <Route exact path="/home/profile" component={Profile} />
@@ -65,6 +65,7 @@ export default function App() {
         <Route exact path="/home/record" component={Record} />
         <Route exact path="/logout" component={null} />
         <Route exact path="/postlist" component={null} />
+        <Route exact path="/home/match" component={Match} />
       </Switch>
     </>
   );

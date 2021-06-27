@@ -207,7 +207,7 @@ export default function Detail(props) {
                           color="primary"
                           onClick={handleRemove}
                         >
-                          <Link underline="none" href="/practice">
+                          <Link underline="none" href="/home/article">
                             Delete
                           </Link>
                         </Button>
@@ -222,7 +222,7 @@ export default function Detail(props) {
             <Paper elevation={3} className={detailClasses.listPaper}>
               {cards.map((card, index) => {
                 return (
-                  <Link underline="none" href={`/practice/${card._id}`}>
+                  <Link underline="none" href={`/home/article/${card._id}`}>
                     <Button
                       color="primary"
                       fullWidth

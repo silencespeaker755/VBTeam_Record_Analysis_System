@@ -75,7 +75,7 @@ export default function Note({ id, title, content }) {
           style={{ position: "relative", bottom: "0px", height: "30px" }}
         >
           <div style={{ position: "absolute", bottom: "5px", right: "16px" }}>
-            <Link underline="none" href={`/practice/${id}`}>
+            <Link underline="none" href={`/home/article/${id}`}>
               <Button size="small" color="primary">
                 ...More
               </Button>
