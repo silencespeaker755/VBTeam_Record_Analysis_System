@@ -1203,9 +1203,9 @@
                         },
                         "name": {
                           "type": "string",
-                          "example": "張翔文"
+                          "example": "謝心默"
                         },
-                        "user": {
+                        "player": {
                           "$ref": "#/definitions/User"
                         },
                         "passesOrSets": {

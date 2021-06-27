@@ -85,7 +85,7 @@ class RecordService {
     if (!user) throw "User not found!";
     else if (!user.isAdmin) throw "Admin required!";
 
-    let record = await Record.findById(recordId);
+    const record = await Record.findById(recordId);
     if (!record) throw "Record not found!";
     const set = await Set.findById(setId).populate("data");
     if (!set) throw "Set not found!";
@@ -98,7 +98,7 @@ class RecordService {
     const deletedSet = await set.deleteOne();
 
     // delete Set ref in Record
-    record = record.sets.filter((s) => s._id !== deletedSet._id);
+    record.sets = record.sets.filter((s) => s._id !== deletedSet._id);
     await record.save();
 
     return deletedSet;
@@ -141,44 +141,43 @@ class RecordService {
         updateSet.teamScore = set.teamScore;
         updateSet.opponentScore = set.opponentScore;
 
-        updateSet.data = await set.data.map(async (d) => {
-          if (!d._id || !(await Data.findById(d._id))) {
+        const promises = set.data.map(async (d) => {
+          if (!d._id) {
             // create new Data
-            console.log("create!!!", d);
             const newData = new Data({
               name: d.name,
               // player: d.player,
-              passesOrSets: {},
-              //   good: d.passesOrSets.good,
-              //   ok: d.passesOrSets.ok,
-              //   bad: d.passesOrSets.bad,
-              // },
-              serveReceptions: {},
-              //   good: d.passesOrSets.good,
-              //   OK: d.passesOrSets.ok,
-              //   bad: d.passesOrSets.bad,
-              // },
-              attacks: {},
-              //   times: d.attacks.times,
-              //   success: d.attacks.success,
-              //   failure: d.attacks.failure,
-              // },
-              drops: {},
-              //   times: d.drops.times,
-              //   success: d.drops.success,
-              //   failure: d.drops.failure,
-              // },
-              serves: {},
-              //   times: d.serves.times,
-              //   ace: d.serves.ace,
-              //   failure: d.serves.failure,
-              // },
-              blocks: {
-                // success: d.blocks.success,
-                // effective: d.blocks.effective,
-                // failure: d.blocks.failure,
+              passesOrSets: {
+                good: d.passesOrSets.good,
+                ok: d.passesOrSets.ok,
+                bad: d.passesOrSets.bad,
               },
-              faults: {}, // { times: d.faults.times, types: d.faults.types },
+              serveReceptions: {
+                good: d.passesOrSets.good,
+                OK: d.passesOrSets.ok,
+                bad: d.passesOrSets.bad,
+              },
+              attacks: {
+                times: d.attacks.times,
+                success: d.attacks.success,
+                fail: d.attacks.fail,
+              },
+              drops: {
+                times: d.drops.times,
+                success: d.drops.success,
+                fail: d.drops.fail,
+              },
+              serves: {
+                times: d.serves.times,
+                ace: d.serves.ace,
+                fail: d.serves.fail,
+              },
+              blocks: {
+                success: d.blocks.success,
+                effective: d.blocks.effective,
+                fail: d.blocks.fail,
+              },
+              faults: { times: d.faults.times, types: d.faults.types },
               notes: d.notes,
             });
             await newData.save();
@@ -187,7 +186,10 @@ class RecordService {
           return d;
         });
 
-        await updateSet.save();
+        Promise.all(promises).then(async (results) => {
+          updateSet.data = results;
+          await updateSet.save();
+        });
       }
     });
 

@@ -16,7 +16,7 @@ const setSchema = new mongoose.Schema({
   },
   data: {
     type: [mongoose.Types.ObjectId],
-    required: [true, '"sets" field is required'],
+    required: [true, '"data" field is required'],
     ref: Data,
   },
 });
