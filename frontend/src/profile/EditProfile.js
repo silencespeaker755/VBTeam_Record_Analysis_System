@@ -27,26 +27,28 @@ const useStyles = makeStyles((theme) => ({
 export default function EditProfile({
   refetchEvents,
   handleClose,
-  ProfileData,
-  setProfileData,
+  profileData,
 }) {
   const classes = useStyles();
   const { userInfo } = useUserInfo();
   const [user, setUser] = useState({
-    username: ProfileData.username,
-    birthday: ProfileData.birthday,
-    position: ProfileData.position,
-    isAdmin: ProfileData.isAdmin,
-    about: ProfileData.about,
+    username: profileData.name,
+    birthday: profileData.birthday,
+    position: profileData.position,
+    isAdmin: profileData.isAdmin,
+    about: profileData.about,
+    number: profileData.number,
   });
 
   const editUser = useMutation(
     async (err) => {
-      const data = await instance.post("/api/", {
-        username: user.username,
+      const data = await instance.post("/api/user/update", {
+        userId: userInfo.id,
+        name: user.username,
         birthday: user.birthday,
         position: user.position,
         about: user.about,
+        number: user.number,
       });
       return data;
     },
@@ -63,13 +65,7 @@ export default function EditProfile({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setProfileData({
-      username: user.username,
-      birthday: user.birthday,
-      position: user.position,
-      isAdmin: ProfileData.isAdmin,
-      about: user.about,
-    });
+    editUser.mutate();
     handleClose();
   };
 
@@ -115,6 +111,17 @@ export default function EditProfile({
             onChange={(e) => handleChange(e, "position")}
           />
           <TextField
+            value={user.number}
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            required
+            id="number"
+            label="Number"
+            name="number"
+            onChange={(e) => handleChange(e, "number")}
+          />
+          <TextField
             value={user.about}
             variant="outlined"
             margin="normal"
@@ -133,12 +140,7 @@ export default function EditProfile({
             color="primary"
             className={classes.submit}
             onClick={onSubmit}
-            disabled={
-              user.name === "" ||
-              user.birthday === "" ||
-              user.about === "" ||
-              user.position === ""
-            }
+            disabled={user.username === ""}
           >
             Edit
           </Button>

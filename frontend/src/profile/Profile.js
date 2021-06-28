@@ -45,15 +45,6 @@ export default function Profile(props) {
   );
   console.log(user);
 
-  const [profileData, setProfileData] = useState({
-    username: "洪佳生",
-    birthday: "1998",
-    position: "Lifter",
-    isAdmin: true,
-    about:
-      "Web Developer\nLives in New York\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer",
-  });
-
   const mappingArrayToText = (array) => {
     if (array.length === 0 || (array.length === 1 && array[0] === ""))
       return (
@@ -103,7 +94,7 @@ export default function Profile(props) {
               <div className="profile mr-3 d-flex flex-column">
                 <img
                   src="/profileTest.jpeg"
-                  alt="..."
+                  alt=""
                   width="170"
                   className="rounded mb-2 img-thumbnail"
                 />
@@ -147,7 +138,9 @@ export default function Profile(props) {
                 overflow: "scroll",
               }}
             >
-              {mappingArrayToText(user.about.split("\n"))}
+              {user.about === ""
+                ? "No description"
+                : mappingArrayToText(user.about.split("\n"))}
             </div>
           </div>
         </Paper>
@@ -160,8 +153,7 @@ export default function Profile(props) {
         <DialogContent>
           <EditProfile
             handleClose={handleClose}
-            ProfileData={profileData}
-            setProfileData={setProfileData}
+            profileData={user}
             refetchEvents={refetchEvents}
           />
         </DialogContent>
