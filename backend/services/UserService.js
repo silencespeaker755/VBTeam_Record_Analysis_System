@@ -11,6 +11,10 @@ class UserService {
       email,
       password: bcrypt.hashSync(password, 10),
       isAdmin: false,
+      birthday: "",
+      number: "",
+      position: "",
+      about: "",
     });
     user.save();
     return user;
