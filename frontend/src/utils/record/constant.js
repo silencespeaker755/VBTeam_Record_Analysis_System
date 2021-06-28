@@ -25,7 +25,7 @@ export const columnDir = {
 export const detailDir = {
   good: "好",
   ok: "OK",
-  OK: "OK",
+  oK: "OK",
   bad: "噴",
   times: "次",
   success: "得",

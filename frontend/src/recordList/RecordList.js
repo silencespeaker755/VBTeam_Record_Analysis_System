@@ -170,6 +170,7 @@ export default function MyRecord() {
       return data;
     },
     {
+      retry: false,
       onSuccess: () => {},
     }
   );

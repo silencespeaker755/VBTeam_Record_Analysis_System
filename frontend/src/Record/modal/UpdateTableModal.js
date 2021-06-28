@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { Button } from "@material-ui/core";
+// import { sleep } from "react-query/types/core/utils";
 import { useUserInfo } from "../../hooks/useInfo";
 import axios from "../../setting";
 import AlertModel from "../../components/AlertModel";
@@ -16,6 +17,7 @@ export default function UpdateTableModal(props) {
     async () => {
       const temp = match;
       temp.sets[setsIndex].data = data;
+      console.log(temp);
       const msg = await axios.post("/api/match/records/update", {
         record: temp,
         userId: userInfo.id,
@@ -23,7 +25,9 @@ export default function UpdateTableModal(props) {
       return msg;
     },
     {
+      retry: false,
       onSuccess: (msg) => {
+        console.log(msg);
         refetchMatch();
       },
       onError: (err) => {
