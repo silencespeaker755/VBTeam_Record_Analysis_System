@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import User from "../User";
 
 const dataSchema = new mongoose.Schema({
-  name: { type: String, required: [true, '"name" field is required'] },
+  name: { type: String },
   player: { type: mongoose.Types.ObjectId, ref: User },
   passesOrSets: {
     type: mongoose.Schema.Types.Mixed,

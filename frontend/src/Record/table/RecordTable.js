@@ -19,7 +19,9 @@ import EditableCell from "./EditableCell";
 import EditableTextCeil from "./EditableTextCeil";
 import UpdateTableModal from "../modal/UpdateTableModal";
 import DeleteTableModal from "../modal/DeleteTableModal";
-import { simpleRow, columnDir, detailDir } from "../../utils/record/constant";
+import AddMemberModal from "./modal/AddMemberModal";
+import RemoveMemberModal from "./modal/RemoveMemberModal";
+import { Unit, columnDir, detailDir } from "../../utils/record/constant";
 import "../../css/RecordTable.css";
 
 const useStyles = makeStyles({
@@ -41,19 +43,25 @@ export default function RecordTable({
   const [deleteIndex, setDeleteIndex] = useState(null);
   const [updateModal, setUpdatemodal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [createDataModal, setCreateDataModal] = useState(false);
+  const [deleteDataModal, setDeleteDataModal] = useState(false);
+  const [removeId, setRemoveId] = useState(null);
 
   const AddNewMember = () => {
-    setData((pre) => {
-      pre.push(simpleRow);
-      return pre;
-    });
+    setCreateDataModal(true);
+    // setData((pre) => {
+    //   pre.push(Unit);
+    //   return pre;
+    // });
   };
 
   const RemoveNewMember = () => {
-    setData((pre) => {
-      pre.splice(deleteIndex, 1);
-      return pre;
-    });
+    setRemoveId(match.sets[setsIndex].data[deleteIndex]._id);
+    setDeleteDataModal(true);
+    // setData((pre) => {
+    //   pre.splice(deleteIndex, 1);
+    //   return pre;
+    // });
     setDeleteIndex(null);
   };
 
@@ -206,7 +214,7 @@ export default function RecordTable({
         <Table className={classes.table} aria-label="a dense table">
           <TableHead>
             <TableRow>
-              {Object.keys(simpleRow).map((value) => {
+              {Object.keys(Unit).map((value) => {
                 if (value === "name")
                   return (
                     <TableCell
@@ -227,7 +235,7 @@ export default function RecordTable({
                       ? mappingHeaderWithSubHeader("", [value])
                       : mappingHeaderWithSubHeader(
                           columnDir[value],
-                          Object.keys(simpleRow[value])
+                          Object.keys(Unit[value])
                         )}
                   </TableCell>
                 );
@@ -261,8 +269,6 @@ export default function RecordTable({
         onClose={() => {
           setUpdatemodal(false);
         }}
-        setsIndex={setsIndex}
-        match={match}
         data={data}
         refetchMatch={refetchMatch}
       />
@@ -271,6 +277,22 @@ export default function RecordTable({
         onClose={() => setDeleteModal(false)}
         recordId={match._id}
         setId={match.sets[setsIndex]._id}
+        refetchMatch={refetchMatch}
+      />
+      <AddMemberModal
+        open={createDataModal}
+        setId={match.sets[setsIndex]._id}
+        onClose={() => setCreateDataModal(false)}
+        refetchMatch={refetchMatch}
+      />
+      <RemoveMemberModal
+        open={deleteDataModal}
+        setId={match.sets[setsIndex]._id}
+        dataId={removeId}
+        onClose={() => {
+          setDeleteDataModal(false);
+          setRemoveId(null);
+        }}
         refetchMatch={refetchMatch}
       />
     </div>

@@ -1,4 +1,4 @@
-export const simpleRow = {
+export const Unit = {
   name: "",
   passesOrSets: { good: "", ok: "", bad: "" },
   serveReceptions: { good: "", ok: "", bad: "" },
