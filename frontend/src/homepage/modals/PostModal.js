@@ -62,7 +62,8 @@ export default function PostModal(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateForm();
+    if (info.title !== "" && info.place !== "" && info.start !== "")
+      updateForm();
   };
 
   useEffect(() => setInfo((t) => initForm), [date]);
@@ -170,6 +171,9 @@ export default function PostModal(props) {
                   className={classes.submit}
                   onClick={handleSubmit}
                   onSubmit={handleSubmit}
+                  disabled={
+                    info.title === "" || info.place === "" || info.start === ""
+                  }
                 >
                   Announce
                 </Button>
