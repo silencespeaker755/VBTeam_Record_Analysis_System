@@ -9,14 +9,26 @@ import {
   Divider,
   InputBase,
 } from "@material-ui/core";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { fade, makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "../setting";
 import AddButton from "../components/AddButton";
 import AddMatchModal from "./modal/AddMatchModal";
 import Loading from "../components/Loading";
 
-const useStyles = makeStyles((theme) => ({
+const theme = createMuiTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 800,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+});
+
+const useStyles = makeStyles(() => ({
   flexCenter: {
     display: "flex",
     justifyContent: "center",
@@ -32,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "baseline",
     width: "70%",
     minHeight: "600px",
+    minWidth: "400px",
     maxWidth: "900px",
     margin: "50px 50px 10px 50px",
     border: "8px solid #6d6966",
@@ -69,16 +82,20 @@ const useStyles = makeStyles((theme) => ({
   },
   outTitle: {
     marginTop: "40px",
-    fontSize: "5em",
+    fontSize: "4em",
     fontWeight: 700,
   },
   subtitle: {
     fontWeight: 500,
   },
   divider: {
-    width: "150%",
+    width: "120%",
     height: "2px",
     background: "black",
+    transition: theme.transitions.create("width"),
+    [theme.breakpoints.down("sm")]: {
+      width: "80%",
+    },
   },
   type: {
     marginTop: "10px",
@@ -116,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("sm")]: {
       width: "18ch",
       "&:focus": {
         width: "36ch",
