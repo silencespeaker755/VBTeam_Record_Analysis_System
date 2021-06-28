@@ -1,5 +1,5 @@
-import loaders from "./loaders";
 import express from "express";
+import loaders from "./loaders";
 import config from "./config";
 
 async function startServer() {

@@ -5,6 +5,10 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: [true, '"email" field is required'] },
   password: { type: String, required: [true, '"email" field is required'] },
   isAdmin: { type: Boolean, required: [true, '"isAdmin" field is required'] },
+  birthday: { type: String },
+  number: { type: String },
+  position: { type: String },
+  about: { type: String },
 });
 
 export default mongoose.model("User", userSchema);
