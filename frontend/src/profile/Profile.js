@@ -10,9 +10,11 @@ import "../css/Profile.css";
 import { useQuery } from "react-query";
 import EditProfile from "./EditProfile";
 import instance from "../setting";
+import { useUserInfo } from "../hooks/useInfo";
 
 export default function Profile(props) {
   const [open, setOpen] = useState(false);
+  const { userInfo } = useUserInfo();
   const {
     match: {
       params: { userId },
@@ -98,9 +100,11 @@ export default function Profile(props) {
                   width="170"
                   className="rounded mb-2 img-thumbnail"
                 />
-                <Button variant="outlined" onClick={handleClickOpen}>
-                  Edit profile
-                </Button>
+                {user._id === userInfo.id ? (
+                  <Button variant="outlined" onClick={handleClickOpen}>
+                    Edit profile
+                  </Button>
+                ) : null}
               </div>
               <div className="media-body mb-5 text-white">
                 <h4 className="mt-0 mb-0 profileUser">{user.name}</h4>

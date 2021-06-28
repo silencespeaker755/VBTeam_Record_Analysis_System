@@ -66,7 +66,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: "20px",
     margin: "8.5px auto",
     "&:last-child": {
-      marginBottom: 0,
+      marginBottom: "10px",
     },
   },
   actionArea: {
