@@ -42,10 +42,6 @@ const useStyles = makeStyles((theme) => ({
   cardGrid: {
     padding: theme.spacing(8, 0, 8, 0),
   },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
   tab: {
     width: "40%",
     flexGrow: 1,
@@ -57,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(5, 0, 5, 0),
     margin: theme.spacing(0, 5, 0, 5),
     position: "relative",
+    minHeight: "550px",
   },
   btn: {
     height: "48px",

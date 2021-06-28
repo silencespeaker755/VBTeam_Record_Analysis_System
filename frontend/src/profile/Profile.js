@@ -21,12 +21,11 @@ export default function Profile(props) {
 
   const {
     data: user = {
-      username: "洪佳生",
-      city: "Taipei",
-      position: "Lifter",
+      username: "",
+      city: "",
+      position: "",
       isAdmin: true,
-      about:
-        "Web Developer\nLives in New York\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer",
+      about: "",
     },
     isError: isEventsError,
     isLoading: isEventsLoading,
@@ -48,7 +47,7 @@ export default function Profile(props) {
 
   const [profileData, setProfileData] = useState({
     username: "洪佳生",
-    city: "Taipei",
+    birthday: "1998",
     position: "Lifter",
     isAdmin: true,
     about:
@@ -113,10 +112,8 @@ export default function Profile(props) {
                 </Button>
               </div>
               <div className="media-body mb-5 text-white">
-                <h4 className="mt-0 mb-0 profileUser">
-                  {profileData.username}
-                </h4>
-                <p className="mt-0 mb-3">{profileData.city}</p>
+                <h4 className="mt-0 mb-0 profileUser">{user.name}</h4>
+                <p className="mt-0 mb-3">{user.birthday}</p>
               </div>
             </div>
           </div>
@@ -124,9 +121,13 @@ export default function Profile(props) {
             <ul className="list-inline mb-0">
               <li className="list-inline-item px-3">
                 <h2 className="font-weight-bold mb-0 d-block">
-                  {profileData.position}
+                  {user.position}
                 </h2>
                 <small className="text-muted">Position</small>
+              </li>
+              <li className="list-inline-item px-3">
+                <h2 className="font-weight-bold mb-0 d-block">{user.number}</h2>
+                <small className="text-muted">number</small>
               </li>
               <li className="list-inline-item px-3">
                 <h2 className="font-weight-bold mb-0 d-block">
@@ -146,7 +147,7 @@ export default function Profile(props) {
                 overflow: "scroll",
               }}
             >
-              {mappingArrayToText(profileData.about.split("\n"))}
+              {mappingArrayToText(user.about.split("\n"))}
             </div>
           </div>
         </Paper>

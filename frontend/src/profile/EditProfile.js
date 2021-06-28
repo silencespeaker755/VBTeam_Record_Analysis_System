@@ -34,7 +34,7 @@ export default function EditProfile({
   const { userInfo } = useUserInfo();
   const [user, setUser] = useState({
     username: ProfileData.username,
-    city: ProfileData.city,
+    birthday: ProfileData.birthday,
     position: ProfileData.position,
     isAdmin: ProfileData.isAdmin,
     about: ProfileData.about,
@@ -44,7 +44,7 @@ export default function EditProfile({
     async (err) => {
       const data = await instance.post("/api/", {
         username: user.username,
-        city: user.city,
+        birthday: user.birthday,
         position: user.position,
         about: user.about,
       });
@@ -65,7 +65,7 @@ export default function EditProfile({
     e.preventDefault();
     setProfileData({
       username: user.username,
-      city: user.city,
+      birthday: user.birthday,
       position: user.position,
       isAdmin: ProfileData.isAdmin,
       about: user.about,
@@ -93,15 +93,15 @@ export default function EditProfile({
             onChange={(e) => handleChange(e, "username")}
           />
           <TextField
-            value={user.city}
+            value={user.birthday}
             id="outlined-multiline-static"
-            label="City"
+            label="Birthday"
             margin="normal"
             required
             fullWidth
             variant="outlined"
             type="text"
-            onChange={(e) => handleChange(e, "city")}
+            onChange={(e) => handleChange(e, "birthday")}
           />
           <TextField
             value={user.position}
@@ -135,7 +135,7 @@ export default function EditProfile({
             onClick={onSubmit}
             disabled={
               user.name === "" ||
-              user.city === "" ||
+              user.birthday === "" ||
               user.about === "" ||
               user.position === ""
             }
