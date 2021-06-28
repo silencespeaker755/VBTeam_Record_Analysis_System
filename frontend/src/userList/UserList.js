@@ -154,25 +154,25 @@ export default function MyRecord() {
   const [matchModal, setMatchModal] = useState(false);
 
   const {
-    data: recordList = [],
+    data: userList = [],
     isLoading: isListLoading,
     refetch: refetchRecordList,
     isFetching: isRecordListFetching,
   } = useQuery(
     "UserList",
     async () => {
-      //   const { data } = await axios.get("/api/match/records", {
-      //     params: { userId: userInfo.id },
-      //   });
-      //   return data;
+      const { data } = await axios.get("/api/user/users");
+      return data;
     },
     {
+      retry: false,
       onSuccess: () => {},
+      onError: () => {},
     }
   );
 
   const handleClick = (id) => () => {
-    // history.push(`/home/profile/${id}`);
+    history.push(`/home/profile/${id}`);
   };
 
   const handleSearch = () => {};
@@ -203,7 +203,7 @@ export default function MyRecord() {
             />
           </div>
           <div className={classes.outPaperFrame}>
-            {list
+            {userList
               .filter(({ name = "", position = "", email = "" }) => {
                 if (!searchInput || searchInput === "") return true;
                 return (
