@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import User from "./User";
+import User from "../User";
 
 const videoSchema = new mongoose.Schema({
   url: { type: String, required: [true, '"url" field is required'] },

@@ -1,6 +1,6 @@
 import User from "../models/User";
-import Article from "../models/Article";
-import Video from "../models/Video";
+import Article from "../models/Post/Article";
+import Video from "../models/Post/Video";
 
 class PostService {
   static async getPosts() {
