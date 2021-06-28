@@ -16,7 +16,7 @@ class UserService {
       position: "",
       about: "",
     });
-    user.save();
+    await user.save();
     return user;
   }
 

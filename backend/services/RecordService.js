@@ -88,6 +88,30 @@ class RecordService {
     return deletedRecord;
   }
 
+  static async createSet({ recordId, set, userId }) {
+    const user = await User.findById(userId);
+    if (!user) throw "User not found!";
+    else if (!user.isAdmin) throw "Admin required!";
+
+    const updateRecord = await Record.findById(recordId).populate({
+      path: "sets",
+      populate: { path: "data" },
+    });
+    if (!updateRecord) throw "Record not found!";
+
+    const newSet = new Set({
+      number: set.number,
+      teamScore: set.teamScore,
+      opponentScore: set.opponentScore,
+      data: [],
+    });
+    await newSet.save();
+
+    updateRecord.push(newSet);
+    await updateRecord.save();
+    return updateRecord;
+  }
+
   static async deleteSet({ recordId, setId, userId }) {
     const user = await User.findById(userId);
     if (!user) throw "User not found!";
@@ -112,96 +136,130 @@ class RecordService {
     return deletedSet;
   }
 
-  static async updateRecord({ record, userId }) {
+  static async createData({ setId, userId }) {
     const user = await User.findById(userId);
     if (!user) throw "User not found!";
     else if (!user.isAdmin) throw "Admin required!";
 
-    const updateRecord = await Record.findById(record._id).populate({
-      path: "sets",
-      populate: { path: "data" },
+    const set = await Set.findById(setId);
+    if (!set) throw "Set not found!";
+
+    const newData = new Data({
+      name: "",
+      passesOrSets: {
+        good: "",
+        ok: "",
+        bad: "",
+      },
+      serveReceptions: {
+        good: "",
+        ok: "",
+        bad: "",
+      },
+      attacks: {
+        times: "",
+        success: "",
+        fail: "",
+      },
+      drops: {
+        times: "",
+        success: "",
+        fail: "",
+      },
+      serves: {
+        times: "",
+        ace: "",
+        fail: "",
+      },
+      blocks: {
+        success: "",
+        effective: "",
+        fail: "",
+      },
+      faults: { times: "", types: "" },
+      notes: "",
     });
-    if (!updateRecord) throw "Record not found!";
+    await newData.save();
 
-    updateRecord.type = record.type;
-    updateRecord.team = record.team;
-    updateRecord.opponent = record.opponent;
-    updateRecord.date = record.date;
+    set.data.push(newData);
+    await set.save();
 
-    record.sets.forEach(async (set) => {
-      if (!set._id || !(await Set.findById(set._id))) {
-        // create new Set
-        const newSet = new Set({
-          number: set.number,
-          teamScore: set.teamScore,
-          opponentScore: set.opponentScore,
-          data: [],
-        });
-        await newSet.save();
+    return newData._id;
+  }
 
-        updateRecord.sets.push(newSet);
-        await updateRecord.save();
-      } else {
-        // update old Set
-        const updateSet = await Set.findById(set._id);
+  static async deleteData({ setId, dataId, userId }) {
+    const user = await User.findById(userId);
+    if (!user) throw "User not found!";
+    else if (!user.isAdmin) throw "Admin required!";
 
-        updateSet.number = set.number;
-        updateSet.teamScore = set.teamScore;
-        updateSet.opponentScore = set.opponentScore;
+    const set = await Set.findById(setId);
+    if (!set) throw "Set not found!";
+    set.data = set.data.filter((d) => d._id !== dataId);
+    await set.save();
 
-        const promises = set.data.map(async (d) => {
-          if (!d._id) {
-            // create new Data
-            const newData = new Data({
-              name: d.name,
-              // player: d.player,
-              passesOrSets: {
-                good: d.passesOrSets.good,
-                ok: d.passesOrSets.ok,
-                bad: d.passesOrSets.bad,
-              },
-              serveReceptions: {
-                good: d.passesOrSets.good,
-                OK: d.passesOrSets.ok,
-                bad: d.passesOrSets.bad,
-              },
-              attacks: {
-                times: d.attacks.times,
-                success: d.attacks.success,
-                fail: d.attacks.fail,
-              },
-              drops: {
-                times: d.drops.times,
-                success: d.drops.success,
-                fail: d.drops.fail,
-              },
-              serves: {
-                times: d.serves.times,
-                ace: d.serves.ace,
-                fail: d.serves.fail,
-              },
-              blocks: {
-                success: d.blocks.success,
-                effective: d.blocks.effective,
-                fail: d.blocks.fail,
-              },
-              faults: { times: d.faults.times, types: d.faults.types },
-              notes: d.notes,
-            });
-            await newData.save();
-            return newData;
-          }
-          return d;
-        });
+    const data = await Data.findById(dataId);
+    if (!data) throw "Data not found!";
 
-        Promise.all(promises).then(async (results) => {
-          updateSet.data = results;
-          await updateSet.save();
-        });
-      }
+    await data.deleteOne();
+
+    return data;
+  }
+
+  static async updateData({ data, userId }) {
+    const user = await User.findById(userId);
+    if (!user) throw "User not found!";
+    else if (!user.isAdmin) throw "Admin required!";
+
+    let done = 0;
+    const result = new Promise((resolve, reject) => {
+      data.forEach(async (d) => {
+        const updateData = await Data.findById(d._id);
+        if (!updateData) throw "Data not found!";
+
+        updateData.name = d.name;
+        updateData.player = d.player;
+        updateData.passesOrSets = {
+          good: d.passesOrSets.good,
+          ok: d.passesOrSets.ok,
+          bad: d.passesOrSets.bad,
+        };
+        updateData.serveReceptions = {
+          good: d.serveReceptions.good,
+          ok: d.serveReceptions.ok,
+          bad: d.serveReceptions.bad,
+        };
+        updateData.attacks = {
+          times: d.attacks.times,
+          success: d.attacks.success,
+          fail: d.attacks.fail,
+        };
+        updateData.drops = {
+          times: d.drops.times,
+          success: d.drops.success,
+          fail: d.drops.fail,
+        };
+        updateData.serves = {
+          times: d.serves.times,
+          ace: d.serves.ace,
+          fail: d.serves.fail,
+        };
+        updateData.blocks = {
+          success: d.blocks.success,
+          effective: d.blocks.effective,
+          fail: d.blocks.fail,
+        };
+        updateData.faults = { times: d.faults.times, types: d.faults.types };
+        updateData.notes = d.notes;
+
+        await updateData.save();
+        done += 1;
+        if (done === data.length) resolve();
+      });
     });
 
-    return updateRecord;
+    result.then(() => {
+      return data;
+    });
   }
 }
 

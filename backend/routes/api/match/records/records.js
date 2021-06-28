@@ -1,5 +1,5 @@
 import { Router } from "express";
-import RecordService from "../../../services/RecordService";
+import RecordService from "../../../../services/RecordService";
 
 const router = Router();
 
@@ -134,34 +134,34 @@ router.post("/delete", (req, res) => {
   }
 });
 
-router.post("/update", (req, res) => {
-  /*
-    #swagger.path = '/api/match/records/update'
-    #swagger.tags = ['Match']
-    #swagger.parameters['obj'] = {
-      in: 'body',
-      required: true,
-      type: 'object',
-      schema: { $ref: '#/definitions/UpdateRecord'}
-    }
-  */
+// router.post("/update", (req, res) => {
+//   /*
+//     #swagger.path = '/api/match/records/update'
+//     #swagger.tags = ['Match']
+//     #swagger.parameters['obj'] = {
+//       in: 'body',
+//       required: true,
+//       type: 'object',
+//       schema: { $ref: '#/definitions/UpdateRecord'}
+//     }
+//   */
 
-  console.log(req.body);
-  const { record, userId } = req.body;
+//   console.log(req.body);
+//   const { record, userId } = req.body;
 
-  RecordService.updateRecord({ record, userId })
-    .then((Record) => {
-      console.log("Updated record:", Record);
-      res.status(200).send("Update success!");
-    })
-    .catch((err) => {
-      console.log(err);
-      if (err === "Admin required!") {
-        res.status(403).send(err);
-      } else {
-        res.status(404).send(err);
-      }
-    });
-});
+//   RecordService.updateRecord({ record, userId })
+//     .then((Record) => {
+//       console.log("Updated record:", Record);
+//       res.status(200).send("Update success!");
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       if (err === "Admin required!") {
+//         res.status(403).send(err);
+//       } else {
+//         res.status(404).send(err);
+//       }
+//     });
+// });
 
 export default router;
