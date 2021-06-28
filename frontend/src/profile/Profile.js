@@ -20,7 +20,14 @@ export default function Profile(props) {
   } = props;
 
   const {
-    data: user,
+    data: user = {
+      username: "洪佳生",
+      city: "Taipei",
+      position: "Lifter",
+      isAdmin: true,
+      about:
+        "Web Developer\nLives in New York\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer",
+    },
     isError: isEventsError,
     isLoading: isEventsLoading,
     refetch: refetchEvents,
