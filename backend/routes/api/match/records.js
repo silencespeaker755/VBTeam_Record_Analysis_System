@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
   */
 
   console.log(req.query);
-  const { recordId } = req.query;
+  const { recordId, userId } = req.query;
   if (recordId) {
     RecordService.getRecord({ recordId })
       .then((record) => {
@@ -28,7 +28,7 @@ router.get("/", (req, res) => {
         res.status(404).send(err);
       });
   } else {
-    RecordService.getRecords()
+    RecordService.getRecords({ userId })
       .then((records) => {
         console.log("Get all records:", records);
         /*
