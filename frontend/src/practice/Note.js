@@ -10,6 +10,7 @@ import {
   Link,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import useMapArr from "../utils/functions/useMapArr";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -17,64 +18,50 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     height: "600px",
   },
+  cardGrid: {
+    position: "relative",
+  },
   cardContent: {
     height: "100%",
     overflow: "auto",
   },
+  cardAction: {
+    position: "relative",
+    bottom: "0px",
+    height: "30px",
+  },
+  cardMore: {
+    position: "absolute",
+    bottom: "5px",
+    right: "16px",
+  },
   article: {
     wordWrap: "break-word",
     wordBreak: "break-all",
+  },
+  text: {
+    paddingTop: "20px",
   },
 }));
 
 export default function Note({ id, title, content }) {
   const noteClasses = useStyles();
   const tempArtic = content.split("\n");
-  const mappingArrayToText = (array) => {
-    if (array.length === 0 || (array.length === 1 && array[0] === ""))
-      return (
-        <Typography
-          variant="body1"
-          component="p"
-          className={noteClasses.article}
-        >
-          &nbsp;none
-        </Typography>
-      );
-    return array.map((el, i, all) => {
-      return (
-        <Typography
-          key={`${i}+${el}`}
-          variant="body1"
-          component="p"
-          className={noteClasses.article}
-        >
-          &nbsp;{el}
-        </Typography>
-      );
-    });
-  };
 
   return (
-    <Grid item xs={12} sm={6} md={6} style={{ position: "relative" }}>
+    <Grid item xs={12} sm={6} md={6} className={noteClasses.cardGrid}>
       <Card className={noteClasses.card}>
         <CardContent className={noteClasses.cardContent}>
           <Typography gutterBottom variant="h4" component="h2">
             {title}
           </Typography>
           <Divider />
-          <div
-            style={{
-              paddingTop: "20px",
-            }}
-          >
-            {mappingArrayToText(tempArtic)}
+          <div className={noteClasses.text}>
+            {useMapArr(tempArtic, noteClasses.article)}
           </div>
         </CardContent>
-        <CardActions
-          style={{ position: "relative", bottom: "0px", height: "30px" }}
-        >
-          <div style={{ position: "absolute", bottom: "5px", right: "16px" }}>
+        <CardActions className={noteClasses.cardAction}>
+          <div className={noteClasses.cardMore}>
             <Link underline="none" href={`/home/article/${id}`}>
               <Button size="small" color="primary">
                 ...More

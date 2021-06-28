@@ -58,7 +58,8 @@ router.post("/create", (req, res) => {
     }
   */
 
-  console.log(req.body);
+  console.log("/api/match/records/create: ", req.body);
+
   const { record, userId } = req.body;
 
   RecordService.createRecord({ record, userId })
@@ -93,75 +94,28 @@ router.post("/delete", (req, res) => {
       type: 'object',
       schema: {
         "recordId": "60d619a88da34eda2a6ebc41",
-        "setId": "60d619a88da34eda2a6ebc41",
         "userId": "60d08f760211c9a4925218a0",
       }
     }
   */
 
-  console.log(req.body);
-  const { recordId, setId, userId } = req.body;
+  console.log("/api/match/records/delete: ", req.body);
 
-  if (setId) {
-    // delete Set
-    RecordService.deleteSet({ recordId, setId, userId })
-      .then((set) => {
-        console.log("Deleted set:", set);
-        res.status(200).send("Delete success!");
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err === "Admin required!") {
-          res.status(403).send(err);
-        } else {
-          res.status(404).send(err);
-        }
-      });
-  } else {
-    RecordService.deleteRecord({ recordId, userId })
-      .then((record) => {
-        console.log("Deleted record:", record);
-        res.status(200).send("Delete success!");
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err === "Admin required!") {
-          res.status(403).send(err);
-        } else {
-          res.status(404).send(err);
-        }
-      });
-  }
+  const { recordId, userId } = req.body;
+
+  RecordService.deleteRecord({ recordId, userId })
+    .then((record) => {
+      console.log("Deleted record:", record);
+      res.status(200).send("Delete success!");
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err === "Admin required!") {
+        res.status(403).send(err);
+      } else {
+        res.status(404).send(err);
+      }
+    });
 });
-
-// router.post("/update", (req, res) => {
-//   /*
-//     #swagger.path = '/api/match/records/update'
-//     #swagger.tags = ['Match']
-//     #swagger.parameters['obj'] = {
-//       in: 'body',
-//       required: true,
-//       type: 'object',
-//       schema: { $ref: '#/definitions/UpdateRecord'}
-//     }
-//   */
-
-//   console.log(req.body);
-//   const { record, userId } = req.body;
-
-//   RecordService.updateRecord({ record, userId })
-//     .then((Record) => {
-//       console.log("Updated record:", Record);
-//       res.status(200).send("Update success!");
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       if (err === "Admin required!") {
-//         res.status(403).send(err);
-//       } else {
-//         res.status(404).send(err);
-//       }
-//     });
-// });
 
 export default router;

@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import EditProfile from "./EditProfile";
 import instance from "../setting";
 import { useUserInfo } from "../hooks/useInfo";
+import useMapArr from "../utils/functions/useMapArr";
 
 export default function Profile(props) {
   const [open, setOpen] = useState(false);
@@ -45,32 +46,6 @@ export default function Profile(props) {
       onSuccess: () => {},
     }
   );
-  console.log(user);
-
-  const mappingArrayToText = (array) => {
-    if (array.length === 0 || (array.length === 1 && array[0] === ""))
-      return (
-        <Typography
-          variant="body1"
-          component="p"
-          className="font-italic mb-0 profileText"
-        >
-          &nbsp;none
-        </Typography>
-      );
-    return array.map((el, i, all) => {
-      return (
-        <Typography
-          key={`${i}+${el}`}
-          variant="body1"
-          component="p"
-          className="font-italic mb-0 profileText"
-        >
-          &nbsp;{el}
-        </Typography>
-      );
-    });
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -144,7 +119,10 @@ export default function Profile(props) {
             >
               {user.about === ""
                 ? "No description"
-                : mappingArrayToText(user.about.split("\n"))}
+                : useMapArr(
+                    user.about.split("\n"),
+                    "font-italic mb-0 profileText"
+                  )}
             </div>
           </div>
         </Paper>
