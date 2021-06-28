@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import {
+  Link,
   Drawer,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -46,9 +47,6 @@ const useStyle = makeStyles((theme) => ({
   },
   white: {
     color: "white",
-  },
-  link: {
-    textDecoration: "none",
   },
 }));
 
@@ -107,12 +105,13 @@ export default function RightDrawer(props) {
           <List>
             {menuList.map((item) => (
               <Link
-                to={item.link}
+                href={item.link}
                 key={item.label}
                 className={clsx(classes.link, {
                   [classes.notAdmin]: !item.visible,
                 })}
                 onClick={item.event}
+                underline="none"
               >
                 <ListItem className={classes.listItem} button>
                   <ListItemIcon className={classes.white}>
@@ -129,7 +128,12 @@ export default function RightDrawer(props) {
         </div>
       </div>
       <div className={classes.width_100} onClick={toggleDrawer(false)}>
-        <Link to="/" className={classes.link} onClick={handleLogOut}>
+        <Link
+          href="/"
+          className={classes.link}
+          onClick={handleLogOut}
+          underline="none"
+        >
           <ListItem className={classes.listItem} button>
             <ListItemIcon className={classes.white}>
               <ExitToAppIcon />

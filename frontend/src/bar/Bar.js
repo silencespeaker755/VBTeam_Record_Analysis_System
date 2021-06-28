@@ -1,10 +1,19 @@
 import React, { useRef, useState } from "react";
 
-import { Link, useHistory } from "react-router-dom";
+import {
+  Link,
+  AppBar,
+  InputBase,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
+
+import { useHistory } from "react-router-dom";
 
 import { fade, makeStyles } from "@material-ui/core/styles";
-import { AppBar, InputBase, Toolbar, Typography } from "@material-ui/core";
+
 import SearchIcon from "@material-ui/icons/Search";
+import { useDateInfo } from "../hooks/useDate";
 import Menu from "./Menu";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,9 +23,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     zIndex: 1000,
     background: "#2E3B55",
-  },
-  link: {
-    textDecoration: "none",
   },
   title: {
     color: "white",
@@ -83,12 +89,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Bar() {
   const classes = useStyles();
-  const [searchInput, setSearchInput] = useState();
+  const { changeDate } = useDateInfo();
+  const [searchInput, setSearchInput] = useState("");
 
   const handleSearch = (e) => {
     if (e.key === "Enter") {
+      changeDate(e.target.value);
       setSearchInput("");
-      //   history.push();
     }
   };
 
@@ -96,7 +103,7 @@ export default function Bar() {
     <div className={classes.grow}>
       <AppBar className={classes.root} position="fixed">
         <Toolbar>
-          <Link className={classes.link} to="/home">
+          <Link className={classes.link} href="/home" underline="none">
             <Typography className={classes.title} variant="h6" noWrap>
               Volleyball Playground
             </Typography>
@@ -106,7 +113,7 @@ export default function Bar() {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder="YYYY-MM-DD"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,

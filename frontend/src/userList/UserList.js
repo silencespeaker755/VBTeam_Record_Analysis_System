@@ -12,9 +12,8 @@ import {
 import { fade, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "../setting";
-import AddButton from "../components/AddButton";
-import DeleteSection from "./DeleteSection";
-import AddMatchModal from "./modal/AddMatchModal";
+import AdminSection from "./AdminSection";
+import { list } from "../utils/user/constant";
 import Loading from "../components/Loading";
 import { useUserInfo } from "../hooks/useInfo";
 
@@ -64,15 +63,20 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px 30px 10px 30px",
     background: "#f9f9f9",
     "&:hover": {
-      background: "#ffedd1",
-      "& $deleteSection": {
+      transition: "all ease 0.5s",
+      background: "#bfbfbf",
+      "& $adminSection": {
         display: "block",
+      },
+      "& $cardText": {
+        transition: "all ease 0.5s",
+        color: "#FFFFFF",
       },
     },
   },
   outTitle: {
     marginTop: "40px",
-    fontSize: "5em",
+    fontSize: "4em",
     fontWeight: 700,
   },
   subtitle: {
@@ -87,7 +91,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "10px",
     marginBottom: "5px",
   },
-  deleteSection: { display: "none" },
+  adminSection: { display: "none" },
+  cardText: {
+    color: "#000000",
+  },
   search: {
     display: "flex",
     alignItems: "center",
@@ -152,12 +159,12 @@ export default function MyRecord() {
     refetch: refetchRecordList,
     isFetching: isRecordListFetching,
   } = useQuery(
-    "RecordList",
+    "UserList",
     async () => {
-      const { data } = await axios.get("/api/match/records", {
-        params: { userId: userInfo.id },
-      });
-      return data;
+      //   const { data } = await axios.get("/api/match/records", {
+      //     params: { userId: userInfo.id },
+      //   });
+      //   return data;
     },
     {
       onSuccess: () => {},
@@ -165,7 +172,7 @@ export default function MyRecord() {
   );
 
   const handleClick = (id) => () => {
-    history.push(`/home/record/${id}`);
+    // history.push(`/home/profile/${id}`);
   };
 
   const handleSearch = () => {};
@@ -177,7 +184,7 @@ export default function MyRecord() {
       <div className={classes.flexCenter}>
         <div className={classes.outFrame}>
           <div className={classes.titleSection}>
-            <Typography className={classes.outTitle}>My Record</Typography>
+            <Typography className={classes.outTitle}>User List</Typography>
             <Divider className={classes.divider} />
           </div>
           <div className={classes.search}>
@@ -196,34 +203,25 @@ export default function MyRecord() {
             />
           </div>
           <div className={classes.outPaperFrame}>
-            {recordList
-              .filter(
-                ({
-                  type = "",
-                  title = "",
-                  date = "",
-                  team = "",
-                  opponent = "",
-                }) => {
-                  if (!searchInput || searchInput === "") return true;
-                  return (
-                    type.includes(searchInput) ||
-                    title.includes(searchInput) ||
-                    date.includes(searchInput) ||
-                    team.includes(searchInput) ||
-                    opponent.includes(searchInput)
-                  );
-                }
-              )
+            {list
+              .filter(({ name = "", position = "", email = "" }) => {
+                if (!searchInput || searchInput === "") return true;
+                return (
+                  name.includes(searchInput) ||
+                  position.includes(searchInput) ||
+                  email.includes(searchInput)
+                );
+              })
               .map((element) => (
-                <Card key={element._id} className={classes.outCardFrame}>
+                <Card key={element.email} className={classes.outCardFrame}>
                   <CardActionArea
                     className={classes.actionArea}
                     onClick={handleClick(element._id)}
                   >
-                    <div className={classes.deleteSection}>
-                      <DeleteSection
-                        recordId={element._id}
+                    <div className={classes.adminSection}>
+                      <AdminSection
+                        userId=""
+                        username={element.name}
                         refetch={refetchRecordList}
                       />
                     </div>
@@ -231,24 +229,25 @@ export default function MyRecord() {
                       variant="body1"
                       color="textSecondary"
                       align="left"
-                      className={classes.type}
+                      className={`${classes.type} ${classes.cardText}`}
                     >
-                      {element.type}
+                      {element.position}
                     </Typography>
                     <Typography
                       variant="h5"
-                      className={classes.subtitle}
+                      className={`${classes.subtitle} ${classes.cardText}`}
                       align="left"
                     >
-                      {element.team} v.s. {element.opponent}
+                      {element.name}
                     </Typography>
                     <Typography
                       variant="body1"
                       color="textSecondary"
                       component="p"
+                      className={classes.cardText}
                       align="right"
                     >
-                      {element.date}
+                      {element.email}
                     </Typography>
                   </CardActionArea>
                 </Card>
@@ -256,19 +255,6 @@ export default function MyRecord() {
           </div>
         </div>
       </div>
-      <AddButton
-        inView
-        openModal={() => setMatchModal(true)}
-        height={60}
-        width={60}
-        bottom={48}
-        right={20}
-      />
-      <AddMatchModal
-        open={matchModal}
-        handleClose={() => setMatchModal(false)}
-        refetch={refetchRecordList}
-      />
     </>
   );
 }
