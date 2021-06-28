@@ -9,6 +9,7 @@ const useStyles = makeStyles(() => ({
     position: "absolute",
     top: "20px",
     right: "35px",
+    background: "white",
   },
 }));
 

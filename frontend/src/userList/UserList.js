@@ -77,12 +77,12 @@ const useStyles = makeStyles(() => ({
     background: "#f9f9f9",
     "&:hover": {
       transition: "all ease 0.5s",
-      background: "#bfbfbf",
+      background: "#303b53",
       "& $adminSection": {
         display: "block",
       },
       "& $cardText": {
-        transition: "all ease 0.5s",
+        transition: "all ease 1s",
         color: "#FFFFFF",
       },
     },
