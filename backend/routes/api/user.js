@@ -92,4 +92,29 @@ router.post("/login", (req, res) => {
     });
 });
 
+router.get("/users", (req, res) => {
+  const { userId } = req.query;
+  if (userId) {
+    UserService.getUser({ userId })
+      .then((userList) => {
+        console.log("Get user:", userList);
+        res.status(200).send(userList);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(404).send(err);
+      });
+  } else {
+    UserService.getUser({})
+      .then((userList) => {
+        console.log("Get userList:", userList);
+        res.status(200).send(userList);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(404).send(err);
+      });
+  }
+});
+
 export default router;
