@@ -39,6 +39,18 @@ class UserService {
 
     return userList;
   }
+
+  static async updateUser(data) {
+    const { userId } = data;
+    if (!userId) throw "UserId is required!";
+    const user = await User.findById(userId);
+    if (!user) throw "User doesn't exist";
+    Object.keys(data).forEach((key) => {
+      if (key !== "userId") user[key] = data[key];
+    });
+    await user.save();
+    return user;
+  }
 }
 
 export default UserService;

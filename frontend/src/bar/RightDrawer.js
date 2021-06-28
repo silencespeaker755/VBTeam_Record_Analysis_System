@@ -16,6 +16,7 @@ import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ListIcon from "@material-ui/icons/List";
 import MovieIcon from "@material-ui/icons/Movie";
+import { useUserInfo } from "../hooks/useInfo";
 
 const useStyle = makeStyles((theme) => ({
   flex: {
@@ -53,14 +54,14 @@ const useStyle = makeStyles((theme) => ({
 export default function RightDrawer(props) {
   const { open, toggleDrawer } = props;
   const classes = useStyle();
-
+  const { userInfo } = useUserInfo();
   const [admin, setAdmin] = useState(true);
 
   const menuList = [
     {
       label: "My account",
       icon: <AccountCircleIcon />,
-      link: `/home/profile`,
+      link: `/home/profile/${userInfo.id}`,
       event: null,
       visible: admin,
     },

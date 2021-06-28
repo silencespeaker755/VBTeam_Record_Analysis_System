@@ -65,7 +65,7 @@ export default function Record(props) {
       });
       return data;
     },
-    { onSuccess: () => {} }
+    { retry: false, onSuccess: () => {} }
   );
 
   if (isMatchLoading || isMatchFeting) return <Loading />;

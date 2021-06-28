@@ -7,11 +7,37 @@ import {
   DialogContent,
 } from "@material-ui/core";
 import "../css/Profile.css";
-
+import { useQuery } from "react-query";
 import EditProfile from "./EditProfile";
+import instance from "../setting";
 
-export default function Profile() {
+export default function Profile(props) {
   const [open, setOpen] = useState(false);
+  const {
+    match: {
+      params: { userId },
+    },
+  } = props;
+
+  const {
+    data: user,
+    isError: isEventsError,
+    isLoading: isEventsLoading,
+    refetch: refetchEvents,
+  } = useQuery(
+    "UserFetching",
+    async () => {
+      const data = await instance.get("/api/user/users", {
+        params: { userId },
+      });
+      return data.data;
+    },
+    {
+      retry: false,
+      onSuccess: () => {},
+    }
+  );
+  console.log(user);
 
   const [profileData, setProfileData] = useState({
     username: "洪佳生",
@@ -19,7 +45,7 @@ export default function Profile() {
     position: "Lifter",
     isAdmin: true,
     about:
-      "Web Developer\nLives in New York\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer",
+      "Web Developer\nLives in New York\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer",
   });
 
   const mappingArrayToText = (array) => {
@@ -97,7 +123,7 @@ export default function Profile() {
               </li>
               <li className="list-inline-item px-3">
                 <h2 className="font-weight-bold mb-0 d-block">
-                  {profileData.isAdmin ? "Admin" : "User"}
+                  {user.isAdmin ? "Admin" : "User"}
                 </h2>
                 <small className="text-muted">identity</small>
               </li>
@@ -128,6 +154,7 @@ export default function Profile() {
             handleClose={handleClose}
             ProfileData={profileData}
             setProfileData={setProfileData}
+            refetchEvents={refetchEvents}
           />
         </DialogContent>
       </Dialog>
