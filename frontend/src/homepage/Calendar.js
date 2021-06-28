@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import $ from "jquery";
 import { useMutation, useQuery } from "react-query";
 import FullCalendar from "@fullcalendar/react";
@@ -6,6 +6,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
 import { useUserInfo } from "../hooks/useInfo";
+import { useDateInfo } from "../hooks/useDate";
 import instance from "../setting";
 import PostModal from "./modals/PostModal";
 import EventModal from "./modals/EventModal";
@@ -15,7 +16,9 @@ import "../css/Calendar.css";
 
 export default function Calendar(props) {
   const { showErrorModel } = props;
+  const ref = useRef();
   const { userInfo } = useUserInfo();
+  const { dateInfo } = useDateInfo();
   const [edit, setEdit] = useState(false);
   const [postModal, setPostModal] = useState(false);
   const [eventModal, setEventModal] = useState(false);
@@ -92,6 +95,14 @@ export default function Calendar(props) {
     setEventModal(true);
   };
 
+  useEffect(() => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateInfo.current)) return;
+    if (ref && ref.current) {
+      const calendarApi = ref.current.getApi();
+      if (calendarApi) calendarApi.gotoDate(dateInfo.current);
+    }
+  }, [dateInfo.current]);
+
   if (isEventsError) return "error";
   if (isEventsLoading || isLoading)
     return (
@@ -103,12 +114,13 @@ export default function Calendar(props) {
   return (
     <div className="calendar-frame">
       <FullCalendar
+        ref={ref}
         plugins={[dayGridPlugin, interactionPlugin]}
         viewClassNames="control-modify-entry"
         dayCellClassNames="test-day-class"
         eventContent={handleEventRender}
         headerToolbar={{
-          left: "prev,next",
+          left: "prev,next,today",
           center: "title",
           right: "dayGridDay,dayGridWeek,dayGridMonth",
         }}
@@ -116,9 +128,7 @@ export default function Calendar(props) {
         events={events}
         dateClick={handleDateClick}
         droppable={false}
-        initialDate="2021-06-01"
         eventClick={handleEventClick}
-        // editable
       />
       <PostModal
         open={postModal}

@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import { AppBar, InputBase, Toolbar, Typography } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import { useDateInfo } from "../hooks/useDate";
 import Menu from "./Menu";
 
 const useStyles = makeStyles((theme) => ({
@@ -83,12 +84,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Bar() {
   const classes = useStyles();
-  const [searchInput, setSearchInput] = useState();
+  const { changeDate } = useDateInfo();
+  const [searchInput, setSearchInput] = useState("");
 
   const handleSearch = (e) => {
     if (e.key === "Enter") {
+      changeDate(e.target.value);
       setSearchInput("");
-      //   history.push();
     }
   };
 
@@ -106,7 +108,7 @@ export default function Bar() {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder="YYYY-MM-DD"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
