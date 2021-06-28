@@ -73,9 +73,9 @@ export default function RightSmallDrawer(props) {
       visible: admin,
     },
     {
-      label: "My Posts",
+      label: "My Records",
       icon: <AssignmentIcon />,
-      link: `/home`,
+      link: `/home/analysis/my_record`,
       event: null,
       visible: admin,
     },

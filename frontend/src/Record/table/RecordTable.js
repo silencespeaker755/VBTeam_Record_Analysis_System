@@ -19,7 +19,7 @@ import EditableCell from "./EditableCell";
 import EditableTextCeil from "./EditableTextCeil";
 import UpdateTableModal from "../modal/UpdateTableModal";
 import DeleteTableModal from "../modal/DeleteTableModal";
-import { sample } from "../../Test_data/RecordData";
+import { simpleRow, columnDir, detailDir } from "../../utils/record/constant";
 import "../../css/RecordTable.css";
 
 const useStyles = makeStyles({
@@ -28,32 +28,6 @@ const useStyles = makeStyles({
     borderCollapse: "separate",
   },
 });
-
-const columnDir = {
-  name: "背號",
-  passesOrSets: "接/舉球",
-  serveReceptions: "接發球",
-  attacks: "攻擊",
-  drops: "吊球",
-  serves: "發球",
-  blocks: "欄網",
-  faults: "犯規",
-  notes: "備註",
-};
-
-const detailDir = {
-  good: "好",
-  ok: "OK",
-  OK: "OK",
-  bad: "噴",
-  times: "次",
-  success: "得",
-  effective: "效",
-  fail: "失",
-  ace: "A",
-  types: "原因",
-  notes: "備註",
-};
 
 export default function RecordTable({
   initialData = [],
@@ -70,7 +44,7 @@ export default function RecordTable({
 
   const AddNewMember = () => {
     setData((pre) => {
-      pre.push(sample);
+      pre.push(simpleRow);
       return pre;
     });
   };
@@ -232,34 +206,32 @@ export default function RecordTable({
         <Table className={classes.table} aria-label="a dense table">
           <TableHead>
             <TableRow>
-              {data.length !== 0 &&
-                Object.keys(data[0]).map((value) => {
-                  if (value === "_id" || value === "__v") return null;
-                  if (value === "name")
-                    return (
-                      <TableCell
-                        key={`${value}`}
-                        className="header-frame column-content-name width-60"
-                        align="center"
-                      >
-                        {columnDir[value]}
-                      </TableCell>
-                    );
+              {Object.keys(simpleRow).map((value) => {
+                if (value === "name")
                   return (
                     <TableCell
                       key={`${value}`}
-                      className="header-frame width-120"
+                      className="header-frame column-content-name width-60"
                       align="center"
                     >
-                      {value === "notes"
-                        ? mappingHeaderWithSubHeader("", [value])
-                        : mappingHeaderWithSubHeader(
-                            columnDir[value],
-                            Object.keys(data[0][value])
-                          )}
+                      {columnDir[value]}
                     </TableCell>
                   );
-                })}
+                return (
+                  <TableCell
+                    key={`${value}`}
+                    className="header-frame width-120"
+                    align="center"
+                  >
+                    {value === "notes"
+                      ? mappingHeaderWithSubHeader("", [value])
+                      : mappingHeaderWithSubHeader(
+                          columnDir[value],
+                          Object.keys(simpleRow[value])
+                        )}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           </TableHead>
           <TableBody>

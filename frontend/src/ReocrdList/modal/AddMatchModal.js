@@ -86,8 +86,15 @@ export default function AddMatchModal(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createNewMatch();
-    setInfo(() => initForm);
+    if (
+      info.date !== "" &&
+      info.type !== "" &&
+      info.team !== "" &&
+      info.opponent !== ""
+    ) {
+      createNewMatch();
+      setInfo(() => initForm);
+    }
   };
 
   if (isLoading) return <Loading />;
@@ -176,6 +183,12 @@ export default function AddMatchModal(props) {
                   className={classes.submit}
                   onClick={handleSubmit}
                   onSubmit={handleSubmit}
+                  disabled={
+                    info.date === "" ||
+                    info.type === "" ||
+                    info.team === "" ||
+                    info.opponent === ""
+                  }
                 >
                   Create
                 </Button>

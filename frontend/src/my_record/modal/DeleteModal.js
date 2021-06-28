@@ -7,17 +7,16 @@ import AlertModel from "../../components/AlertModel";
 import HintModal from "../../components/HintModal";
 import Loading from "../../components/Loading";
 
-export default function DeleteTableModal(props) {
-  const { open, onClose, recordId, setId, refetchMatch } = props;
+export default function DeleteModal(props) {
+  const { open, onClose, recordId, refetch } = props;
   const { userInfo } = useUserInfo();
   const [message, setMessage] = useState("");
   const [hintModal, setHintModal] = useState(false);
 
-  const { mutate: deleteSet, isLoading } = useMutation(
+  const { mutate: deleteMatch, isLoading } = useMutation(
     async () => {
       const msg = await axios.post("/api/match/records/delete", {
         recordId,
-        setId,
         userId: userInfo.id,
       });
       return msg;
@@ -26,7 +25,7 @@ export default function DeleteTableModal(props) {
       onSuccess: (msg) => {
         setMessage(msg.data);
         setHintModal(true);
-        refetchMatch();
+        refetch();
       },
       onError: (err) => {
         setMessage(err.response.data);
@@ -35,13 +34,15 @@ export default function DeleteTableModal(props) {
     }
   );
 
-  const handleHintClose = () => {
+  const handleHintClose = (e) => {
+    e.stopPropagation();
     setHintModal(false);
     onClose();
   };
 
-  const handleOk = () => {
-    deleteSet();
+  const handleOk = (e) => {
+    e.stopPropagation();
+    deleteMatch();
   };
 
   if (isLoading) return <Loading />;
@@ -51,7 +52,7 @@ export default function DeleteTableModal(props) {
       <AlertModel
         open={open}
         alertTitle="Delete"
-        alertDesciption="Are you sure to delte this set ?"
+        alertDesciption="Are you sure to delte this match ?"
         alertButton={
           <div>
             <Button onClick={onClose}>Cancel</Button>
