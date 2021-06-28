@@ -40,6 +40,23 @@ export default function EditProfile({
     about: ProfileData.about,
   });
 
+  const editUser = useMutation(
+    async (err) => {
+      const data = await instance.post("/api/", {
+        username: user.username,
+        city: user.city,
+        position: user.position,
+        about: user.about,
+      });
+      return data;
+    },
+    {
+      onSuccess: ({ data }) => {
+        refetchEvents();
+      },
+    }
+  );
+
   const handleChange = (e, type) => {
     setUser({ ...user, [type]: e.target.value });
   };

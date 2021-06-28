@@ -44,7 +44,7 @@ export default function Note({ id, title, content }) {
     return array.map((el, i, all) => {
       return (
         <Typography
-          key={el}
+          key={`${i}+${el}`}
           variant="body1"
           component="p"
           className={noteClasses.article}

@@ -147,7 +147,7 @@ export default function Detail(props) {
     return array.map((el, i, all) => {
       return (
         <Typography
-          key={el}
+          key={`${i}+${el}`}
           variant="body1"
           component="p"
           className={detailClasses.article}
