@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
+import PeopleIcon from "@material-ui/icons/People";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 
@@ -79,37 +80,29 @@ export default function Menu() {
         >
           <AccountCircleIcon />
         </IconButton>
-        {/* Drawer */}
       </div>
     );
   return (
     <>
       <div className={classes.section}>
-        <ClickAwayListener onClickAway={handleClickAway}>
-          <div className={classes.flex}>
-            <IconButton onClick={() => setType("mails")} component="span">
-              <Badge badgeContent={0} color="secondary">
-                <VideoLibraryIcon
-                  style={{
-                    color: type === "mails" ? "#ffb200" : "white",
-                  }}
-                />
-              </Badge>
-            </IconButton>
-            <IconButton
-              onClick={() => setType("announcements")}
-              component="span"
-            >
-              <Badge badgeContent={3} color="secondary">
-                <NotificationsIcon
-                  style={{
-                    color: type === "announcements" ? "#ffb200" : "white",
-                  }}
-                />
-              </Badge>
-            </IconButton>
-          </div>
-        </ClickAwayListener>
+        <div className={classes.flex}>
+          <IconButton
+            color="inherit"
+            onClick={() => setType("mails")}
+            component="span"
+          >
+            <PeopleIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            onClick={() => setType("announcements")}
+            component="span"
+          >
+            <Badge badgeContent={3} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+        </div>
         <IconButton
           edge="end"
           onClick={() => history.push("/home/record_list")}

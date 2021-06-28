@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import {
+  Link,
   Drawer,
   List,
   ListItem,
@@ -9,6 +9,7 @@ import {
   IconButton,
   Badge,
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -17,6 +18,7 @@ import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ListIcon from "@material-ui/icons/List";
 import MovieIcon from "@material-ui/icons/Movie";
+import PeopleIcon from "@material-ui/icons/People";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -39,9 +41,6 @@ const useStyle = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#9e9e9e",
       color: "white",
-      //   "& .MuiListItemIcon-root": {
-      //     color: "white",
-      //   },
     },
   },
   notAdmin: {
@@ -52,9 +51,6 @@ const useStyle = makeStyles((theme) => ({
   },
   white: {
     color: "white",
-  },
-  link: {
-    textDecoration: "none",
   },
 }));
 
@@ -101,8 +97,8 @@ export default function RightSmallDrawer(props) {
       visible: admin,
     },
     {
-      label: "Videos",
-      icon: <VideoLibraryIcon />,
+      label: "People",
+      icon: <PeopleIcon />,
       link: "/home",
       event: null,
       visible: admin,
@@ -140,12 +136,13 @@ export default function RightSmallDrawer(props) {
             <List>
               {menuList.map((item) => (
                 <Link
-                  to={item.link}
+                  href={item.link}
                   key={item.label}
                   className={clsx(classes.link, {
                     [classes.notAdmin]: !item.visible,
                   })}
                   onClick={item.event}
+                  underline="none"
                 >
                   <ListItem className={classes.listItem} button>
                     <ListItemIcon className={classes.white}>
@@ -162,7 +159,12 @@ export default function RightSmallDrawer(props) {
           </div>
         </div>
         <div className={classes.width_100} onClick={toggleDrawer(false)}>
-          <Link to="/" className={classes.link} onClick={handleLogOut}>
+          <Link
+            href="/"
+            className={classes.link}
+            onClick={handleLogOut}
+            underline="none"
+          >
             <ListItem className={classes.listItem} button>
               <ListItemIcon className={classes.white}>
                 <ExitToAppIcon />

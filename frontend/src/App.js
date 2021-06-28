@@ -7,6 +7,9 @@ import Homepage from "./homepage/Homepage";
 // Profile
 import Profile from "./profile/Profile";
 
+// UserList
+import UserList from "./userList/UserList";
+
 // Bar
 import Bar from "./bar/Bar";
 
