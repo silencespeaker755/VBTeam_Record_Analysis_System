@@ -10,9 +10,11 @@ import "../css/Profile.css";
 import { useQuery } from "react-query";
 import EditProfile from "./EditProfile";
 import instance from "../setting";
+import { useUserInfo } from "../hooks/useInfo";
 
 export default function Profile(props) {
   const [open, setOpen] = useState(false);
+  const { userInfo } = useUserInfo();
   const {
     match: {
       params: { userId },
@@ -20,7 +22,13 @@ export default function Profile(props) {
   } = props;
 
   const {
-    data: user,
+    data: user = {
+      username: "",
+      city: "",
+      position: "",
+      isAdmin: true,
+      about: "",
+    },
     isError: isEventsError,
     isLoading: isEventsLoading,
     refetch: refetchEvents,
@@ -38,15 +46,6 @@ export default function Profile(props) {
     }
   );
   console.log(user);
-
-  const [profileData, setProfileData] = useState({
-    username: "洪佳生",
-    city: "Taipei",
-    position: "Lifter",
-    isAdmin: true,
-    about:
-      "Web Developer\nLives in New York\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer\nPhotographer",
-  });
 
   const mappingArrayToText = (array) => {
     if (array.length === 0 || (array.length === 1 && array[0] === ""))
@@ -97,19 +96,19 @@ export default function Profile(props) {
               <div className="profile mr-3 d-flex flex-column">
                 <img
                   src="/profileTest.jpeg"
-                  alt="..."
+                  alt=""
                   width="170"
                   className="rounded mb-2 img-thumbnail"
                 />
-                <Button variant="outlined" onClick={handleClickOpen}>
-                  Edit profile
-                </Button>
+                {user._id === userInfo.id ? (
+                  <Button variant="outlined" onClick={handleClickOpen}>
+                    Edit profile
+                  </Button>
+                ) : null}
               </div>
               <div className="media-body mb-5 text-white">
-                <h4 className="mt-0 mb-0 profileUser">
-                  {profileData.username}
-                </h4>
-                <p className="mt-0 mb-3">{profileData.city}</p>
+                <h4 className="mt-0 mb-0 profileUser">{user.name}</h4>
+                <p className="mt-0 mb-3">{user.birthday}</p>
               </div>
             </div>
           </div>
@@ -117,9 +116,13 @@ export default function Profile(props) {
             <ul className="list-inline mb-0">
               <li className="list-inline-item px-3">
                 <h2 className="font-weight-bold mb-0 d-block">
-                  {profileData.position}
+                  {user.position}
                 </h2>
                 <small className="text-muted">Position</small>
+              </li>
+              <li className="list-inline-item px-3">
+                <h2 className="font-weight-bold mb-0 d-block">{user.number}</h2>
+                <small className="text-muted">number</small>
               </li>
               <li className="list-inline-item px-3">
                 <h2 className="font-weight-bold mb-0 d-block">
@@ -139,7 +142,9 @@ export default function Profile(props) {
                 overflow: "scroll",
               }}
             >
-              {mappingArrayToText(profileData.about.split("\n"))}
+              {user.about === ""
+                ? "No description"
+                : mappingArrayToText(user.about.split("\n"))}
             </div>
           </div>
         </Paper>
@@ -152,8 +157,7 @@ export default function Profile(props) {
         <DialogContent>
           <EditProfile
             handleClose={handleClose}
-            ProfileData={profileData}
-            setProfileData={setProfileData}
+            profileData={user}
             refetchEvents={refetchEvents}
           />
         </DialogContent>

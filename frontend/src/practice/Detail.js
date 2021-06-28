@@ -237,7 +237,11 @@ export default function Detail(props) {
             <Paper elevation={3} className={detailClasses.listPaper}>
               {cards.map((card, index) => {
                 return (
-                  <Link underline="none" href={`/home/article/${card._id}`}>
+                  <Link
+                    key={`${index}+${card.title}`}
+                    underline="none"
+                    href={`/home/article/${card._id}`}
+                  >
                     <Button
                       color="primary"
                       fullWidth

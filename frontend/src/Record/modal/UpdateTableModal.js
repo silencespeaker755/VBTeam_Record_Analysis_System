@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { Button } from "@material-ui/core";
-// import { sleep } from "react-query/types/core/utils";
 import { useUserInfo } from "../../hooks/useInfo";
 import axios from "../../setting";
 import AlertModel from "../../components/AlertModel";
 import Loading from "../../components/Loading";
 
 export default function UpdateTableModal(props) {
-  const { open, onClose, setsIndex, match, data, refetchMatch } = props;
+  const { open, onClose, data, refetchMatch } = props;
   const { userInfo } = useUserInfo();
   const [errMessage, setErrMessage] = useState("");
   const [errModal, setErrModal] = useState(false);
 
   const { mutate: updateSet, isLoading } = useMutation(
     async () => {
-      const temp = match;
-      temp.sets[setsIndex].data = data;
-      console.log(temp);
-      const msg = await axios.post("/api/match/records/update", {
-        record: temp,
+      const msg = await axios.post("/api/match/records/sets/data/update", {
+        data,
         userId: userInfo.id,
       });
       return msg;

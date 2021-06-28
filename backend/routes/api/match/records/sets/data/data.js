@@ -19,9 +19,9 @@ router.post("/create", (req, res) => {
   */
 
   console.log(req.body);
-  const { record, userId } = req.body;
+  const { setId, userId } = req.body;
 
-  RecordService.createData({ record, userId })
+  RecordService.createData({ setId, userId })
     .then((dataId) => {
       console.log("Created data:", dataId);
       /*

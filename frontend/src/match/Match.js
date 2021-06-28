@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
-    background: "radial-gradient(#2b2b2b, #4e4e4e, #989595, #FFFFFF);",
+    background: "#FFFFFF",
     backgroundPosition: "center",
     backgroundSize: "cover",
     minHeight: "calc(100vh - 64px)",
@@ -29,12 +29,12 @@ export default function Match() {
     <div className={classes.root}>
       <div className={classes.content}>
         <Link href="/home/record_list" underline="none">
-          <div className="btn">
+          <div className="leftbtn">
             <span className="text">Data</span>
           </div>
         </Link>
         <Link href="/home/article" underline="none">
-          <div className="btn">
+          <div className="rightbtn">
             <span className="text">Article</span>
           </div>
         </Link>

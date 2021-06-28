@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { Button } from "@material-ui/core";
-import { useUserInfo } from "../../hooks/useInfo";
-import axios from "../../setting";
-import AlertModel from "../../components/AlertModel";
-import HintModal from "../../components/HintModal";
-import Loading from "../../components/Loading";
+import { useUserInfo } from "../../../hooks/useInfo";
+import axios from "../../../setting";
+import AlertModel from "../../../components/AlertModel";
+import HintModal from "../../../components/HintModal";
+import Loading from "../../../components/Loading";
 
-export default function DeleteTableModal(props) {
-  const { open, onClose, recordId, setId, refetchMatch } = props;
+export default function RemoveMemberModal(props) {
+  const { open, onClose, setId, dataId, refetchMatch } = props;
   const { userInfo } = useUserInfo();
   const [message, setMessage] = useState("");
   const [hintModal, setHintModal] = useState(false);
 
-  const { mutate: deleteSet, isLoading } = useMutation(
+  const { mutate: deleteMember, isLoading } = useMutation(
     async () => {
-      const msg = await axios.post("/api/match/records/delete", {
-        recordId,
+      const msg = await axios.post("/api/match/records/sets/data/delete", {
         setId,
+        dataId,
         userId: userInfo.id,
       });
       return msg;
     },
     {
+      retry: false,
       onSuccess: (msg) => {
         console.log(msg);
         setMessage(msg.data);
@@ -42,7 +43,7 @@ export default function DeleteTableModal(props) {
   };
 
   const handleOk = () => {
-    deleteSet();
+    deleteMember();
   };
 
   if (isLoading) return <Loading />;
@@ -52,7 +53,7 @@ export default function DeleteTableModal(props) {
       <AlertModel
         open={open}
         alertTitle="Delete"
-        alertDesciption="Are you sure to delete this set ?"
+        alertDesciption="Are you sure to delete this member ?"
         alertButton={
           <div>
             <Button onClick={onClose}>Cancel</Button>
