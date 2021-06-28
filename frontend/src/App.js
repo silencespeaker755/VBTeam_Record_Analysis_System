@@ -24,7 +24,7 @@ import Match from "./match/Match";
 import MyRecord from "./my_record/MyRecord";
 
 // RecordList
-import RecordList from "./reocrdList/RecordList";
+import RecordList from "./recordList/RecordList";
 
 // Record
 import Record from "./record/Record";
