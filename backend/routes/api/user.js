@@ -130,4 +130,17 @@ router.post("/update", (req, res) => {
     });
 });
 
+router.post("/admin", (req, res) => {
+  const { body } = req;
+  UserService.updateAdmin(body)
+    .then((user) => {
+      console.log("Update user:", user);
+      res.status(200).send("Update Success !");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).send(err);
+    });
+});
+
 export default router;

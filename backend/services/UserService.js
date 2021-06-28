@@ -51,6 +51,17 @@ class UserService {
     await user.save();
     return user;
   }
+
+  static async updateAdmin(data) {
+    const { userId, adminId } = data;
+    if (!userId) throw "UserId is required!";
+    if (!adminId) throw "AdminId is required!";
+    const user = await User.findById(userId);
+    if (!user) throw "User doesn't exist";
+    user.isAdmin = true;
+    await user.save();
+    return user;
+  }
 }
 
 export default UserService;
