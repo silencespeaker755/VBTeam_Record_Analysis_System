@@ -55,13 +55,16 @@ export default function Addmodal(props) {
     async () => {
       const newData = match;
       newData.sets.push(info);
-      await axios.post("/api/match/records/update", {
+      const data = await axios.post("/api/match/records/update", {
         record: newData,
         userId: userInfo.id,
       });
+      return data;
     },
     {
-      onSuccess: () => {
+      retry: false,
+      onSuccess: (data) => {
+        console.log(data);
         handleClose();
         refetchMatch();
       },

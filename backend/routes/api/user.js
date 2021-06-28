@@ -117,4 +117,17 @@ router.get("/users", (req, res) => {
   }
 });
 
+router.post("/update", (req, res) => {
+  const { body } = req;
+  UserService.updateUser(body)
+    .then((user) => {
+      console.log("Update user:", user);
+      res.status(200).send(user);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).send(err);
+    });
+});
+
 export default router;
