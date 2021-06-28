@@ -20,15 +20,15 @@ export default function RoleModal({
 
   const { mutate: updateRole, isLoading } = useMutation(
     async () => {
-      //   const msg = await axios.post("", {
-      //     userId,
-      //     adminId,
-      //   });
-      //   return msg;
+      const data = await axios.post("/api/user/admin", {
+        userId,
+        adminId: userInfo.id,
+      });
+      return data;
     },
     {
-      onSuccess: (msg) => {
-        setMessage(msg.data);
+      onSuccess: ({ data }) => {
+        setMessage(data);
         setHintModal(true);
         refetch();
       },

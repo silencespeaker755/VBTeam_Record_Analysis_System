@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { useQuery } from "react-query";
 import {
   Typography,
-  Button,
   Card,
   CardActionArea,
   Divider,
@@ -11,11 +10,10 @@ import {
 } from "@material-ui/core";
 import { fade, makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import { useUserInfo } from "../hooks/useInfo";
 import axios from "../setting";
 import AdminSection from "./AdminSection";
-import { list } from "../utils/user/constant";
 import Loading from "../components/Loading";
-import { useUserInfo } from "../hooks/useInfo";
 
 const theme = createMuiTheme({
   breakpoints: {
@@ -163,12 +161,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function MyRecord() {
+export default function UserList() {
   const classes = useStyles();
   const history = useHistory();
   const { userInfo } = useUserInfo();
   const [searchInput, setSearchInput] = useState("");
-  const [matchModal, setMatchModal] = useState(false);
 
   const {
     data: userList = [],
@@ -183,16 +180,13 @@ export default function MyRecord() {
     },
     {
       retry: false,
-      onSuccess: () => {},
-      onError: () => {},
+      refetchOnWindowFocus: false,
     }
   );
 
   const handleClick = (id) => () => {
     history.push(`/home/profile/${id}`);
   };
-
-  const handleSearch = () => {};
 
   if (isRecordListFetching || isListLoading) return <Loading />;
 
@@ -214,7 +208,6 @@ export default function MyRecord() {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              onKeyUp={handleSearch}
               onChange={(e) => setSearchInput(e.target.value)}
               value={searchInput}
             />
@@ -235,13 +228,15 @@ export default function MyRecord() {
                     className={classes.actionArea}
                     onClick={handleClick(element._id)}
                   >
-                    <div className={classes.adminSection}>
-                      <AdminSection
-                        userId=""
-                        username={element.name}
-                        refetch={refetchRecordList}
-                      />
-                    </div>
+                    {userInfo.isAdmin ? (
+                      <div className={classes.adminSection}>
+                        <AdminSection
+                          userId={element._id}
+                          username={element.name}
+                          refetch={refetchRecordList}
+                        />
+                      </div>
+                    ) : null}
                     <Typography
                       variant="body1"
                       color="textSecondary"

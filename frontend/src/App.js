@@ -44,7 +44,7 @@ export default function App() {
     const isAdmin = localStorage.getItem("isAdmin");
     const id = localStorage.getItem("id");
     if (id && isAdmin) {
-      changeUser(id, isAdmin);
+      changeUser(id, isAdmin === "true");
       if (history.location.pathname === "/") history.push("/home");
     } else {
       history.push("/");

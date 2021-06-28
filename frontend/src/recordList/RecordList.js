@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { fade, makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import { useUserInfo } from "../hooks/useInfo";
 import axios from "../setting";
 import AddButton from "../components/AddButton";
 import AddMatchModal from "./modal/AddMatchModal";
@@ -155,6 +156,7 @@ const useStyles = makeStyles(() => ({
 export default function MyRecord() {
   const classes = useStyles();
   const history = useHistory();
+  const { userInfo } = useUserInfo();
   const [searchInput, setSearchInput] = useState("");
   const [matchModal, setMatchModal] = useState(false);
 
@@ -171,6 +173,7 @@ export default function MyRecord() {
     },
     {
       retry: false,
+      refetchOnWindowFocus: false,
       onSuccess: () => {},
     }
   );
@@ -178,8 +181,6 @@ export default function MyRecord() {
   const handleClick = (id) => () => {
     history.push(`/home/record/${id}`);
   };
-
-  const handleSearch = () => {};
 
   if (isRecordListFetching || isListLoading) return <Loading />;
 
@@ -201,7 +202,6 @@ export default function MyRecord() {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              onKeyUp={handleSearch}
               onChange={(e) => setSearchInput(e.target.value)}
               value={searchInput}
             />
@@ -261,14 +261,16 @@ export default function MyRecord() {
           </div>
         </div>
       </div>
-      <AddButton
-        inView
-        openModal={() => setMatchModal(true)}
-        height={60}
-        width={60}
-        bottom={48}
-        right={20}
-      />
+      {userInfo.isAdmin ? (
+        <AddButton
+          inView
+          openModal={() => setMatchModal(true)}
+          height={60}
+          width={60}
+          bottom={48}
+          right={20}
+        />
+      ) : null}
       <AddMatchModal
         open={matchModal}
         handleClose={() => setMatchModal(false)}

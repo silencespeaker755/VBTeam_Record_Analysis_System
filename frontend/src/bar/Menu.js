@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Badge,
-  ClickAwayListener,
-  IconButton,
-  createMuiTheme,
-} from "@material-ui/core";
+import { Badge, IconButton, createMuiTheme } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import PeopleIcon from "@material-ui/icons/People";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import EqualizerIcon from "@material-ui/icons/Equalizer";
+import { useUserInfo } from "../hooks/useInfo";
 
 import RightDrawer from "./RightDrawer";
 import RightSmallDrawer from "./RightSmallDrawer";
@@ -49,13 +43,9 @@ const useStyles = makeStyles(() => ({
 export default function Menu() {
   const classes = useStyles();
   const history = useHistory();
-
-  const [type, setType] = useState("");
+  const { userInfo } = useUserInfo();
   const [open, setOpen] = useState(false);
   const [openSmall, setOpenSmall] = useState(false);
-
-  // data
-  const username = "Jason";
 
   const toggleDrawer = (bool) => (e) => {
     setOpen(bool);
@@ -65,11 +55,7 @@ export default function Menu() {
     setOpenSmall(bool);
   };
 
-  const handleClickAway = () => {
-    setType("");
-  };
-
-  if (!username)
+  if (userInfo.id === "")
     return (
       <div className={classes.section}>
         <IconButton
@@ -99,14 +85,6 @@ export default function Menu() {
             </Badge>
           </IconButton>
         </div>
-        <IconButton
-          edge="end"
-          onClick={() => history.push("/home/record_list")}
-          color="inherit"
-          component="span"
-        >
-          <EqualizerIcon />
-        </IconButton>
         <IconButton
           edge="end"
           onClick={toggleDrawer(true)}
