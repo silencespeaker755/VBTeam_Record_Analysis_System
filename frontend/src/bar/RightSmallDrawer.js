@@ -23,6 +23,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
+import { useUserInfo } from "../hooks/useInfo";
 
 const useStyle = makeStyles((theme) => ({
   flex: {
@@ -57,14 +58,14 @@ const useStyle = makeStyles((theme) => ({
 export default function RightSmallDrawer(props) {
   const { open, toggleDrawer } = props;
   const classes = useStyle();
-
+  const { userInfo } = useUserInfo();
   const [admin, setAdmin] = useState(true);
 
   const menuList = [
     {
       label: "My account",
       icon: <AccountCircleIcon />,
-      link: `/home/profile`,
+      link: `/home/profile/${userInfo.id}`,
       event: null,
       visible: admin,
     },
