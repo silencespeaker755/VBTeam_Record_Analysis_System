@@ -88,16 +88,12 @@ export default function Menu() {
         <div className={classes.flex}>
           <IconButton
             color="inherit"
-            onClick={() => setType("mails")}
+            onClick={() => history.push("/home/user_list")}
             component="span"
           >
             <PeopleIcon />
           </IconButton>
-          <IconButton
-            color="inherit"
-            onClick={() => setType("announcements")}
-            component="span"
-          >
+          <IconButton color="inherit" onClick={() => {}} component="span">
             <Badge badgeContent={3} color="secondary">
               <NotificationsIcon />
             </Badge>

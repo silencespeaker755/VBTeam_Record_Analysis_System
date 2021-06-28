@@ -58,6 +58,7 @@ export default function App() {
         <Route exact path="/" component={SignIn} />
         <Route exact path="/home" component={Homepage} />
         <Route exact path="/home/profile" component={Profile} />
+        <Route exact path="/home/user_list" component={UserList} />
         <Route exact path="/home/match" component={Match} />
         <Route exact path="/home/article" component={Practice} />
         <Route
