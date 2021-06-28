@@ -7,7 +7,7 @@ import RoleModal from "./modal/RoleModal";
 const useStyles = makeStyles(() => ({
   root: {
     position: "absolute",
-    top: "20px",
+    top: "10px",
     right: "35px",
   },
 }));
