@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from "../User";
 import Set from "./Set";
 
 const recordSchema = new mongoose.Schema({
@@ -10,6 +11,11 @@ const recordSchema = new mongoose.Schema({
     type: [mongoose.Types.ObjectId],
     required: [true, '"Sets" field is required'],
     ref: Set,
+  },
+  creator: {
+    type: mongoose.Types.ObjectId,
+    required: [true, '"creator" field is required'],
+    ref: User,
   },
 });
 

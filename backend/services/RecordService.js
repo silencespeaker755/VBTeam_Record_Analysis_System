@@ -57,6 +57,7 @@ class RecordService {
       opponent: record.opponent,
       date: record.date,
       sets: [],
+      creator: user,
     });
 
     await newRecord.save();
