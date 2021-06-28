@@ -23,6 +23,18 @@ class UserService {
       throw "Password incorrect!";
     else return user;
   }
+
+  static async getUser({ userId }) {
+    let userList;
+    if (userId) {
+      userList = await User.findById(userId);
+      if (!userList) throw "User not exist!";
+    } else {
+      userList = await User.find({});
+    }
+
+    return userList;
+  }
 }
 
 export default UserService;
