@@ -4,8 +4,15 @@ import Set from "../models/Match/Set";
 import User from "../models/User";
 
 class RecordService {
-  static async getRecords() {
-    const records = await Record.find({});
+  static async getRecords({ userId }) {
+    let records;
+    if (userId) {
+      const user = await User.findById(userId);
+      if (!user) throw "User not found!";
+      records = await Record.find({ creator: user });
+    } else {
+      records = await Record.find({});
+    }
     records.map((record) => {
       return {
         type: record.type,
