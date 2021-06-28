@@ -19,7 +19,7 @@ import EditableCell from "./EditableCell";
 import EditableTextCeil from "./EditableTextCeil";
 import UpdateTableModal from "../modal/UpdateTableModal";
 import DeleteTableModal from "../modal/DeleteTableModal";
-import { sample } from "../../Test_data/recordData";
+import { sample } from "../../Test_data/RecordData";
 import "../../css/RecordTable.css";
 
 const useStyles = makeStyles({
