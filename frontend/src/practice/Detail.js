@@ -10,6 +10,8 @@ import {
   Divider,
   Container,
   Link,
+  Dialog,
+  DialogContent,
 } from "@material-ui/core";
 import {
   makeStyles,
@@ -19,6 +21,7 @@ import {
 import { useQuery, useMutation } from "react-query";
 import instance from "../setting";
 import { useUserInfo } from "../hooks/useInfo";
+import Edit from "./Edit";
 
 const blackTheme = createMuiTheme({
   palette: {
@@ -79,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Detail(props) {
+  const [open, setOpen] = useState(false);
   const detailClasses = useStyles();
   const { userInfo } = useUserInfo();
   const {
@@ -120,6 +124,13 @@ export default function Detail(props) {
   );
   const handleRemove = () => {
     remove.mutate();
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const mappingArrayToText = (array) => {
@@ -198,7 +209,11 @@ export default function Detail(props) {
                         right: "16px",
                       }}
                     >
-                      <Button size="small" color="primary">
+                      <Button
+                        size="small"
+                        color="primary"
+                        onClick={handleClickOpen}
+                      >
                         Edit
                       </Button>
                       {userInfo.id === cards.find(isCurrentId).uploader._id && (
@@ -239,6 +254,19 @@ export default function Detail(props) {
             </Paper>
           </Grid>
         </Grid>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogContent>
+            <Edit
+              handleClose={handleClose}
+              refetchEvents={refetchEvents}
+              card={cards.find(isCurrentId)}
+            />
+          </DialogContent>
+        </Dialog>
       </Container>
     </ThemeProvider>
   );

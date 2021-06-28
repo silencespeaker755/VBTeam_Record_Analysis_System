@@ -24,10 +24,10 @@ import Match from "./match/Match";
 import MyRecord from "./my_record/MyRecord";
 
 // RecordList
-import RecordList from "./ReocrdList/RecordList";
+import RecordList from "./recordList/RecordList";
 
 // Record
-import Record from "./Record/Record";
+import Record from "./record/Record";
 import "./App.css";
 
 import { useUserInfo } from "./hooks/useInfo";

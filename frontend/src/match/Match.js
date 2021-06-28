@@ -30,7 +30,7 @@ export default function Match() {
       <div className={classes.content}>
         <Link href="/home/record_list" underline="none">
           <div className="btn">
-            <span className="text">Analysis</span>
+            <span className="text">Data</span>
           </div>
         </Link>
         <Link href="/home/article" underline="none">

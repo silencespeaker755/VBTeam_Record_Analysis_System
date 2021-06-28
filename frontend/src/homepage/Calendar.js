@@ -43,8 +43,6 @@ export default function Calendar(props) {
     }
   );
 
-  console.log(events);
-
   const handleEdit = (event) => (e) => {
     setEdit(true);
     setCurrentEvent(event);
