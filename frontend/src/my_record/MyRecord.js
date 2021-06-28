@@ -16,6 +16,7 @@ import AddButton from "../components/AddButton";
 import DeleteSection from "./DeleteSection";
 import AddMatchModal from "./modal/AddMatchModal";
 import Loading from "../components/Loading";
+import { useUserInfo } from "../hooks/useInfo";
 
 const useStyles = makeStyles((theme) => ({
   flexCenter: {
@@ -141,6 +142,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MyRecord() {
   const classes = useStyles();
   const history = useHistory();
+  const { userInfo } = useUserInfo();
   const [searchInput, setSearchInput] = useState("");
   const [matchModal, setMatchModal] = useState(false);
 
@@ -152,7 +154,9 @@ export default function MyRecord() {
   } = useQuery(
     "RecordList",
     async () => {
-      const { data } = await axios.get("/api/match/records");
+      const { data } = await axios.get("/api/match/records", {
+        params: { userId: userInfo.id },
+      });
       return data;
     },
     {
