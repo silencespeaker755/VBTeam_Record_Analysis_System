@@ -9,7 +9,7 @@ import {
   Divider,
   InputBase,
 } from "@material-ui/core";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { fade, makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "../setting";
 import AdminSection from "./AdminSection";
@@ -17,7 +17,19 @@ import { list } from "../utils/user/constant";
 import Loading from "../components/Loading";
 import { useUserInfo } from "../hooks/useInfo";
 
-const useStyles = makeStyles((theme) => ({
+const theme = createMuiTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 800,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+});
+
+const useStyles = makeStyles(() => ({
   flexCenter: {
     display: "flex",
     justifyContent: "center",
@@ -32,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "baseline",
     width: "70%",
     minHeight: "600px",
+    minWidth: "400px",
     maxWidth: "900px",
     margin: "50px 50px 10px 50px",
     border: "8px solid #6d6966",
@@ -83,9 +96,13 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
   },
   divider: {
-    width: "150%",
+    width: "120%",
     height: "2px",
     background: "black",
+    transition: theme.transitions.create("width"),
+    [theme.breakpoints.down("sm")]: {
+      width: "80%",
+    },
   },
   type: {
     marginTop: "10px",
@@ -105,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: fade("#5a5a5a", 0.25),
     },
     margin: "30px 0 0 35px",
-    width: "100%",
+    width: "60%",
     [theme.breakpoints.up("sm")]: {
       width: "auto",
     },
@@ -127,7 +144,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("sm")]: {
       width: "18ch",
       "&:focus": {
         width: "36ch",
@@ -154,25 +171,25 @@ export default function MyRecord() {
   const [matchModal, setMatchModal] = useState(false);
 
   const {
-    data: recordList = [],
+    data: userList = [],
     isLoading: isListLoading,
     refetch: refetchRecordList,
     isFetching: isRecordListFetching,
   } = useQuery(
     "UserList",
     async () => {
-      //   const { data } = await axios.get("/api/match/records", {
-      //     params: { userId: userInfo.id },
-      //   });
-      //   return data;
+      const { data } = await axios.get("/api/user/users");
+      return data;
     },
     {
+      retry: false,
       onSuccess: () => {},
+      onError: () => {},
     }
   );
 
   const handleClick = (id) => () => {
-    // history.push(`/home/profile/${id}`);
+    history.push(`/home/profile/${id}`);
   };
 
   const handleSearch = () => {};
@@ -203,7 +220,7 @@ export default function MyRecord() {
             />
           </div>
           <div className={classes.outPaperFrame}>
-            {list
+            {userList
               .filter(({ name = "", position = "", email = "" }) => {
                 if (!searchInput || searchInput === "") return true;
                 return (
