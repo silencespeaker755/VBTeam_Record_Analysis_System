@@ -174,7 +174,7 @@ router.post("/attend", (req, res) => {
 });
 
 router.get("/checkAttendance", (req, res) => {
-  console.log("/api/calendar/checkAttendance", req.query);
+  console.log("/api/home/calendar/checkAttendance", req.query);
 
   const { eventId, userId } = req.query;
   CalendarService.checkAttendance({ eventId, userId })
