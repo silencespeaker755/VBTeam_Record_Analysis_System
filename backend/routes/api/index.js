@@ -4,6 +4,7 @@ import homeRouter from "./home";
 import practiceRouter from "./practice";
 import matchRouter from "./match";
 // import adminRouter from "./admin";
+import bulletinRouter from "./bulletin";
 
 const router = Router();
 
@@ -12,5 +13,6 @@ router.use("/home", homeRouter);
 router.use("/practice", practiceRouter);
 router.use("/match", matchRouter);
 // router.use("/admin", adminRouter);
+router.use("/bulletin", bulletinRouter);
 
 export default router;
