@@ -16,6 +16,7 @@ import PollIcon from "@material-ui/icons/Poll";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import MovieIcon from "@material-ui/icons/Movie";
+import DescriptionIcon from "@material-ui/icons/Description";
 import { useUserInfo } from "../hooks/useInfo";
 
 const useStyle = makeStyles((theme) => ({
@@ -70,9 +71,16 @@ export default function RightDrawer(props) {
       visible: userInfo.isAdmin,
     },
     {
+      label: "My Article",
+      icon: <DescriptionIcon />,
+      link: `/home/posts`,
+      event: null,
+      visible: userInfo.isAdmin,
+    },
+    {
       label: "My Videos",
       icon: <MovieIcon />,
-      link: `/home`,
+      link: `/home/posts`,
       event: null,
       visible: userInfo.isAdmin,
     },
