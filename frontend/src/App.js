@@ -15,6 +15,7 @@ import Bar from "./bar/Bar";
 
 // Sign
 import SignIn from "./sign/SignIn";
+import Authentication from "./sign/Authentication";
 
 // Posts
 import Posts from "./posts/Posts";
@@ -43,9 +44,14 @@ export default function App() {
   useEffect(() => {
     const isAdmin = localStorage.getItem("isAdmin");
     const id = localStorage.getItem("id");
+    const auth = localStorage.getItem("auth");
     if (id && isAdmin) {
-      changeUser(id, isAdmin === "true");
-      if (history.location.pathname === "/") history.push("/home");
+      changeUser(id, isAdmin === "true", auth === "true");
+      if (auth === "true") {
+        if (history.location.pathname === "/") history.push("/home");
+      } else {
+        history.push("/auth");
+      }
     } else {
       history.push("/");
     }
@@ -53,7 +59,7 @@ export default function App() {
 
   return (
     <>
-      {location.pathname !== "/" && <Bar />}
+      {location.pathname !== "/" && location.pathname !== "/auth" && <Bar />}
       <Switch>
         <Route exact path="/" component={SignIn} />
         <Route exact path="/home" component={Homepage} />
@@ -77,7 +83,7 @@ export default function App() {
           render={(props) => <Profile match={props.match} />}
         />
         <Route exact path="/home/analysis/my_record" component={MyRecord} />
-        {/* <Route exact path="/logout" component={null} /> */}
+        <Route exact path="/auth" component={Authentication} />
       </Switch>
     </>
   );

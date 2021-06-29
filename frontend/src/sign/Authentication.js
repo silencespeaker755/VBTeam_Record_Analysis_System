@@ -23,11 +23,17 @@ const blueTheme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  root: { flexGrow: 1 },
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    width: "100%",
+    flexGrow: 1,
+  },
   outerPaper: {
     height: "600px",
     width: "400px",
-    marginTop: "100px",
     overflow: "hidden",
     background: "#F9F9F9",
     display: "flex",
@@ -80,49 +86,40 @@ const useStyles = makeStyles((theme) => ({
 export default function Authentifacation() {
   const classes = useStyles();
   return (
-    <Container className={classes.root}>
-      <Grid container justify="center" alignItems="center">
-        <Grid item>
-          <Paper elevation={3} className={classes.outerPaper}>
-            <div className={classes.title}>
-              <PermIdentity className={classes.text} />
-              <Typography variant="h4" component="h2">
-                Authentifacation
-              </Typography>
-            </div>
-            <div className={classes.number}>
-              <Typography variant="h4" component="h2">
-                94879487
-              </Typography>
-              <div className={classes.textField}>
-                <TextField
-                  value=""
-                  id="outlined-multiline-static"
-                  label=""
-                  margin="normal"
-                  required
-                  fullWidth
-                  variant="outlined"
-                  type="text"
-                  style={{ margin: "0px", padding: "0px" }}
-                />
-              </div>
-            </div>
-            <div className={classes.submit}>
-              <ThemeProvider theme={blueTheme}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                >
-                  Submit
-                </Button>
-              </ThemeProvider>
-            </div>
-          </Paper>
-        </Grid>
-      </Grid>
-    </Container>
+    <div className={classes.root}>
+      <Paper elevation={3} className={classes.outerPaper}>
+        <div className={classes.title}>
+          <PermIdentity className={classes.text} />
+          <Typography variant="h4" component="h2">
+            Authentifacation
+          </Typography>
+        </div>
+        <div className={classes.number}>
+          <Typography variant="h4" component="h2">
+            94879487
+          </Typography>
+          <div className={classes.textField}>
+            <TextField
+              value=""
+              id="outlined-multiline-static"
+              label=""
+              margin="normal"
+              required
+              fullWidth
+              variant="outlined"
+              type="text"
+              style={{ margin: "0px", padding: "0px" }}
+            />
+          </div>
+        </div>
+        <div className={classes.submit}>
+          <ThemeProvider theme={blueTheme}>
+            <Button type="submit" fullWidth variant="contained" color="primary">
+              Submit
+            </Button>
+          </ThemeProvider>
+        </div>
+      </Paper>
+    </div>
   );
 }

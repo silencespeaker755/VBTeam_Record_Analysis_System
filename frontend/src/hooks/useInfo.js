@@ -6,9 +6,13 @@ const UserInfoContext = createContext({
 });
 
 const UserInfoProvider = (props) => {
-  const [userInfo, setUserInfo] = useState({ id: "", isAdmin: false });
+  const [userInfo, setUserInfo] = useState({
+    id: "",
+    isAdmin: false,
+    auth: false,
+  });
 
-  const changeUser = (id, isAdmin = false) => {
+  const changeUser = (id, isAdmin = false, auth = false) => {
     setUserInfo({ id, isAdmin });
   };
 
