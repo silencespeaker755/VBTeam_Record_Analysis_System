@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useMutation } from "react-query";
 import { useUserInfo } from "../hooks/useInfo";
 import axios from "../setting";
+import Loading from "../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   signUp: {
@@ -42,7 +43,7 @@ export default function SignUp({ handleClose }) {
     setAccount({ ...account, [type]: e.target.value });
   };
 
-  const signup = useMutation(
+  const { mutate: signup, isLoading } = useMutation(
     async (err) => {
       const data = await axios.post("/api/user/signup", account);
       return data;
@@ -51,7 +52,8 @@ export default function SignUp({ handleClose }) {
       onSuccess: ({ data }) => {
         localStorage.setItem("isAdmin", data.isAdmin);
         localStorage.setItem("id", data.id);
-        changeUser(data.id, data.isAdmin);
+        localStorage.setItem("auth", data.auth);
+        changeUser(data.id, data.isAdmin, data.auth);
         history.push("/home");
         handleClose();
       },
@@ -66,8 +68,10 @@ export default function SignUp({ handleClose }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    signup.mutate();
+    signup();
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <Container component="main" maxWidth="xs">

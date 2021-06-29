@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useMutation } from "react-query";
+import Loading from "../components/Loading";
 import { useUserInfo } from "../hooks/useInfo";
 import SignUp from "./SignUp";
 import axios from "../setting";
@@ -71,16 +72,18 @@ export default function SignIn() {
     setOpen(false);
   };
 
-  const signin = useMutation(
+  const { mutate: signin, isLoading } = useMutation(
     async (err) => {
       const data = await axios.post("/api/user/login", user);
       return data;
     },
     {
+      retry: false,
       onSuccess: ({ data }) => {
         localStorage.setItem("isAdmin", data.isAdmin);
         localStorage.setItem("id", data.id);
-        changeUser(data.id, data.isAdmin);
+        localStorage.setItem("auth", data.auth);
+        changeUser(data.id, data.isAdmin, data.auth);
         history.push("/home");
       },
       onError: (err) => {
@@ -94,9 +97,11 @@ export default function SignIn() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    signin.mutate();
+    signin();
     handleClose();
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <ThemeProvider theme={blackTheme}>
