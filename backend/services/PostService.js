@@ -22,7 +22,7 @@ class PostService {
         title: post.title,
         description: post.description,
         uploader: user,
-        uploadTime: post.uploadTime,
+        uploadTime: Date.now(),
       });
       await video.save();
       return video._id;
@@ -33,7 +33,7 @@ class PostService {
       title: post.title,
       content: post.content,
       uploader: user,
-      uploadTime: post.uploadTime,
+      uploadTime: Date.now(),
     });
 
     await article.save();
