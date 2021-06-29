@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Authentifacation() {
+export default function Authentication() {
   const classes = useStyles();
   const history = useHistory();
   const { changeUser } = useUserInfo();
