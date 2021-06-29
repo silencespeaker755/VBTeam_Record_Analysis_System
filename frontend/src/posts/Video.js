@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Grid,
   Button,
@@ -7,7 +8,6 @@ import {
   CardContent,
   Typography,
   Divider,
-  Link,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useMapArr from "../utils/functions/useMapArr";
@@ -52,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
     bottom: "5px",
     right: "16px",
   },
+  link: {
+    textDecoration: "none",
+  },
 }));
 
 export default function Video({ id, title, url, description }) {
@@ -89,7 +92,7 @@ export default function Video({ id, title, url, description }) {
         </CardContent>
         <CardActions className={movieClasses.cardActions}>
           <div className={movieClasses.more}>
-            <Link underline="none" href={`/home/posts/${id}`}>
+            <Link to={`/home/posts/${id}`} className={movieClasses.link}>
               <Button size="small" color="primary">
                 ...More
               </Button>
