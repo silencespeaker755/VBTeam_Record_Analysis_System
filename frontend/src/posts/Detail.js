@@ -25,11 +25,6 @@ import Edit from "./Edit";
 import useMapArr from "../utils/functions/useMapArr";
 
 const blackTheme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#171717",
-    },
-  },
   overrides: {
     MuiCard: {
       root: {
@@ -196,19 +191,11 @@ export default function Detail(props) {
                   <CardActions className={detailClasses.cardActions}>
                     {userInfo.id === cards.find(isCurrentId).uploader._id && (
                       <div className={detailClasses.cardBtn}>
-                        <Button
-                          size="small"
-                          color="primary"
-                          onClick={handleClickOpen}
-                        >
+                        <Button size="small" onClick={handleClickOpen}>
                           Edit
                         </Button>
 
-                        <Button
-                          size="small"
-                          color="primary"
-                          onClick={handleRemove}
-                        >
+                        <Button size="small" onClick={handleRemove}>
                           <Link to="/home/posts" className={detailClasses.link}>
                             Delete
                           </Link>
@@ -230,7 +217,6 @@ export default function Detail(props) {
                     className={detailClasses.link}
                   >
                     <Button
-                      color="primary"
                       fullWidth
                       variant="outlined"
                       className={detailClasses.listBtn}
