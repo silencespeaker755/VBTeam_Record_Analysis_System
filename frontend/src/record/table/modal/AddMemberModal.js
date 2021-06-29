@@ -52,12 +52,12 @@ export default function AddMemberModal(props) {
     <>
       <AlertModel
         open={open}
-        alertTitle="New"
-        alertDesciption="Are you sure to Add new member ?"
+        alertTitle="新增"
+        alertDesciption="確定要新增一個欄位嗎?"
         alertButton={
           <div>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={handleOk}>Add</Button>
+            <Button onClick={onClose}>取消</Button>
+            <Button onClick={handleOk}>確認</Button>
           </div>
         }
         onClose={onClose}

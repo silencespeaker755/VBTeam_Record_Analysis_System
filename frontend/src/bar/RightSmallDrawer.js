@@ -66,7 +66,7 @@ export default function RightSmallDrawer(props) {
 
   const menuList = [
     {
-      label: "My account",
+      label: "Profile",
       icon: <AccountCircleIcon />,
       link: `/home/profile/${userInfo.id}`,
       event: null,
@@ -80,16 +80,9 @@ export default function RightSmallDrawer(props) {
       visible: userInfo.isAdmin,
     },
     {
-      label: "My Videos",
+      label: "Practice",
       icon: <MovieIcon />,
       link: `/home`,
-      event: null,
-      visible: true,
-    },
-    {
-      label: "Analysis",
-      icon: <EqualizerIcon />,
-      link: "/home/analysis",
       event: null,
       visible: true,
     },
@@ -108,7 +101,7 @@ export default function RightSmallDrawer(props) {
       visible: true,
     },
     {
-      label: "Matches",
+      label: "Match",
       icon: <OpenInNewIcon />,
       link: "/home/match",
       event: null,

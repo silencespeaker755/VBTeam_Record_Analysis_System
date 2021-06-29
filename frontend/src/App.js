@@ -75,7 +75,7 @@ export default function App() {
           path="/home/posts/:articleId"
           render={(props) => <Detail match={props.match} />}
         />
-        <Route exact path="/home/analysis" component={RecordList} />
+        <Route exact path="/home/records" component={RecordList} />
         <Route
           exact
           path="/home/record/:recordId"

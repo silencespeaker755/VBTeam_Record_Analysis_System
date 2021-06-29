@@ -60,7 +60,7 @@ export default function RightDrawer(props) {
 
   const menuList = [
     {
-      label: "My account",
+      label: "Profile",
       icon: <AccountCircleIcon />,
       link: `/home/profile/${userInfo.id}`,
       event: null,
@@ -74,28 +74,14 @@ export default function RightDrawer(props) {
       visible: true,
     },
     {
-      label: "My Article",
+      label: "Practice",
       icon: <DescriptionIcon />,
       link: `/home/posts`,
       event: null,
       visible: true,
     },
     {
-      label: "My Videos",
-      icon: <MovieIcon />,
-      link: `/home/posts`,
-      event: null,
-      visible: true,
-    },
-    {
-      label: "Analysis",
-      icon: <EqualizerIcon />,
-      link: "/home/analysis",
-      event: null,
-      visible: true,
-    },
-    {
-      label: "Matches",
+      label: "Match",
       icon: <PollIcon />,
       link: "/home/match",
       event: null,

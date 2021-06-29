@@ -100,7 +100,7 @@ export default function Bar() {
         <Toolbar>
           <Link to="/home" className={classes.link}>
             <Typography className={classes.title} variant="h6" noWrap>
-              Volleyball Playground
+              Volleyball Club House
             </Typography>
           </Link>
           <div className={classes.search}>

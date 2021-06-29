@@ -31,14 +31,14 @@ export default function Match() {
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <Link to="/home/record_list" className={classes.link}>
+        <Link to="/home/records" className={classes.link}>
           <div className="leftbtn">
-            <span className="text">Data</span>
+            <span className="text">Records</span>
           </div>
         </Link>
-        <Link to="/home/posts" className={classes.link}>
+        <Link to="/home/analysis" className={classes.link}>
           <div className="rightbtn">
-            <span className="text">Posts</span>
+            <span className="text">Analysis</span>
           </div>
         </Link>
       </div>

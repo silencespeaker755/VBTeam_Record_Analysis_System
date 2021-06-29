@@ -63,7 +63,7 @@ const useStyles = makeStyles(() => ({
     overflow: "auto",
   },
   outCardFrame: {
-    width: "100%",
+    width: "98%",
     minHeight: "80px",
     borderRadius: "20px",
     margin: "8.5px auto",
@@ -189,7 +189,7 @@ export default function MyRecord() {
       <div className={classes.flexCenter}>
         <div className={classes.outFrame}>
           <div className={classes.titleSection}>
-            <Typography className={classes.outTitle}>Analysis</Typography>
+            <Typography className={classes.outTitle}>Records</Typography>
             <Divider className={classes.divider} />
           </div>
           <div className={classes.search}>

@@ -91,12 +91,14 @@ export default function Profile(props) {
             <ul className="list-inline mb-0">
               <li className="list-inline-item px-3">
                 <h2 className="font-weight-bold mb-0 d-block">
-                  {user.position}
+                  {user.position || "-"}
                 </h2>
                 <small className="text-muted">Position</small>
               </li>
               <li className="list-inline-item px-3">
-                <h2 className="font-weight-bold mb-0 d-block">{user.number}</h2>
+                <h2 className="font-weight-bold mb-0 d-block">
+                  {user.number || "-"}
+                </h2>
                 <small className="text-muted">number</small>
               </li>
               <li className="list-inline-item px-3">

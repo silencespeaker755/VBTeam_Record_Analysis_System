@@ -62,7 +62,7 @@ const useStyles = makeStyles(() => ({
     overflow: "auto",
   },
   outCardFrame: {
-    width: "100%",
+    width: "98%",
     minHeight: "80px",
     borderRadius: "20px",
     margin: "8.5px auto",

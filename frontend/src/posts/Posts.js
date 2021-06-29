@@ -160,7 +160,7 @@ export default function Practice() {
                 onChange={handleTab}
                 variant="scrollable"
                 indicatorColor="primary"
-                scrollButtons="on"
+                scrollButtons="auto"
                 textColor="primary"
                 aria-label="icon tabs example"
                 className={classes.tabs}

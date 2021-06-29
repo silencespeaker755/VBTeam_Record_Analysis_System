@@ -51,12 +51,12 @@ export default function DeleteTableModal(props) {
     <>
       <AlertModel
         open={open}
-        alertTitle="Delete"
-        alertDesciption="Are you sure to delete this set ?"
+        alertTitle="刪除"
+        alertDesciption="確定要刪除這局的紀錄嗎？"
         alertButton={
           <div>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={handleOk}>Delete</Button>
+            <Button onClick={onClose}>取消</Button>
+            <Button onClick={handleOk}>確認</Button>
           </div>
         }
         onClose={onClose}

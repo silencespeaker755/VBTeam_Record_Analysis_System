@@ -48,12 +48,12 @@ export default function UpdateTableModal(props) {
     <>
       <AlertModel
         open={open}
-        alertTitle="Update"
-        alertDesciption={`Are you sure to update changes. Before Update this set, please make sure you aren't editing another set`}
+        alertTitle="修改"
+        alertDesciption="確定要儲存已修改的變更嗎？ 再按下確認之前，請確保只有一局的資料被更動。"
         alertButton={
           <div>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={handleOk}>Update</Button>
+            <Button onClick={onClose}>取消</Button>
+            <Button onClick={handleOk}>確認</Button>
           </div>
         }
         onClose={onClose}

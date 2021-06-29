@@ -8,6 +8,7 @@ import {
   Popover,
   Typography,
   Button,
+  Divider,
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PeopleIcon from "@material-ui/icons/People";
@@ -41,6 +42,8 @@ const useStyles = makeStyles(() => ({
     [theme.breakpoints.up("md")]: {
       display: "flex",
     },
+    width: "15%",
+    justifyContent: "space-around",
   },
   smallSection: {
     display: "flex",
@@ -177,37 +180,38 @@ export default function Menu() {
           color="inherit"
           component="span"
         >
-          <AccountCircleIcon />
+          <AccountCircleIcon style={{ fontSize: 33 }} />
         </IconButton>
       </div>
     );
   return (
     <>
       <div className={classes.section}>
-        <div className={classes.flex}>
-          <IconButton
-            color="inherit"
-            onClick={() => history.push("/home/user_list")}
-            component="span"
-          >
-            <PeopleIcon />
-          </IconButton>
-          <IconButton color="inherit" onClick={handleClick} component="span">
-            <Badge badgeContent={notify.length} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </div>
+        {/* <div className={classes.flex}> */}
+        <IconButton
+          color="inherit"
+          onClick={() => history.push("/home/user_list")}
+          component="span"
+        >
+          <PeopleIcon style={{ fontSize: 35 }} />
+        </IconButton>
+        <IconButton color="inherit" onClick={handleClick} component="span">
+          <Badge badgeContent={notify.length} color="secondary">
+            <NotificationsIcon style={{ fontSize: 33 }} />
+          </Badge>
+        </IconButton>
         <IconButton
           edge="end"
           onClick={toggleDrawer(true)}
           color="inherit"
           component="span"
         >
-          <AccountCircleIcon />
+          <AccountCircleIcon style={{ fontSize: 33 }} />
         </IconButton>
-        <RightDrawer open={open} toggleDrawer={toggleDrawer} />
       </div>
+
+      <RightDrawer open={open} toggleDrawer={toggleDrawer} />
+      {/* </div> */}
       <div className={classes.smallSection}>
         <RightSmallDrawer open={openSmall} toggleDrawer={toggleSmallDrawer} />
       </div>
@@ -228,33 +232,48 @@ export default function Menu() {
         <div className={classes.popoverBox}>
           <div className={classes.popoverItem}>
             {notify.map((el, index) => {
-              return el.type === "vedio" || el.type === "article" ? (
+              return el.type === "video" || el.type === "article" ? (
                 <Link
                   to={`${linkDir[el.type]}${el.id}`}
                   className={classes.link}
                 >
+                  <>
+                    <Typography
+                      key={`${index}+${el}`}
+                      className={classes.notification}
+                    >
+                      {noticon(el.type)}
+                      {`${el.uploader} 上傳了一${
+                        el.type === "video" ? "支影片" : "篇文章"
+                      }`}
+                      &nbsp;&nbsp;
+                      <small>{`${moment(el.uploadTime).format(
+                        "YYYY-MM-DD hh:mm"
+                      )}`}</small>
+                    </Typography>
+                    <Divider />
+                  </>
+                </Link>
+              ) : (
+                <>
                   <Typography
                     key={`${index}+${el}`}
                     className={classes.notification}
                   >
                     {noticon(el.type)}
-                    {`${el.uploader}`}
-                    &nbsp;&nbsp;&nbsp;
-                    {`${moment(el.uploadTime).format("YYYY-MM-DD hh:mm")}`}
+                    {`${el.uploader} 上傳了一${
+                      el.type === "record" ? "個比賽紀錄" : "個練球事件"
+                    }`}
+                    &nbsp;&nbsp;
+                    <small>{`${moment(el.uploadTime).format(
+                      "YYYY-MM-DD hh:mm"
+                    )}`}</small>
                   </Typography>
-                </Link>
-              ) : (
-                <Typography
-                  key={`${index}+${el}`}
-                  className={classes.notification}
-                >
-                  {noticon(el.type)}
-                  {`${el.uploader}`}
-                  &nbsp;&nbsp;&nbsp;
-                  {`${moment(el.uploadTime).format("YYYY-MM-DD hh:mm")}`}
-                </Typography>
+                  <Divider />
+                </>
               );
             })}
+            <Divider />
           </div>
           <Button
             variant="outlined"
