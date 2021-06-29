@@ -61,7 +61,7 @@ class CalendarService {
     const user = await User.findById(userId);
     if (!user) throw "User not exists!";
 
-    return !!event.attendance.find(String(userId));
+    return !!event.attendance.find((uid) => uid === userId);
   }
 
   static async attendEvent({ eventId, userId, attend }) {
