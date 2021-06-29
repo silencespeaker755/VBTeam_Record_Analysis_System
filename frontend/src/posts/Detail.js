@@ -194,15 +194,16 @@ export default function Detail(props) {
                     </div>
                   </CardContent>
                   <CardActions className={detailClasses.cardActions}>
-                    <div className={detailClasses.cardBtn}>
-                      <Button
-                        size="small"
-                        color="primary"
-                        onClick={handleClickOpen}
-                      >
-                        Edit
-                      </Button>
-                      {userInfo.id === cards.find(isCurrentId).uploader._id && (
+                    {userInfo.id === cards.find(isCurrentId).uploader._id && (
+                      <div className={detailClasses.cardBtn}>
+                        <Button
+                          size="small"
+                          color="primary"
+                          onClick={handleClickOpen}
+                        >
+                          Edit
+                        </Button>
+
                         <Button
                           size="small"
                           color="primary"
@@ -212,8 +213,8 @@ export default function Detail(props) {
                             Delete
                           </Link>
                         </Button>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </CardActions>
                 </Card>
               )}
