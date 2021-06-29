@@ -1,10 +1,19 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Badge, IconButton, createMuiTheme } from "@material-ui/core";
+import {
+  Badge,
+  IconButton,
+  createMuiTheme,
+  Popover,
+  Typography,
+} from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PeopleIcon from "@material-ui/icons/People";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import MovieIcon from "@material-ui/icons/Movie";
+import DescriptionIcon from "@material-ui/icons/Description";
+import PollIcon from "@material-ui/icons/Poll";
 import { useUserInfo } from "../hooks/useInfo";
 
 import RightDrawer from "./RightDrawer";
@@ -38,6 +47,13 @@ const useStyles = makeStyles(() => ({
   flex: {
     display: "flex",
   },
+  notification: {
+    padding: "10px",
+    marginTop: "10px",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
 }));
 
 export default function Menu() {
@@ -46,6 +62,17 @@ export default function Menu() {
   const { userInfo } = useUserInfo();
   const [open, setOpen] = useState(false);
   const [openSmall, setOpenSmall] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openPopover = Boolean(anchorEl);
+  const id = openPopover ? "simple-popover" : undefined;
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const toggleDrawer = (bool) => (e) => {
     setOpen(bool);
@@ -79,7 +106,7 @@ export default function Menu() {
           >
             <PeopleIcon />
           </IconButton>
-          <IconButton color="inherit" onClick={() => {}} component="span">
+          <IconButton color="inherit" onClick={handleClick} component="span">
             <Badge badgeContent={3} color="secondary">
               <NotificationsIcon />
             </Badge>
@@ -98,6 +125,51 @@ export default function Menu() {
       <div className={classes.smallSection}>
         <RightSmallDrawer open={openSmall} toggleDrawer={toggleSmallDrawer} />
       </div>
+      <Popover
+        id={id}
+        open={openPopover}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <div style={{ height: "300px", overflow: "scroll" }}>
+          <Typography className={classes.notification}>
+            <MovieIcon style={{ paddingRight: "10px" }} /> The content of the
+            Popover.
+          </Typography>
+          <Typography className={classes.notification}>
+            <DescriptionIcon style={{ paddingRight: "10px" }} /> The content of
+            the Popover.
+          </Typography>
+          <Typography className={classes.notification}>
+            <PollIcon style={{ paddingRight: "10px" }} /> The content of the
+            Popover.
+          </Typography>
+          <Typography className={classes.notification}>
+            <PollIcon style={{ paddingRight: "10px" }} /> The content of the
+            Popover.
+          </Typography>
+          <Typography className={classes.notification}>
+            <PollIcon style={{ paddingRight: "10px" }} /> The content of the
+            Popover.
+          </Typography>
+          <Typography className={classes.notification}>
+            <PollIcon style={{ paddingRight: "10px" }} /> The content of the
+            Popover.
+          </Typography>
+          <Typography className={classes.notification}>
+            <PollIcon style={{ paddingRight: "10px" }} /> The content of the
+            Popover.
+          </Typography>
+        </div>
+      </Popover>
     </>
   );
 }

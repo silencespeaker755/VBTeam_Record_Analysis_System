@@ -58,6 +58,7 @@ class RecordService {
       date: record.date,
       sets: [],
       creator: user,
+      createTime: Date.now(),
     });
 
     await newRecord.save();

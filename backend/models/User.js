@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   position: { type: String },
   about: { type: String },
   auth: { type: Boolean },
+  lastLogin: { type: Date, required: [true, '"lastLogin" field is required'] },
 });
 
 export default mongoose.model("User", userSchema);

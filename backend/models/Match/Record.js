@@ -17,6 +17,10 @@ const recordSchema = new mongoose.Schema({
     required: [true, '"creator" field is required'],
     ref: User,
   },
+  createTime: {
+    type: Date,
+    required: [true, '"createTime" field is required'],
+  },
 });
 
 export default mongoose.model("Record", recordSchema);
