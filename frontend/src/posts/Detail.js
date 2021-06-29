@@ -13,32 +13,12 @@ import {
   Dialog,
   DialogContent,
 } from "@material-ui/core";
-import {
-  makeStyles,
-  createMuiTheme,
-  ThemeProvider,
-} from "@material-ui/core/styles";
+import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import { useQuery, useMutation } from "react-query";
 import instance from "../setting";
 import { useUserInfo } from "../hooks/useInfo";
 import Edit from "./Edit";
 import useMapArr from "../utils/functions/useMapArr";
-
-const blackTheme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#171717",
-    },
-  },
-  overrides: {
-    MuiCard: {
-      root: {
-        boxShadow: "2px 2px 10px 2px rgba(0,0,0,0.3)",
-        "&:hover": { boxShadow: "2px 4px 20px 2px rgba(0,0,0,0.3)" },
-      },
-    },
-  },
-});
 
 const useStyles = makeStyles((theme) => ({
   container: { marginTop: "50px" },
@@ -155,109 +135,99 @@ export default function Detail(props) {
   };
 
   return (
-    <ThemeProvider theme={blackTheme}>
-      <Container className={detailClasses.container}>
-        <Grid container>
-          <Grid item xs={8} sm={8} md={8}>
-            <Paper elevation={3} className={detailClasses.cardPaper}>
-              {cards.find(isCurrentId) && (
-                <Card className={detailClasses.card}>
-                  {!cards.find(isCurrentId).url ? null : (
-                    <div className={detailClasses.cardMedia}>
-                      <iframe
-                        className={detailClasses.cardVedio}
-                        width="100%"
-                        height="100%"
-                        src={cards.find(isCurrentId).url}
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                  )}
-                  <CardContent className={detailClasses.cardContent}>
-                    <Typography gutterBottom variant="h4" component="h2">
-                      {cards.find(isCurrentId).title}
-                    </Typography>
-                    <Divider />
-                    <div className={detailClasses.text}>
-                      {!cards.find(isCurrentId).url
-                        ? useMapArr(
-                            cards.find(isCurrentId).content.split("\n"),
-                            detailClasses.article
-                          )
-                        : useMapArr(
-                            cards.find(isCurrentId).description.split("\n"),
-                            detailClasses.article
-                          )}
-                    </div>
-                  </CardContent>
-                  <CardActions className={detailClasses.cardActions}>
+    <Container className={detailClasses.container}>
+      <Grid container>
+        <Grid item xs={8} sm={8} md={8}>
+          <Paper elevation={3} className={detailClasses.cardPaper}>
+            {cards.find(isCurrentId) && (
+              <Card className={detailClasses.card}>
+                {!cards.find(isCurrentId).url ? null : (
+                  <div className={detailClasses.cardMedia}>
+                    <iframe
+                      className={detailClasses.cardVedio}
+                      width="100%"
+                      height="100%"
+                      src={cards.find(isCurrentId).url}
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+                <CardContent className={detailClasses.cardContent}>
+                  <Typography gutterBottom variant="h4" component="h2">
+                    {cards.find(isCurrentId).title}
+                  </Typography>
+                  <Divider />
+                  <div className={detailClasses.text}>
+                    {!cards.find(isCurrentId).url
+                      ? useMapArr(
+                          cards.find(isCurrentId).content.split("\n"),
+                          detailClasses.article
+                        )
+                      : useMapArr(
+                          cards.find(isCurrentId).description.split("\n"),
+                          detailClasses.article
+                        )}
+                  </div>
+                </CardContent>
+                <CardActions className={detailClasses.cardActions}>
+                  {userInfo.id === cards.find(isCurrentId).uploader._id && (
                     <div className={detailClasses.cardBtn}>
-                      <Button
-                        size="small"
-                        color="primary"
-                        onClick={handleClickOpen}
-                      >
+                      <Button size="small" onClick={handleClickOpen}>
                         Edit
                       </Button>
-                      {userInfo.id === cards.find(isCurrentId).uploader._id && (
-                        <Button
-                          size="small"
-                          color="primary"
-                          onClick={handleRemove}
-                        >
-                          <Link to="/home/posts" className={detailClasses.link}>
-                            Delete
-                          </Link>
-                        </Button>
-                      )}
+
+                      <Button size="small" onClick={handleRemove}>
+                        <Link to="/home/posts" className={detailClasses.link}>
+                          Delete
+                        </Link>
+                      </Button>
                     </div>
-                  </CardActions>
-                </Card>
-              )}
-            </Paper>
-          </Grid>
-          <Grid item xs={4} sm={4} md={4}>
-            <Paper elevation={3} className={detailClasses.listPaper}>
-              {cards.map((card, index) => {
-                return (
-                  <Link
-                    key={`${index}+${card.title}`}
-                    to={`/home/posts/${card._id}`}
-                    className={detailClasses.link}
-                  >
-                    <Button
-                      color="primary"
-                      fullWidth
-                      variant="outlined"
-                      className={detailClasses.listBtn}
-                      key={`${index}${card.title}`}
-                      disabled={articleId === card._id}
-                    >
-                      {card.title}
-                    </Button>
-                  </Link>
-                );
-              })}
-            </Paper>
-          </Grid>
+                  )}
+                </CardActions>
+              </Card>
+            )}
+          </Paper>
         </Grid>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogContent>
-            <Edit
-              handleClose={handleClose}
-              refetchEvents={refetchEvents}
-              card={cards.find(isCurrentId)}
-            />
-          </DialogContent>
-        </Dialog>
-      </Container>
-    </ThemeProvider>
+        <Grid item xs={4} sm={4} md={4}>
+          <Paper elevation={3} className={detailClasses.listPaper}>
+            {cards.map((card, index) => {
+              return (
+                <Link
+                  key={`${index}+${card.title}`}
+                  to={`/home/posts/${card._id}`}
+                  className={detailClasses.link}
+                >
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    className={detailClasses.listBtn}
+                    key={`${index}${card.title}`}
+                    disabled={articleId === card._id}
+                  >
+                    {card.title}
+                  </Button>
+                </Link>
+              );
+            })}
+          </Paper>
+        </Grid>
+      </Grid>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogContent>
+          <Edit
+            handleClose={handleClose}
+            refetchEvents={refetchEvents}
+            card={cards.find(isCurrentId)}
+          />
+        </DialogContent>
+      </Dialog>
+    </Container>
   );
 }
