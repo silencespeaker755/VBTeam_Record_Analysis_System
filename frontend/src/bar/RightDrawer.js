@@ -65,7 +65,7 @@ export default function RightDrawer(props) {
     {
       label: "My Records",
       icon: <AssignmentIcon />,
-      link: `/home/analysis/my_record`,
+      link: `/home/analysis/${userInfo.id}`,
       event: null,
       visible: true,
     },
@@ -86,7 +86,7 @@ export default function RightDrawer(props) {
     {
       label: "Analysis",
       icon: <EqualizerIcon />,
-      link: "/home/record_list",
+      link: "/home/analysis",
       event: null,
       visible: true,
     },
@@ -102,6 +102,7 @@ export default function RightDrawer(props) {
   const handleLogOut = () => {
     localStorage.removeItem("id");
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("auth");
   };
 
   return (

@@ -15,6 +15,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { useImmer } from "../../hooks/useImmer";
+import { useUserInfo } from "../../hooks/useInfo";
 import EditableCell from "./EditableCell";
 import EditableTextCeil from "./EditableTextCeil";
 import UpdateTableModal from "../modal/UpdateTableModal";
@@ -38,6 +39,7 @@ export default function RecordTable({
   refetchMatch,
 }) {
   const classes = useStyles();
+  const { userInfo } = useUserInfo();
   const [data, setData] = useImmer(initialData);
   const [current, setCurrent] = useState("");
   const [deleteIndex, setDeleteIndex] = useState(null);
@@ -49,19 +51,11 @@ export default function RecordTable({
 
   const AddNewMember = () => {
     setCreateDataModal(true);
-    // setData((pre) => {
-    //   pre.push(Unit);
-    //   return pre;
-    // });
   };
 
   const RemoveNewMember = () => {
     setRemoveId(match.sets[setsIndex].data[deleteIndex]._id);
     setDeleteDataModal(true);
-    // setData((pre) => {
-    //   pre.splice(deleteIndex, 1);
-    //   return pre;
-    // });
     setDeleteIndex(null);
   };
 
@@ -95,6 +89,7 @@ export default function RecordTable({
         >
           <div className="column-content-postion height-52">
             <EditableCell
+              editable={userInfo.isAdmin}
               initialValue={item}
               label={`${key}-${index}`}
               current={current}
@@ -131,6 +126,7 @@ export default function RecordTable({
         >
           <div className="column-content-postion height-52">
             <EditableTextCeil
+              editable={userInfo.isAdmin}
               initialValue={item}
               label={`${key}-${item}-${index}`}
               current={current}
@@ -164,6 +160,7 @@ export default function RecordTable({
               className="column-content-postion"
             >
               <EditableCell
+                editable={userInfo.isAdmin}
                 initialValue={item[value]}
                 label={`${key}-${value}-${index}`}
                 current={current}
@@ -194,22 +191,26 @@ export default function RecordTable({
       className="margin-50"
       style={{ position: "relative", marginTop: "10px", marginBottom: "80px" }}
     >
-      <Button
-        className="delete-button"
-        size="medium"
-        onClick={() => setDeleteModal(true)}
-      >
-        <DeleteIcon className="delete-icon" />
-        Delete
-      </Button>
-      <Button
-        className="update-button"
-        size="medium"
-        onClick={() => setUpdatemodal(true)}
-      >
-        <CloudUploadIcon className="edit-icon" />
-        Update
-      </Button>
+      {userInfo.isAdmin ? (
+        <div>
+          <Button
+            className="delete-button"
+            size="medium"
+            onClick={() => setDeleteModal(true)}
+          >
+            <DeleteIcon className="delete-icon" />
+            Delete
+          </Button>
+          <Button
+            className="update-button"
+            size="medium"
+            onClick={() => setUpdatemodal(true)}
+          >
+            <CloudUploadIcon className="edit-icon" />
+            Update
+          </Button>
+        </div>
+      ) : null}
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="a dense table">
           <TableHead>
@@ -253,17 +254,19 @@ export default function RecordTable({
           </TableBody>
         </Table>
       </TableContainer>
-      <div className="add-member-section">
-        {deleteIndex !== null && deleteIndex < data.length ? (
-          <Button className="add-member-button" onClick={RemoveNewMember}>
-            <RemoveIcon />
-          </Button>
-        ) : (
-          <Button className="add-member-button" onClick={AddNewMember}>
-            <AddIcon />
-          </Button>
-        )}
-      </div>
+      {userInfo.isAdmin ? (
+        <div className="add-member-section">
+          {deleteIndex !== null && deleteIndex < data.length ? (
+            <Button className="add-member-button" onClick={RemoveNewMember}>
+              <RemoveIcon />
+            </Button>
+          ) : (
+            <Button className="add-member-button" onClick={AddNewMember}>
+              <AddIcon />
+            </Button>
+          )}
+        </div>
+      ) : null}
       <UpdateTableModal
         open={updateModal}
         onClose={() => {

@@ -72,9 +72,9 @@ export default function RightSmallDrawer(props) {
     {
       label: "My Records",
       icon: <AssignmentIcon />,
-      link: `/home/analysis/my_record`,
+      link: `/home/analysis/${userInfo.id}`,
       event: null,
-      visible: true,
+      visible: userInfo.isAdmin,
     },
     {
       label: "My Videos",
@@ -86,7 +86,7 @@ export default function RightSmallDrawer(props) {
     {
       label: "Analysis",
       icon: <EqualizerIcon />,
-      link: "/home/record_list",
+      link: "/home/analysis",
       event: null,
       visible: true,
     },
@@ -116,6 +116,7 @@ export default function RightSmallDrawer(props) {
   const handleLogOut = () => {
     localStorage.removeItem("id");
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("auth");
   };
 
   return (

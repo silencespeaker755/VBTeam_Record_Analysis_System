@@ -9,6 +9,7 @@ import RecordTable from "./table/RecordTable";
 import ScrollTopButton from "../components/ScrollTopButton";
 import AddButton from "../components/AddButton";
 import AddTableModal from "./modal/AddTablemodal";
+import { useUserInfo } from "../hooks/useInfo";
 import { useImmer } from "../hooks/useImmer";
 import axios from "../setting";
 import Loading from "../components/Loading";
@@ -50,6 +51,7 @@ export default function Record(props) {
   } = props;
   const classes = useStyles();
   const [ref, inView] = useInView();
+  const { userInfo } = useUserInfo();
   const [addModal, setAddModel] = useState(false);
 
   const {
@@ -102,7 +104,9 @@ export default function Record(props) {
           />
         </div>
       ))}
-      <AddButton inView={inView} openModal={() => setAddModel(true)} />
+      {userInfo.isAdmin ? (
+        <AddButton inView={inView} openModal={() => setAddModel(true)} />
+      ) : null}
       <ScrollTopButton inView={inView}>
         <Fab
           aria-label="scroll back to top"
