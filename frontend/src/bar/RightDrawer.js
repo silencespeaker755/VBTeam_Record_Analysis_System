@@ -12,10 +12,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import PollIcon from "@material-ui/icons/Poll";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import ListIcon from "@material-ui/icons/List";
+import EqualizerIcon from "@material-ui/icons/Equalizer";
 import MovieIcon from "@material-ui/icons/Movie";
+import DescriptionIcon from "@material-ui/icons/Description";
 import { useUserInfo } from "../hooks/useInfo";
 
 const useStyle = makeStyles((theme) => ({
@@ -35,9 +36,6 @@ const useStyle = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#9e9e9e",
       color: "white",
-      //   "& .MuiListItemIcon-root": {
-      //     color: "white",
-      //   },
     },
   },
   notAdmin: {
@@ -63,25 +61,39 @@ export default function RightDrawer(props) {
       icon: <AccountCircleIcon />,
       link: `/home/profile/${userInfo.id}`,
       event: null,
-      visible: admin,
+      visible: true,
     },
     {
       label: "My Records",
       icon: <AssignmentIcon />,
       link: `/home/analysis/my_record`,
       event: null,
-      visible: admin,
+      visible: userInfo.isAdmin,
+    },
+    {
+      label: "My Article",
+      icon: <DescriptionIcon />,
+      link: `/home/posts`,
+      event: null,
+      visible: userInfo.isAdmin,
     },
     {
       label: "My Videos",
       icon: <MovieIcon />,
-      link: `/home`,
+      link: `/home/posts`,
       event: null,
-      visible: admin,
+      visible: userInfo.isAdmin,
+    },
+    {
+      label: "Analysis",
+      icon: <EqualizerIcon />,
+      link: "/home/record_list",
+      event: null,
+      visible: true,
     },
     {
       label: "Matches",
-      icon: <OpenInNewIcon />,
+      icon: <PollIcon />,
       link: "/home/match",
       event: null,
       visible: admin,

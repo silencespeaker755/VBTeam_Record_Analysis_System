@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   number: { type: String },
   position: { type: String },
   about: { type: String },
+  auth: { type: Boolean },
 });
 
 export default mongoose.model("User", userSchema);

@@ -92,6 +92,20 @@ router.post("/login", (req, res) => {
     });
 });
 
+router.post("/auth", (req, res) => {
+  const { email, verifyCode } = req.body;
+  UserService.authentication({ email, verifyCode })
+    .then((auth) => {
+      console.log("Verification:", auth);
+      if (auth) res.status(200).send({ msg: "Verification Success!", auth });
+      else res.status(200).send({ msg: "Incorrect Verification Code!", auth });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).send(err);
+    });
+});
+
 router.get("/users", (req, res) => {
   const { userId } = req.query;
   if (userId) {
@@ -123,6 +137,19 @@ router.post("/update", (req, res) => {
     .then((user) => {
       console.log("Update user:", user);
       res.status(200).send(user);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).send(err);
+    });
+});
+
+router.post("/admin", (req, res) => {
+  const { body } = req;
+  UserService.updateAdmin(body)
+    .then((user) => {
+      console.log("Update user:", user);
+      res.status(200).send("Update Success !");
     })
     .catch((err) => {
       console.log(err);

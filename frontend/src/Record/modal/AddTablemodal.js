@@ -38,8 +38,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Addmodal(props) {
-  const { open, title, handleClose, match, refetchMatch } = props;
+export default function AddTablemodal(props) {
+  const { open, title, handleClose, recordId, refetchMatch } = props;
   const classes = useStyles();
 
   const initForm = {
@@ -53,10 +53,9 @@ export default function Addmodal(props) {
   const { mutate: AddNewSet, isLoading } = useMutation(
     "AddNewSet",
     async () => {
-      const newData = match;
-      newData.sets.push(info);
-      const data = await axios.post("/api/match/records/update", {
-        record: newData,
+      const data = await axios.post("/api/match/records/sets/create", {
+        recordId,
+        set: info,
         userId: userInfo.id,
       });
       return data;

@@ -177,6 +177,8 @@ export default function MyRecord() {
       return data;
     },
     {
+      retry: false,
+      refetchOnWindowFocus: false,
       onSuccess: () => {},
     }
   );
@@ -185,7 +187,7 @@ export default function MyRecord() {
     history.push(`/home/record/${id}`);
   };
 
-  const handleSearch = () => {};
+  console.log(userInfo);
 
   if (isRecordListFetching || isListLoading) return <Loading />;
 
@@ -207,7 +209,6 @@ export default function MyRecord() {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              onKeyUp={handleSearch}
               onChange={(e) => setSearchInput(e.target.value)}
               value={searchInput}
             />
@@ -238,12 +239,14 @@ export default function MyRecord() {
                     className={classes.actionArea}
                     onClick={handleClick(element._id)}
                   >
-                    <div className={classes.deleteSection}>
-                      <DeleteSection
-                        recordId={element._id}
-                        refetch={refetchRecordList}
-                      />
-                    </div>
+                    {userInfo.isAdmin ? (
+                      <div className={classes.deleteSection}>
+                        <DeleteSection
+                          recordId={element._id}
+                          refetch={refetchRecordList}
+                        />
+                      </div>
+                    ) : null}
                     <Typography
                       variant="body1"
                       color="textSecondary"
@@ -273,14 +276,16 @@ export default function MyRecord() {
           </div>
         </div>
       </div>
-      <AddButton
-        inView
-        openModal={() => setMatchModal(true)}
-        height={60}
-        width={60}
-        bottom={48}
-        right={20}
-      />
+      {userInfo.isAdmin ? (
+        <AddButton
+          inView
+          openModal={() => setMatchModal(true)}
+          height={60}
+          width={60}
+          bottom={48}
+          right={20}
+        />
+      ) : null}
       <AddMatchModal
         open={matchModal}
         handleClose={() => setMatchModal(false)}

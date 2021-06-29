@@ -115,9 +115,9 @@ export default function Record(props) {
       <AddTableModal
         open={addModal}
         title={`${match.team} v.s. ${match.opponent}`}
-        match={match}
-        refetchMatch={refetchMatch}
         handleClose={() => setAddModel(false)}
+        recordId={recordId}
+        refetchMatch={refetchMatch}
       />
     </div>
   );

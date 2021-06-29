@@ -16,9 +16,9 @@ import Bar from "./bar/Bar";
 // Sign
 import SignIn from "./sign/SignIn";
 
-// Practice
-import Practice from "./practice/Practice";
-import Detail from "./practice/Detail";
+// Posts
+import Posts from "./posts/Posts";
+import Detail from "./posts/Detail";
 
 // Match
 import Match from "./match/Match";
@@ -44,7 +44,7 @@ export default function App() {
     const isAdmin = localStorage.getItem("isAdmin");
     const id = localStorage.getItem("id");
     if (id && isAdmin) {
-      changeUser(id, isAdmin);
+      changeUser(id, isAdmin === "true");
       if (history.location.pathname === "/") history.push("/home");
     } else {
       history.push("/");
@@ -59,10 +59,10 @@ export default function App() {
         <Route exact path="/home" component={Homepage} />
         <Route exact path="/home/user_list" component={UserList} />
         <Route exact path="/home/match" component={Match} />
-        <Route exact path="/home/article" component={Practice} />
+        <Route exact path="/home/posts" component={Posts} />
         <Route
           exact
-          path="/home/article/:articleId"
+          path="/home/posts/:articleId"
           render={(props) => <Detail match={props.match} />}
         />
         <Route exact path="/home/record_list" component={RecordList} />

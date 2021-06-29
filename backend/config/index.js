@@ -8,4 +8,6 @@ export default {
   FacebookGroupId: process.env.FacebookGroupId,
   FacebookAppId: process.env.FacebookAppId,
   FacebookAppSecret: process.env.FacebookAppSecret,
+  email: process.env.SYSTEM_EMAIL,
+  password: process.env.SYSTEM_PASSWORD,
 };

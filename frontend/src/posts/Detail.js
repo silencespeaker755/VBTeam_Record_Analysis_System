@@ -22,6 +22,7 @@ import { useQuery, useMutation } from "react-query";
 import instance from "../setting";
 import { useUserInfo } from "../hooks/useInfo";
 import Edit from "./Edit";
+import useMapArr from "../utils/functions/useMapArr";
 
 const blackTheme = createMuiTheme({
   palette: {
@@ -40,6 +41,7 @@ const blackTheme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
+  container: { marginTop: "50px" },
   card: {
     width: "100%",
     height: "100%",
@@ -61,9 +63,28 @@ const useStyles = makeStyles((theme) => ({
     left: "0",
     top: "0",
   },
+  cardActions: {
+    position: "relative",
+    bottom: "0px",
+    height: "30px",
+  },
+  cardBtn: {
+    position: "absolute",
+    bottom: "5px",
+    right: "16px",
+  },
   article: {
     wordWrap: "break-word",
     wordBreak: "break-all",
+  },
+  text: {
+    paddingTop: "5px",
+  },
+  listPaper: {
+    height: "100%",
+    padding: "30px",
+    overflow: "scroll",
+    maxHeight: "600px",
   },
   cardPaper: {
     minHeight: "550px",
@@ -73,11 +94,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "30px",
     padding: "30px",
   },
-  listPaper: {
-    height: "100%",
-    padding: "30px",
-    overflow: "scroll",
-    maxHeight: "600px",
+  listBtn: {
+    marginTop: "10px",
   },
 }));
 
@@ -133,34 +151,9 @@ export default function Detail(props) {
     setOpen(false);
   };
 
-  const mappingArrayToText = (array) => {
-    if (array.length === 0 || (array.length === 1 && array[0] === ""))
-      return (
-        <Typography
-          variant="body1"
-          component="p"
-          className={detailClasses.article}
-        >
-          &nbsp;none
-        </Typography>
-      );
-    return array.map((el, i, all) => {
-      return (
-        <Typography
-          key={`${i}+${el}`}
-          variant="body1"
-          component="p"
-          className={detailClasses.article}
-        >
-          &nbsp;{el}
-        </Typography>
-      );
-    });
-  };
-
   return (
     <ThemeProvider theme={blackTheme}>
-      <Container style={{ marginTop: "50px" }}>
+      <Container className={detailClasses.container}>
         <Grid container>
           <Grid item xs={8} sm={8} md={8}>
             <Paper elevation={3} className={detailClasses.cardPaper}>
@@ -185,30 +178,20 @@ export default function Detail(props) {
                       {cards.find(isCurrentId).title}
                     </Typography>
                     <Divider />
-                    <div style={{ paddingTop: "5px" }}>
+                    <div className={detailClasses.text}>
                       {!cards.find(isCurrentId).url
-                        ? mappingArrayToText(
-                            cards.find(isCurrentId).content.split("\n")
+                        ? useMapArr(
+                            cards.find(isCurrentId).content.split("\n"),
+                            detailClasses.article
                           )
-                        : mappingArrayToText(
-                            cards.find(isCurrentId).description.split("\n")
+                        : useMapArr(
+                            cards.find(isCurrentId).description.split("\n"),
+                            detailClasses.article
                           )}
                     </div>
                   </CardContent>
-                  <CardActions
-                    style={{
-                      position: "relative",
-                      bottom: "0px",
-                      height: "30px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: "absolute",
-                        bottom: "5px",
-                        right: "16px",
-                      }}
-                    >
+                  <CardActions className={detailClasses.cardActions}>
+                    <div className={detailClasses.cardBtn}>
                       <Button
                         size="small"
                         color="primary"
@@ -222,7 +205,7 @@ export default function Detail(props) {
                           color="primary"
                           onClick={handleRemove}
                         >
-                          <Link underline="none" href="/home/article">
+                          <Link underline="none" href="/home/posts">
                             Delete
                           </Link>
                         </Button>
@@ -240,13 +223,13 @@ export default function Detail(props) {
                   <Link
                     key={`${index}+${card.title}`}
                     underline="none"
-                    href={`/home/article/${card._id}`}
+                    href={`/home/posts/${card._id}`}
                   >
                     <Button
                       color="primary"
                       fullWidth
                       variant="outlined"
-                      style={{ marginTop: "10px" }}
+                      className={detailClasses.listBtn}
                       key={`${index}${card.title}`}
                       disabled={articleId === card._id}
                     >

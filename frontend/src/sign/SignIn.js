@@ -14,6 +14,7 @@ import {
   Dialog,
   DialogContent,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import { useMutation } from "react-query";
 import { useUserInfo } from "../hooks/useInfo";
 import SignUp from "./SignUp";
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  alert: {
+    marginTop: "10px",
+  },
 }));
 
 export default function SignIn() {
@@ -48,6 +52,8 @@ export default function SignIn() {
   const history = useHistory();
   const { changeUser } = useUserInfo();
   const [open, setOpen] = React.useState(false);
+  const [isErr, setIsErr] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -77,6 +83,12 @@ export default function SignIn() {
         changeUser(data.id, data.isAdmin);
         history.push("/home");
       },
+      onError: (err) => {
+        if (err.response.status === 401) {
+          setIsErr(true);
+          setErrMsg(err.response.data);
+        }
+      },
     }
   );
 
@@ -93,6 +105,11 @@ export default function SignIn() {
           <Typography component="h1" variant="h4">
             Sign In
           </Typography>
+          {isErr ? (
+            <Alert className={classes.alert} severity="error">
+              {errMsg}
+            </Alert>
+          ) : null}
           <form className={classes.form}>
             <TextField
               variant="outlined"
@@ -131,9 +148,7 @@ export default function SignIn() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Button>Forgot password</Button>
-              </Grid>
+              <Grid item xs />
               <Grid item>
                 <Button onClick={handleClickOpen}>sign up</Button>
               </Grid>

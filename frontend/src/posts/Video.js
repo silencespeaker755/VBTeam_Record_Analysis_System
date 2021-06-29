@@ -10,7 +10,7 @@ import {
   Link,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { relativeTimeRounding } from "moment";
+import useMapArr from "../utils/functions/useMapArr";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -35,9 +35,22 @@ const useStyles = makeStyles((theme) => ({
     left: "0",
     top: "0",
   },
+  cardActions: {
+    position: "relative",
+    bottom: "0px",
+    height: "30px",
+  },
   article: {
     wordWrap: "break-word",
     wordBreak: "break-all",
+  },
+  text: {
+    paddingTop: "5px",
+  },
+  more: {
+    position: "absolute",
+    bottom: "5px",
+    right: "16px",
   },
 }));
 
@@ -49,31 +62,6 @@ export default function Video({ id, title, url, description }) {
   } else {
     tempArtic = ["No description"];
   }
-
-  const mappingArrayToText = (array) => {
-    if (array.length === 0 || (array.length === 1 && array[0] === ""))
-      return (
-        <Typography
-          variant="body1"
-          component="p"
-          className={movieClasses.article}
-        >
-          &nbsp;none
-        </Typography>
-      );
-    return array.map((el, i, all) => {
-      return (
-        <Typography
-          key={el}
-          variant="body1"
-          component="p"
-          className={movieClasses.article}
-        >
-          &nbsp;{el}
-        </Typography>
-      );
-    });
-  };
 
   return (
     <Grid item xs={12} sm={6} md={6}>
@@ -95,15 +83,13 @@ export default function Video({ id, title, url, description }) {
             {title}
           </Typography>
           <Divider />
-          <div style={{ paddingTop: "5px" }}>
-            {mappingArrayToText(tempArtic)}
+          <div className={movieClasses.text}>
+            {useMapArr(tempArtic, movieClasses.article)}
           </div>
         </CardContent>
-        <CardActions
-          style={{ position: "relative", bottom: "0px", height: "30px" }}
-        >
-          <div style={{ position: "absolute", bottom: "5px", right: "16px" }}>
-            <Link underline="none" href={`/home/article/${id}`}>
+        <CardActions className={movieClasses.cardActions}>
+          <div className={movieClasses.more}>
+            <Link underline="none" href={`/home/posts/${id}`}>
               <Button size="small" color="primary">
                 ...More
               </Button>
