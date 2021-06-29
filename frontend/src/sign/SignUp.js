@@ -54,7 +54,8 @@ export default function SignUp({ handleClose }) {
         localStorage.setItem("id", data.id);
         localStorage.setItem("auth", data.auth);
         changeUser(data.id, data.isAdmin, data.auth);
-        history.push("/home");
+        if (data.auth) history.push("/home");
+        else history.push("/auth");
         handleClose();
       },
       onError: (err) => {

@@ -94,7 +94,7 @@ export default function Authentication() {
   const [modal, setModal] = useState(false);
 
   const {
-    data: user = { email: "" },
+    data: user = { email: "", auth: false },
     isLoading: isUserLoading,
     isFetching: isUserFetching,
   } = useQuery(
@@ -110,9 +110,6 @@ export default function Authentication() {
     {
       retry: false,
       refetchOnWindowFocus: false,
-      onSuccess: () => {
-        history.push("/home");
-      },
       onError: (err) => {
         setMessage(err.response.data);
         setModal(true);
@@ -130,6 +127,15 @@ export default function Authentication() {
     },
     {
       retry: false,
+      onSuccess: ({ msg, auth }) => {
+        if (auth) {
+          localStorage.setItem("auth", auth);
+          history.push("/home");
+        } else {
+          setMessage(msg);
+          setModal(true);
+        }
+      },
       onError: (err) => {
         setMessage(err.response.data);
         setModal(true);
@@ -155,7 +161,6 @@ export default function Authentication() {
 
   const handleModalClose = () => {
     setModal(false);
-    handleCancel();
   };
 
   if (isLoading || isUserLoading || isUserFetching) return <Loading />;
@@ -189,6 +194,7 @@ export default function Authentication() {
               type="text"
               onChange={(e) => setCode(e.target.value)}
               style={{ margin: "0px", padding: "0px" }}
+              onKeyUp={handleKeyUp}
             />
           </div>
         </div>
@@ -201,7 +207,6 @@ export default function Authentication() {
               color="primary"
               style={{ background: "#303b53" }}
               onClick={handleClick}
-              onKeyUp={handleKeyUp}
             >
               Submit
             </Button>
