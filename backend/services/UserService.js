@@ -20,6 +20,7 @@ class UserService {
       position: "",
       about: "",
       auth: false,
+      lastLogin: Date.now(),
     });
     await user.save();
 
@@ -35,7 +36,11 @@ class UserService {
     if (!user) throw "User not exists!";
     else if (!bcrypt.compareSync(password, user.password))
       throw "Password incorrect!";
-    else return user;
+    else {
+      user.lastLogin = Date.now();
+      await user.save();
+      return user;
+    }
   }
 
   static async getUser({ userId }) {
