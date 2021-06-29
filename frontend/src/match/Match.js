@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Button, Link } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import "../css/Match.css";
 
@@ -20,6 +20,9 @@ const useStyles = makeStyles(() => ({
     minHeight: "500px",
     minWidth: "400px",
   },
+  link: {
+    textDecoration: "none",
+  },
 }));
 
 export default function Match() {
@@ -28,12 +31,12 @@ export default function Match() {
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <Link href="/home/record_list" underline="none">
+        <Link to="/home/record_list" className={classes.link}>
           <div className="leftbtn">
             <span className="text">Data</span>
           </div>
         </Link>
-        <Link href="/home/posts" underline="none">
+        <Link to="/home/posts" className={classes.link}>
           <div className="rightbtn">
             <span className="text">Posts</span>
           </div>

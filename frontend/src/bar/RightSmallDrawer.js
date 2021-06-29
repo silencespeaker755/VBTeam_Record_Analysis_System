@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
-  Link,
   Drawer,
   List,
   ListItem,
@@ -52,6 +52,9 @@ const useStyle = makeStyles((theme) => ({
   },
   white: {
     color: "white",
+  },
+  link: {
+    textDecoration: "none",
   },
 }));
 
@@ -138,13 +141,12 @@ export default function RightSmallDrawer(props) {
             <List>
               {menuList.map((item) => (
                 <Link
-                  href={item.link}
+                  to={item.link}
                   key={item.label}
-                  className={clsx(classes.link, {
+                  className={`${classes.link} ${clsx(classes.link, {
                     [classes.notAdmin]: !item.visible,
-                  })}
+                  })}`}
                   onClick={item.event}
-                  underline="none"
                 >
                   <ListItem className={classes.listItem} button>
                     <ListItemIcon className={classes.white}>
@@ -161,12 +163,7 @@ export default function RightSmallDrawer(props) {
           </div>
         </div>
         <div className={classes.width_100} onClick={toggleDrawer(false)}>
-          <Link
-            href="/"
-            className={classes.link}
-            onClick={handleLogOut}
-            underline="none"
-          >
+          <Link to="/" className={classes.link} onClick={handleLogOut}>
             <ListItem className={classes.listItem} button>
               <ListItemIcon className={classes.white}>
                 <ExitToAppIcon />

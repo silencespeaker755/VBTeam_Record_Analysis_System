@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Grid,
   Button,
@@ -9,7 +10,6 @@ import {
   Typography,
   Divider,
   Container,
-  Link,
   Dialog,
   DialogContent,
 } from "@material-ui/core";
@@ -96,6 +96,9 @@ const useStyles = makeStyles((theme) => ({
   },
   listBtn: {
     marginTop: "10px",
+  },
+  link: {
+    textDecoration: "none",
   },
 }));
 
@@ -205,7 +208,7 @@ export default function Detail(props) {
                           color="primary"
                           onClick={handleRemove}
                         >
-                          <Link underline="none" href="/home/posts">
+                          <Link to="/home/posts" className={detailClasses.link}>
                             Delete
                           </Link>
                         </Button>
@@ -222,8 +225,8 @@ export default function Detail(props) {
                 return (
                   <Link
                     key={`${index}+${card.title}`}
-                    underline="none"
-                    href={`/home/posts/${card._id}`}
+                    to={`/home/posts/${card._id}`}
+                    className={detailClasses.link}
                   >
                     <Button
                       color="primary"

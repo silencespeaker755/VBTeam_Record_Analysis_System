@@ -1,14 +1,6 @@
 import React, { useRef, useState } from "react";
-
-import {
-  Link,
-  AppBar,
-  InputBase,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
-
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { AppBar, InputBase, Toolbar, Typography } from "@material-ui/core";
 
 import { fade, makeStyles } from "@material-ui/core/styles";
 
@@ -85,6 +77,9 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
+  link: {
+    textDecoration: "none",
+  },
 }));
 
 export default function Bar() {
@@ -103,7 +98,7 @@ export default function Bar() {
     <div className={classes.grow}>
       <AppBar className={classes.root} position="fixed">
         <Toolbar>
-          <Link className={classes.link} href="/home" underline="none">
+          <Link to="/home" className={classes.link}>
             <Typography className={classes.title} variant="h6" noWrap>
               Volleyball Playground
             </Typography>

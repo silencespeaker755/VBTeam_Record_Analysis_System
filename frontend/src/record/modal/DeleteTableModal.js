@@ -15,7 +15,7 @@ export default function DeleteTableModal(props) {
 
   const { mutate: deleteSet, isLoading } = useMutation(
     async () => {
-      const msg = await axios.post("/api/match/records/delete", {
+      const msg = await axios.post("/api/match/records/sets/delete", {
         recordId,
         setId,
         userId: userInfo.id,

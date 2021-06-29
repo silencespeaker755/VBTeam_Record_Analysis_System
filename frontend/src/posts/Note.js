@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Grid,
   Button,
@@ -7,7 +8,6 @@ import {
   CardContent,
   Typography,
   Divider,
-  Link,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useMapArr from "../utils/functions/useMapArr";
@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   text: {
     paddingTop: "20px",
   },
+  link: {
+    textDecoration: "none",
+  },
 }));
 
 export default function Note({ id, title, content }) {
@@ -62,7 +65,7 @@ export default function Note({ id, title, content }) {
         </CardContent>
         <CardActions className={noteClasses.cardAction}>
           <div className={noteClasses.cardMore}>
-            <Link underline="none" href={`/home/posts/${id}`}>
+            <Link to={`/home/posts/${id}`} className={noteClasses.link}>
               <Button size="small" color="primary">
                 ...More
               </Button>
