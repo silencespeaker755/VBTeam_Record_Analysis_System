@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, TextField, Typography, Container } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import { useMutation } from "react-query";
 import { useUserInfo } from "../hooks/useInfo";
@@ -20,12 +21,17 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 6),
   },
+  alert: {
+    marginTop: "10px",
+  },
 }));
 
 export default function SignUp({ handleClose }) {
   const classes = useStyles();
   const history = useHistory();
   const { changeUser } = useUserInfo();
+  const [isErr, setIsErr] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
   const [account, setAccount] = useState({
     name: "",
     email: "",
@@ -47,6 +53,13 @@ export default function SignUp({ handleClose }) {
         localStorage.setItem("id", data.id);
         changeUser(data.id, data.isAdmin);
         history.push("/home");
+        handleClose();
+      },
+      onError: (err) => {
+        if (err.response.status === 401) {
+          setIsErr(true);
+          setErrMsg(err.response.data);
+        }
       },
     }
   );
@@ -54,7 +67,6 @@ export default function SignUp({ handleClose }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     signup.mutate();
-    handleClose();
   };
 
   return (
@@ -63,6 +75,11 @@ export default function SignUp({ handleClose }) {
         <Typography component="h1" variant="h4">
           Sign up
         </Typography>
+        {isErr ? (
+          <Alert className={classes.alert} severity="error">
+            {errMsg}
+          </Alert>
+        ) : null}
         <form className={classes.form}>
           <TextField
             variant="outlined"
