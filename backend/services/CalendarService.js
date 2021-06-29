@@ -17,6 +17,7 @@ class CalendarService {
       place: event.place,
       attendance: [],
       notes: event.notes,
+      creator: user,
       createTime: Date.now(),
     });
     await newEvent.save();
