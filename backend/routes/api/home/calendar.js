@@ -1,5 +1,7 @@
 import { Router } from "express";
+import User from "../../../models/User";
 import CalendarService from "../../../services/CalendarService";
+import NotificationService from "../../../services/NotificationService";
 
 const router = Router();
 
@@ -41,8 +43,18 @@ router.post("/create", (req, res) => {
   const { event, userId } = req.body;
 
   CalendarService.createEvent({ event, userId })
-    .then((eventId) => {
-      console.log("Created eventId:", eventId);
+    .then(async (Event) => {
+      console.log("Created eventId:", Event);
+
+      await NotificationService.addNotifications({
+        notification: {
+          type: "event",
+          id: Event._id,
+          uploader: Event.creator.name,
+          uploadTime: Event.createTime,
+        },
+        uploaderId: userId,
+      });
       /*
         #swagger.responses[200] = { 
           schema: {
@@ -50,7 +62,7 @@ router.post("/create", (req, res) => {
           }
         }
       */
-      res.status(200).json({ id: eventId });
+      res.status(200).json({ id: Event._id });
     })
     .catch((err) => {
       console.log(err);

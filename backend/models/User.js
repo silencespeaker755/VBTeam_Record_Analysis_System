@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema({
   about: { type: String },
   auth: { type: Boolean },
   lastLogin: { type: Date, required: [true, '"lastLogin" field is required'] },
+  notifications: {
+    type: Array,
+    required: [true, '"notifications" field is required'],
+  },
 });
 
 export default mongoose.model("User", userSchema);

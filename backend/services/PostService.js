@@ -25,7 +25,7 @@ class PostService {
         uploadTime: Date.now(),
       });
       await video.save();
-      return video._id;
+      return video;
     }
 
     // article
@@ -37,7 +37,7 @@ class PostService {
     });
 
     await article.save();
-    return article._id;
+    return article;
   }
 
   static async deletePost({ postId, userId }) {

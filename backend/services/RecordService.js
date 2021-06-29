@@ -62,7 +62,7 @@ class RecordService {
     });
 
     await newRecord.save();
-    return newRecord._id;
+    return newRecord;
   }
 
   static async deleteRecord({ recordId, userId }) {

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import NotificationService from "../../../services/NotificationService";
 import PostService from "../../../services/PostService";
 
 const router = Router();
@@ -42,8 +43,18 @@ router.post("/upload", (req, res) => {
   const { post, userId } = req.body;
 
   PostService.uploadPost({ post, userId })
-    .then((postId) => {
-      console.log("Uploaded post:", postId);
+    .then(async (Post) => {
+      console.log("Uploaded post:", Post);
+
+      await NotificationService.addNotifications({
+        notification: {
+          type: Post.url ? "video" : "article",
+          id: Post._id,
+          uploader: Post.uploader.name,
+          uploadTime: Post.uploadTime,
+        },
+        uploaderId: userId,
+      });
       /*
         #swagger.responses[200] = { 
           schema: {
@@ -51,7 +62,7 @@ router.post("/upload", (req, res) => {
           }
         }
       */
-      res.status(200).json({ id: postId });
+      res.status(200).json({ id: Post._id });
     })
     .catch((err) => {
       console.log(err);

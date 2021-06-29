@@ -21,7 +21,7 @@ class CalendarService {
     });
     await newEvent.save();
 
-    return newEvent._id;
+    return newEvent;
   }
 
   static async deleteEvent({ eventId, userId }) {

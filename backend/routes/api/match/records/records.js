@@ -1,4 +1,6 @@
 import { Router } from "express";
+import User from "../../../../models/User";
+import NotificationService from "../../../../services/NotificationService";
 import RecordService from "../../../../services/RecordService";
 
 const router = Router();
@@ -63,8 +65,18 @@ router.post("/create", (req, res) => {
   const { record, userId } = req.body;
 
   RecordService.createRecord({ record, userId })
-    .then((recordId) => {
-      console.log("Created record:", recordId);
+    .then(async (Record) => {
+      console.log("Created record:", Record);
+
+      await NotificationService.addNotifications({
+        notification: {
+          type: "record",
+          id: Record._id,
+          uploader: Record.creator.name,
+          uploadTime: Record.createTime,
+        },
+        uploaderId: userId,
+      });
       /*
         #swagger.responses[200] = { 
           schema: {
@@ -72,7 +84,7 @@ router.post("/create", (req, res) => {
           }
         }
       */
-      res.status(200).json({ id: recordId });
+      res.status(200).json({ id: Record._id });
     })
     .catch((err) => {
       console.log(err);

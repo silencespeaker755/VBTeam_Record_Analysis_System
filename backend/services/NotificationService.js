@@ -1,73 +1,40 @@
 import User from "../models/User";
-import Article from "../models/Post/Article";
-import Video from "../models/Post/Video";
-import Event from "../models/Event";
-import Record from "../models/Match/Record";
 
 class NotificationService {
   static async getNotifications({ userId }) {
     const user = await User.findById(userId);
-    if (!user) throw "User not exits!";
+    if (!user) throw "User not exists!";
 
-    const notifications = [];
+    return user.notifications;
+  }
 
-    const articles = await Article.find({
-      uploadTime: { $gte: user.lastLogin },
-    });
-    notifications.concat(
-      articles.map((article) => {
-        return {
-          type: "article",
-          id: article._id,
-          uploader: article.uploader,
-          uploadTime: article.uploadTime,
-        };
+  static async deleteNotifications({ userId }) {
+    const user = await User.findById(userId);
+    if (!user) throw "User not exists!";
+
+    user.notifications = [];
+    await user.save();
+    return user;
+  }
+
+  static async addNotifications({ notification, uploaderId }) {
+    const users = await User.find({});
+
+    let done = 0;
+    const result = new Promise((resolve, reject) =>
+      users.forEach(async (user) => {
+        if (user._id !== uploaderId) {
+          user.notifications.push(notification);
+          await user.save();
+          done += 1;
+          if (done === users.length - 1) resolve();
+        }
       })
     );
 
-    const videos = await Video.find({
-      uploadTime: { $gte: user.lastLogin },
+    result.then(() => {
+      return notification;
     });
-    notifications.concat(
-      videos.map((video) => {
-        return {
-          type: "video",
-          id: video._id,
-          uploader: video.uploader,
-          uploadTime: video.uploadTime,
-        };
-      })
-    );
-
-    const events = await Event.find({
-      createTime: { $gte: user.lastLogin },
-    });
-    notifications.concat(
-      events.map((event) => {
-        return {
-          type: "event",
-          id: event._id,
-          uploader: event.creator,
-          uploadTime: event.createTime,
-        };
-      })
-    );
-
-    const records = await Record.find({
-      createTime: { $gte: user.lastLogin },
-    });
-    notifications.concat(
-      records.map((record) => {
-        return {
-          type: "record",
-          id: record._id,
-          uploader: record.creator,
-          uploadTime: record.createTime,
-        };
-      })
-    );
-
-    return notifications;
   }
 }
 

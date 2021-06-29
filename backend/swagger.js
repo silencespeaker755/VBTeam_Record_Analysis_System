@@ -170,7 +170,7 @@ const endpointsFiles = [
   "./routes/api/user.js",
   "./routes/api/home/calendar.js",
   "./routes/api/practice/posts.js",
-  "./routes/api/match/records.js",
+  "./routes/api/match/records/records.js",
 ];
 
 swaggerAutogen()(outputFile, endpointsFiles, doc);

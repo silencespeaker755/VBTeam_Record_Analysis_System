@@ -18,4 +18,19 @@ router.get("/", (req, res) => {
     });
 });
 
+router.post("/delete", (req, res) => {
+  console.log("/api/home/notifications/delete: ", req.body);
+
+  const { userId } = req.body;
+  NotificationService.deleteNotifications({ userId })
+    .then((user) => {
+      console.log("Delete user's notifications: ", user);
+      res.status(200).send("Delete success!");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).send(err);
+    });
+});
+
 export default router;
