@@ -156,7 +156,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function MyRecord() {
+export default function MyRecord(props) {
+  const {
+    match: {
+      params: { userId },
+    },
+  } = props;
   const classes = useStyles();
   const history = useHistory();
   const { userInfo } = useUserInfo();
@@ -172,7 +177,7 @@ export default function MyRecord() {
     "RecordList",
     async () => {
       const { data } = await axios.get("/api/match/records", {
-        params: { userId: userInfo.id },
+        params: { userId },
       });
       return data;
     },
@@ -186,8 +191,6 @@ export default function MyRecord() {
   const handleClick = (id) => () => {
     history.push(`/home/record/${id}`);
   };
-
-  console.log(userInfo);
 
   if (isRecordListFetching || isListLoading) return <Loading />;
 

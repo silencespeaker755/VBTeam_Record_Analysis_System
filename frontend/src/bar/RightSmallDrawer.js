@@ -72,7 +72,7 @@ export default function RightSmallDrawer(props) {
     {
       label: "My Records",
       icon: <AssignmentIcon />,
-      link: `/home/analysis/my_record`,
+      link: `/home/analysis/${userInfo.id}`,
       event: null,
       visible: userInfo.isAdmin,
     },
@@ -81,41 +81,42 @@ export default function RightSmallDrawer(props) {
       icon: <MovieIcon />,
       link: `/home`,
       event: null,
-      visible: userInfo.isAdmin,
+      visible: true,
     },
     {
       label: "Analysis",
       icon: <EqualizerIcon />,
-      link: "/home/record_list",
+      link: "/home/analysis",
       event: null,
-      visible: admin,
+      visible: true,
     },
     {
       label: "Notification",
       icon: <NotificationsIcon />,
       link: "/home",
       event: null,
-      visible: admin,
+      visible: true,
     },
     {
       label: "People",
       icon: <PeopleIcon />,
       link: "/home",
       event: null,
-      visible: admin,
+      visible: true,
     },
     {
       label: "Matches",
       icon: <OpenInNewIcon />,
       link: "/home/match",
       event: null,
-      visible: admin,
+      visible: true,
     },
   ];
 
   const handleLogOut = () => {
     localStorage.removeItem("id");
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("auth");
   };
 
   return (

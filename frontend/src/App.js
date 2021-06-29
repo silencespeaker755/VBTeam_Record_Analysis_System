@@ -75,7 +75,7 @@ export default function App() {
           path="/home/posts/:articleId"
           render={(props) => <Detail match={props.match} />}
         />
-        <Route exact path="/home/record_list" component={RecordList} />
+        <Route exact path="/home/analysis" component={RecordList} />
         <Route
           exact
           path="/home/record/:recordId"
@@ -86,7 +86,11 @@ export default function App() {
           path="/home/profile/:userId"
           render={(props) => <Profile match={props.match} />}
         />
-        <Route exact path="/home/analysis/my_record" component={MyRecord} />
+        <Route
+          exact
+          path="/home/analysis/:userId"
+          render={(props) => <MyRecord match={props.match} />}
+        />
         <Route exact path="/auth" component={Authentication} />
       </Switch>
     </>
