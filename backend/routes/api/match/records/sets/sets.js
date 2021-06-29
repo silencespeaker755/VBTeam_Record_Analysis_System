@@ -6,9 +6,9 @@ const router = Router();
 router.post("/create", (req, res) => {
   console.log("/api/match/records/sets/create: ", req.body);
 
-  const { recordId, userId } = req.body;
+  const { recordId, set, userId } = req.body;
 
-  RecordService.createSet({ recordId, userId })
+  RecordService.createSet({ recordId, set, userId })
     .then((setId) => {
       console.log("Created set:", setId);
       /*

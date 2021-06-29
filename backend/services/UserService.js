@@ -1,5 +1,9 @@
 import bcrypt from "bcrypt";
+import moment from "moment";
+import tz from "moment-timezone";
+import sendVerification from "../utils";
 import User from "../models/User";
+import Mail from "../models/Mail";
 
 class UserService {
   static async signUp({ name, email, password }) {
@@ -15,8 +19,14 @@ class UserService {
       number: "",
       position: "",
       about: "",
+      auth: false,
     });
     await user.save();
+
+    const emailRes = await sendVerification(user.email);
+
+    console.log(`Email: ${emailRes}`);
+
     return user;
   }
 
@@ -61,6 +71,29 @@ class UserService {
     user.isAdmin = true;
     await user.save();
     return user;
+  }
+
+  static async authentication(data) {
+    const { email, verifyCode } = data;
+    const mail = await Mail.findOne({ receiver: email });
+
+    if (!mail) throw "Mail doesn't exist!";
+    const expireDate = mail.expire;
+    const user = await User.findOne({ email });
+
+    if (moment(expireDate).tz("Asia/Taipei").isSameOrBefore(moment())) {
+      await mail.deleteOne();
+      const emailRes = await sendVerification(user.email);
+      console.log(`Email: ${emailRes}`);
+      throw "Verification is expired! Please Enter New Verification Code";
+    }
+    if (mail.verification === verifyCode) {
+      user.auth = true;
+      await mail.deleteOne();
+      await user.save();
+      return true;
+    }
+    return false;
   }
 }
 
