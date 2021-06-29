@@ -25,13 +25,12 @@ export default function AttendModal(props) {
           },
         }
       );
-      console.log(data);
       return data;
     },
     {
       retry: false,
       onSuccess: (data) => {
-        setAttendance(data.attendance);
+        setAttendance(data);
       },
     }
   );
@@ -55,9 +54,9 @@ export default function AttendModal(props) {
   );
 
   useEffect(() => {
-    if (attendance) setMessage(`你要取消參加${place}的${title}`);
-    else setMessage(`你將會參加${place}的${title}`);
-  }, [attendance]);
+    if (attendance) setMessage(`你要取消參加在${place}的${title}`);
+    else setMessage(`你將會參加在${place}的${title}`);
+  }, [attendance, title, place]);
 
   useEffect(() => {
     setLoading(isLoading);
