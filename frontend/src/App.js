@@ -48,7 +48,11 @@ export default function App() {
     if (id && isAdmin) {
       changeUser(id, isAdmin === "true", auth === "true");
       if (auth === "true") {
-        if (history.location.pathname === "/") history.push("/home");
+        if (
+          history.location.pathname === "/" ||
+          history.location.pathname === "/auth"
+        )
+          history.push("/home");
       } else {
         history.push("/auth");
       }
