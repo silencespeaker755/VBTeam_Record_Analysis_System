@@ -12,11 +12,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import PollIcon from "@material-ui/icons/Poll";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import MovieIcon from "@material-ui/icons/Movie";
 import DescriptionIcon from "@material-ui/icons/Description";
+import PollIcon from "@material-ui/icons/Poll";
 import { useUserInfo } from "../hooks/useInfo";
 
 const useStyle = makeStyles((theme) => ({
