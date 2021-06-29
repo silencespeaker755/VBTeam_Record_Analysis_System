@@ -107,7 +107,7 @@ class RecordService {
     });
     await newSet.save();
 
-    updateRecord.push(newSet);
+    updateRecord.sets.push(newSet);
     await updateRecord.save();
     return updateRecord;
   }
