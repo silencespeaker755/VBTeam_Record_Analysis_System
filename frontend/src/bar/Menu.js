@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useHistory, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Badge,
@@ -7,6 +7,7 @@ import {
   createMuiTheme,
   Popover,
   Typography,
+  Button,
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PeopleIcon from "@material-ui/icons/People";
@@ -14,7 +15,9 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MovieIcon from "@material-ui/icons/Movie";
 import DescriptionIcon from "@material-ui/icons/Description";
 import PollIcon from "@material-ui/icons/Poll";
-import { useQuery } from "react-query";
+import EventIcon from "@material-ui/icons/Event";
+import { useMutation, useQuery } from "react-query";
+import moment from "moment";
 import instance from "../setting";
 import { useUserInfo } from "../hooks/useInfo";
 import RightDrawer from "./RightDrawer";
@@ -55,25 +58,45 @@ const useStyles = makeStyles(() => ({
     flexDirection: "row",
     alignItems: "center",
   },
+  link: {
+    color: "black",
+    textDecoration: "none",
+  },
+  icon: {
+    paddingRight: "10px",
+  },
+  popoverBox: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    margin: "5px",
+  },
+  popoverItem: {
+    height: "290px",
+    overflow: "scroll",
+    minWidth: "200px",
+    borderRadius: "0.25",
+  },
+  clearBtn: {
+    marginTop: "5px",
+    height: "30px",
+  },
 }));
+const linkDir = {
+  video: "/home/posts/",
+  article: "/home/posts/",
+};
 
 export default function Menu() {
   const classes = useStyles();
   const history = useHistory();
   const { userInfo } = useUserInfo();
   const [open, setOpen] = useState(false);
+  const [notify, setNotify] = useState([]);
   const [openSmall, setOpenSmall] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const openPopover = Boolean(anchorEl);
   const id = openPopover ? "simple-popover" : undefined;
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const toggleDrawer = (bool) => (e) => {
     setOpen(bool);
@@ -96,15 +119,54 @@ export default function Menu() {
           userId: localStorage.getItem("id"),
         },
       });
-      return data.data;
+      return data;
     },
     {
-      onSuccess: () => {
-        console.log(notification);
+      retry: false,
+      refetchOnWindowFocus: false,
+      onSuccess: ({ data }) => {
+        setNotify(data);
       },
       onError: (err) => {},
     }
   );
+
+  const deleteNotify = useMutation(
+    async () => {
+      await instance.post("/api/home/notifications/delete", {
+        userId: localStorage.getItem("id"),
+      });
+    },
+    {
+      onSuccess: () => {
+        refetchEvents();
+      },
+      onError: () => {},
+    }
+  );
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const clearNotify = () => {
+    deleteNotify.mutate();
+  };
+
+  const noticon = (type) => {
+    switch (type) {
+      case "video":
+        return <MovieIcon className={classes.icon} />;
+      case "article":
+        return <DescriptionIcon className={classes.icon} />;
+      case "record":
+        return <PollIcon className={classes.icon} />;
+      default:
+        return <EventIcon className={classes.icon} />;
+    }
+  };
 
   if (userInfo.id === "")
     return (
@@ -131,7 +193,7 @@ export default function Menu() {
             <PeopleIcon />
           </IconButton>
           <IconButton color="inherit" onClick={handleClick} component="span">
-            <Badge badgeContent={3} color="secondary">
+            <Badge badgeContent={notify.length} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -163,31 +225,44 @@ export default function Menu() {
           horizontal: "center",
         }}
       >
-        <div style={{ height: "300px", overflow: "scroll" }}>
-          <Typography className={classes.notification}>
-            <MovieIcon style={{ paddingRight: "10px" }} /> The content of the
-            Popover.
-          </Typography>
-          <Typography className={classes.notification}>
-            <DescriptionIcon style={{ paddingRight: "10px" }} /> The content of
-            the Popover.
-          </Typography>
-          <Typography className={classes.notification}>
-            <PollIcon style={{ paddingRight: "10px" }} /> The content of the
-            Popover.
-          </Typography>
-          <Typography className={classes.notification}>
-            <PollIcon style={{ paddingRight: "10px" }} /> The content of the
-            Popover.
-          </Typography>
-          <Typography className={classes.notification}>
-            <PollIcon style={{ paddingRight: "10px" }} /> The content of the
-            Popover.
-          </Typography>
-          <Typography className={classes.notification}>
-            <PollIcon style={{ paddingRight: "10px" }} /> The content of the
-            Popover.
-          </Typography>
+        <div className={classes.popoverBox}>
+          <div className={classes.popoverItem}>
+            {notify.map((el, index) => {
+              return el.type === "vedio" || el.type === "article" ? (
+                <Link
+                  to={`${linkDir[el.type]}${el.id}`}
+                  className={classes.link}
+                >
+                  <Typography
+                    key={`${index}+${el}`}
+                    className={classes.notification}
+                  >
+                    {noticon(el.type)}
+                    {`${el.uploader}`}
+                    &nbsp;&nbsp;&nbsp;
+                    {`${moment(el.uploadTime).format("YYYY-MM-DD hh:mm")}`}
+                  </Typography>
+                </Link>
+              ) : (
+                <Typography
+                  key={`${index}+${el}`}
+                  className={classes.notification}
+                >
+                  {noticon(el.type)}
+                  {`${el.uploader}`}
+                  &nbsp;&nbsp;&nbsp;
+                  {`${moment(el.uploadTime).format("YYYY-MM-DD hh:mm")}`}
+                </Typography>
+              );
+            })}
+          </div>
+          <Button
+            variant="outlined"
+            className={classes.clearBtn}
+            onClick={clearNotify}
+          >
+            Clear
+          </Button>
         </div>
       </Popover>
     </>
