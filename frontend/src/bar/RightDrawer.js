@@ -53,7 +53,6 @@ export default function RightDrawer(props) {
   const { open, toggleDrawer } = props;
   const classes = useStyle();
   const { userInfo } = useUserInfo();
-  const [admin, setAdmin] = useState(true);
 
   const menuList = [
     {
@@ -68,21 +67,21 @@ export default function RightDrawer(props) {
       icon: <AssignmentIcon />,
       link: `/home/analysis/my_record`,
       event: null,
-      visible: userInfo.isAdmin,
+      visible: true,
     },
     {
       label: "My Article",
       icon: <DescriptionIcon />,
       link: `/home/posts`,
       event: null,
-      visible: userInfo.isAdmin,
+      visible: true,
     },
     {
       label: "My Videos",
       icon: <MovieIcon />,
       link: `/home/posts`,
       event: null,
-      visible: userInfo.isAdmin,
+      visible: true,
     },
     {
       label: "Analysis",
@@ -96,7 +95,7 @@ export default function RightDrawer(props) {
       icon: <PollIcon />,
       link: "/home/match",
       event: null,
-      visible: admin,
+      visible: true,
     },
   ];
 
