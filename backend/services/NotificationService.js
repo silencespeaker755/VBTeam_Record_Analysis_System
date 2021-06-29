@@ -23,7 +23,9 @@ class NotificationService {
     let done = 0;
     const result = new Promise((resolve, reject) =>
       users.forEach(async (user) => {
-        if (user._id !== uploaderId) {
+        console.log("userId: ", user._id);
+        if (String(user._id) !== uploaderId) {
+          console.log("!!!!", uploaderId);
           user.notifications.push(notification);
           await user.save();
           done += 1;

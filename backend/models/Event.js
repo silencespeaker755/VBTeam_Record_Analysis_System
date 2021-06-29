@@ -11,6 +11,11 @@ const eventSchema = new mongoose.Schema({
     ref: "User",
   },
   notes: { type: String },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: [true, '"creator" field is required'],
+    ref: "User",
+  },
   createTime: {
     type: Date,
     required: [true, '"createTime" field is required'],

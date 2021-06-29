@@ -46,11 +46,12 @@ router.post("/create", (req, res) => {
     .then(async (Event) => {
       console.log("Created eventId:", Event);
 
+      const creator = await User.findById(Event.creator._id);
       await NotificationService.addNotifications({
         notification: {
           type: "event",
           id: Event._id,
-          uploader: Event.creator.name,
+          uploader: creator.name,
           uploadTime: Event.createTime,
         },
         uploaderId: userId,

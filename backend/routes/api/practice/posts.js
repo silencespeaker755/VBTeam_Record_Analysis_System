@@ -1,4 +1,5 @@
 import { Router } from "express";
+import User from "../../../models/User";
 import NotificationService from "../../../services/NotificationService";
 import PostService from "../../../services/PostService";
 
@@ -46,11 +47,12 @@ router.post("/upload", (req, res) => {
     .then(async (Post) => {
       console.log("Uploaded post:", Post);
 
+      const uploader = await User.findById(Post.uploader._id);
       await NotificationService.addNotifications({
         notification: {
           type: Post.url ? "video" : "article",
           id: Post._id,
-          uploader: Post.uploader.name,
+          uploader: uploader.name,
           uploadTime: Post.uploadTime,
         },
         uploaderId: userId,
