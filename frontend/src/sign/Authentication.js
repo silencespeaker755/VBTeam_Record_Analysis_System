@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import {
-  Paper,
-  Container,
-  Grid,
-  Typography,
-  TextField,
-  Button,
-} from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { Paper, Typography, TextField, Button } from "@material-ui/core";
 import { PermIdentity } from "@material-ui/icons";
 import {
   makeStyles,
   createMuiTheme,
   ThemeProvider,
 } from "@material-ui/core/styles";
+import { useMutation, useQuery } from "react-query";
+import HintModal from "../components/HintModal";
+import { useUserInfo } from "../hooks/useInfo";
+import axios from "../setting";
+import Loading from "../components/Loading";
 
 const blueTheme = createMuiTheme({
   palette: {
@@ -33,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
   },
   outerPaper: {
     height: "600px",
-    width: "400px",
+    width: "50%",
+    minWidth: "350px",
     overflow: "hidden",
     background: "#F9F9F9",
     display: "flex",
@@ -74,17 +74,92 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "5px",
   },
   submit: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
     background: "#F9F9F9",
-    margin: "0px",
     padding: "0px",
     borderRadius: "5px",
     width: "80%",
-    marginTop: "70px",
+    marginTop: "35px",
   },
 }));
 
 export default function Authentifacation() {
   const classes = useStyles();
+  const history = useHistory();
+  const { changeUser } = useUserInfo();
+  const [code, setCode] = useState("");
+  const [message, setMessage] = useState("");
+  const [modal, setModal] = useState(false);
+
+  const {
+    data: user = { email: "" },
+    isLoading: isUserLoading,
+    isFetching: isUserFetching,
+  } = useQuery(
+    "FetchAuthUser",
+    async () => {
+      const userId = localStorage.getItem("id");
+      const { data } = await axios.get("/api/user/users", {
+        params: { userId },
+      });
+
+      return data;
+    },
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+      onSuccess: () => {
+        history.push("/home");
+      },
+      onError: (err) => {
+        setMessage(err.response.data);
+        setModal(true);
+      },
+    }
+  );
+
+  const { mutate: authenticate, isLoading } = useMutation(
+    async () => {
+      const { data } = await axios.post("/api/user/auth", {
+        email: user.email,
+        verifyCode: code,
+      });
+      return data;
+    },
+    {
+      retry: false,
+      onError: (err) => {
+        setMessage(err.response.data);
+        setModal(true);
+      },
+    }
+  );
+
+  const handleClick = () => {
+    authenticate();
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.key === "Enter") handleClick();
+  };
+
+  const handleCancel = () => {
+    localStorage.setItem("isAdmin", "");
+    localStorage.setItem("id", "");
+    localStorage.setItem("auth", "");
+    changeUser("", "", "");
+    history.push("/");
+  };
+
+  const handleModalClose = () => {
+    setModal(false);
+    handleCancel();
+  };
+
+  if (isLoading || isUserLoading || isUserFetching) return <Loading />;
+
   return (
     <div className={classes.root}>
       <Paper elevation={3} className={classes.outerPaper}>
@@ -95,31 +170,54 @@ export default function Authentifacation() {
           </Typography>
         </div>
         <div className={classes.number}>
-          <Typography variant="h4" component="h2">
-            94879487
-          </Typography>
+          <div>
+            <Typography variant="h4" component="h2" align="center">
+              Code
+            </Typography>
+            <Typography variant="body2" component="h2" align="center">
+              Please check your email
+            </Typography>
+          </div>
           <div className={classes.textField}>
             <TextField
-              value=""
+              value={code}
               id="outlined-multiline-static"
-              label=""
               margin="normal"
               required
               fullWidth
               variant="outlined"
               type="text"
+              onChange={(e) => setCode(e.target.value)}
               style={{ margin: "0px", padding: "0px" }}
             />
           </div>
         </div>
         <div className={classes.submit}>
           <ThemeProvider theme={blueTheme}>
-            <Button type="submit" fullWidth variant="contained" color="primary">
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              style={{ background: "#303b53" }}
+              onClick={handleClick}
+              onKeyUp={handleKeyUp}
+            >
               Submit
             </Button>
           </ThemeProvider>
+          <Button
+            type="button"
+            fullWidth
+            variant="outlined"
+            style={{ marginTop: "20px", background: "#eaeaea" }}
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
         </div>
       </Paper>
+      <HintModal open={modal} message={message} onClose={handleModalClose} />
     </div>
   );
 }
