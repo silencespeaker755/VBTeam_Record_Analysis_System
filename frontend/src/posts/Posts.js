@@ -62,21 +62,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Practice(props) {
+export default function Practice() {
   let list;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
-  const {
-    match: {
-      params: { type },
-    },
-  } = props;
-  if (type === "article") {
-    setTab(1);
-  } else if (type === "video") {
-    setTab(2);
-  }
   const {
     data: cards = [],
     isError: isEventsError,
