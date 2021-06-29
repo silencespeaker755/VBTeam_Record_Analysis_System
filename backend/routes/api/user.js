@@ -42,7 +42,9 @@ router.post("/signup", (req, res) => {
           }
         }
       */
-      res.status(200).json({ id: user._id, isAdmin: user.isAdmin });
+      res
+        .status(200)
+        .json({ id: user._id, isAdmin: user.isAdmin, auth: user.auth });
     })
     .catch((err) => {
       console.log(err);
@@ -84,7 +86,9 @@ router.post("/login", (req, res) => {
           }
         }
       */
-      res.status(200).json({ id: user._id, isAdmin: user.isAdmin });
+      res
+        .status(200)
+        .json({ id: user._id, isAdmin: user.isAdmin, auth: user.auth });
     })
     .catch((err) => {
       console.log(err);
