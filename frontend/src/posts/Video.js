@@ -89,7 +89,7 @@ export default function Video({ id, title, url, description }) {
         </CardContent>
         <CardActions className={movieClasses.cardActions}>
           <div className={movieClasses.more}>
-            <Link underline="none" href={`/home/article/${id}`}>
+            <Link underline="none" href={`/home/posts/${id}`}>
               <Button size="small" color="primary">
                 ...More
               </Button>

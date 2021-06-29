@@ -62,7 +62,7 @@ export default function Note({ id, title, content }) {
         </CardContent>
         <CardActions className={noteClasses.cardAction}>
           <div className={noteClasses.cardMore}>
-            <Link underline="none" href={`/home/article/${id}`}>
+            <Link underline="none" href={`/home/posts/${id}`}>
               <Button size="small" color="primary">
                 ...More
               </Button>

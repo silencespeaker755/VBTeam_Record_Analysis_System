@@ -205,7 +205,7 @@ export default function Detail(props) {
                           color="primary"
                           onClick={handleRemove}
                         >
-                          <Link underline="none" href="/home/article">
+                          <Link underline="none" href="/home/posts">
                             Delete
                           </Link>
                         </Button>
@@ -223,7 +223,7 @@ export default function Detail(props) {
                   <Link
                     key={`${index}+${card.title}`}
                     underline="none"
-                    href={`/home/article/${card._id}`}
+                    href={`/home/posts/${card._id}`}
                   >
                     <Button
                       color="primary"

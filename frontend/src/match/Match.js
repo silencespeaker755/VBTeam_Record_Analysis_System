@@ -33,9 +33,9 @@ export default function Match() {
             <span className="text">Data</span>
           </div>
         </Link>
-        <Link href="/home/article" underline="none">
+        <Link href="/home/posts" underline="none">
           <div className="rightbtn">
-            <span className="text">Article</span>
+            <span className="text">Posts</span>
           </div>
         </Link>
       </div>
