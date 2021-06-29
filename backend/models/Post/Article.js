@@ -13,7 +13,7 @@ const articleSchema = mongoose.Schema({
     ref: User,
   },
   uploadTime: {
-    type: String,
+    type: Date,
     required: [true, '"uploadTime" field is required'],
   },
 });

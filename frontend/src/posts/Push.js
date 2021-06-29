@@ -39,8 +39,6 @@ export default function Push({ refetchEvents, handleClose }) {
 
   const push = useMutation(
     async (err) => {
-      const time = new Date();
-      const timeStr = time.toString();
       const user = userInfo.id;
       const data = await instance.post("/api/practice/posts/upload", {
         post: {
@@ -48,7 +46,6 @@ export default function Push({ refetchEvents, handleClose }) {
           url: video.url,
           content: video.content,
           description: video.content,
-          uploadTime: timeStr,
         },
         userId: user,
       });

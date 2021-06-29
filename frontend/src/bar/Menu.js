@@ -14,8 +14,9 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MovieIcon from "@material-ui/icons/Movie";
 import DescriptionIcon from "@material-ui/icons/Description";
 import PollIcon from "@material-ui/icons/Poll";
+import { useQuery } from "react-query";
+import instance from "../setting";
 import { useUserInfo } from "../hooks/useInfo";
-
 import RightDrawer from "./RightDrawer";
 import RightSmallDrawer from "./RightSmallDrawer";
 
@@ -82,6 +83,29 @@ export default function Menu() {
     setOpenSmall(bool);
   };
 
+  const {
+    data: notification = [],
+    isError: isEventsError,
+    isLoading: isEventsLoading,
+    refetch: refetchEvents,
+  } = useQuery(
+    "NotificationFetching",
+    async () => {
+      const data = await instance.get("/api/home/notifications", {
+        params: {
+          userId: localStorage.getItem("id"),
+        },
+      });
+      return data.data;
+    },
+    {
+      onSuccess: () => {
+        console.log(notification);
+      },
+      onError: (err) => {},
+    }
+  );
+
   if (userInfo.id === "")
     return (
       <div className={classes.section}>
@@ -147,10 +171,6 @@ export default function Menu() {
           <Typography className={classes.notification}>
             <DescriptionIcon style={{ paddingRight: "10px" }} /> The content of
             the Popover.
-          </Typography>
-          <Typography className={classes.notification}>
-            <PollIcon style={{ paddingRight: "10px" }} /> The content of the
-            Popover.
           </Typography>
           <Typography className={classes.notification}>
             <PollIcon style={{ paddingRight: "10px" }} /> The content of the
