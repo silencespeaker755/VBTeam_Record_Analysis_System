@@ -32,6 +32,7 @@ export default function AdminSection({ userId, username, refetch }) {
       <Fab
         className={classes.root}
         aria-label="Change-role"
+        type="div"
         size="small"
         onClick={handleClick}
       >
