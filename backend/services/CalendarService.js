@@ -54,6 +54,16 @@ class CalendarService {
     return updateEvent;
   }
 
+  static async checkAttendance({ eventId, userId }) {
+    const event = await Event.findById(eventId);
+    if (!event) throw "Event not exists!";
+
+    const user = await User.findById(userId);
+    if (!user) throw "User not exists!";
+
+    return !!event.attendance.find(userId);
+  }
+
   static async attendEvent({ eventId, userId, attend }) {
     const event = await Event.findById(eventId);
     if (!event) throw "Event not exists!";

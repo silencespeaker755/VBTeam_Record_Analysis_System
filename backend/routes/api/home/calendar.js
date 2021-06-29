@@ -173,4 +173,19 @@ router.post("/attend", (req, res) => {
     });
 });
 
+router.get("/checkAttendance", (req, res) => {
+  console.log("/api/calendar/checkAttendance", req.query);
+
+  const { eventId, userId } = req.query;
+  CalendarService.checkAttendance({ eventId, userId })
+    .then((attendance) => {
+      console.log("Attendance: ", attendance);
+      res.status(200).json(attendance);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).send(err);
+    });
+});
+
 export default router;
