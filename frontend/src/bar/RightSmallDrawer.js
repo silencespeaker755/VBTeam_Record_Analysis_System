@@ -82,21 +82,14 @@ export default function RightSmallDrawer(props) {
     {
       label: "Practice",
       icon: <MovieIcon />,
-      link: `/home`,
+      link: `/home/posts`,
       event: null,
       visible: true,
     },
     {
-      label: "Notification",
-      icon: <NotificationsIcon />,
-      link: "/home",
-      event: null,
-      visible: true,
-    },
-    {
-      label: "People",
+      label: "UserList",
       icon: <PeopleIcon />,
-      link: "/home",
+      link: "/home/user_list",
       event: null,
       visible: true,
     },
@@ -118,9 +111,7 @@ export default function RightSmallDrawer(props) {
   return (
     <div>
       <IconButton onClick={toggleDrawer(true)} color="inherit" component="span">
-        <Badge badgeContent="3" color="secondary">
-          <MoreVertIcon />
-        </Badge>
+        <MoreVertIcon />
       </IconButton>
       <Drawer
         anchor="right"

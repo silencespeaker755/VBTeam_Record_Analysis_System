@@ -14,9 +14,8 @@ import clsx from "clsx";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import EqualizerIcon from "@material-ui/icons/Equalizer";
-import MovieIcon from "@material-ui/icons/Movie";
 import DescriptionIcon from "@material-ui/icons/Description";
+import HomeIcon from "@material-ui/icons/Home";
 import PollIcon from "@material-ui/icons/Poll";
 import { useUserInfo } from "../hooks/useInfo";
 
@@ -59,6 +58,13 @@ export default function RightDrawer(props) {
   const { userInfo } = useUserInfo();
 
   const menuList = [
+    {
+      label: "Home",
+      icon: <HomeIcon />,
+      link: `/home`,
+      event: null,
+      visible: true,
+    },
     {
       label: "Profile",
       icon: <AccountCircleIcon />,
