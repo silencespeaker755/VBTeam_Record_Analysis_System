@@ -38,27 +38,29 @@ const blackTheme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  edit: { padding: theme.spacing(8, 0, 1, 5) },
+  edit: { padding: theme.spacing(8, 0, 1, 0), paddingLeft: "20px" },
   cardGrid: {
     padding: theme.spacing(8, 0, 8, 0),
   },
   tab: {
-    width: "40%",
+    width: "auto%",
     flexGrow: 1,
     position: "absolute",
     right: 0,
     top: "-55px",
   },
   paper: {
-    padding: theme.spacing(5, 0, 5, 0),
-    margin: theme.spacing(0, 5, 0, 5),
+    marginBottom: "20px",
+    marginRight: "20px",
+    marginLeft: "20px",
+    paddingRight: "10px",
+    paddingLeft: "10px",
     position: "relative",
     minHeight: "550px",
   },
   btn: {
     height: "48px",
     width: "10%",
-    margin: theme.spacing(0, 1, 0, 0),
   },
 }));
 

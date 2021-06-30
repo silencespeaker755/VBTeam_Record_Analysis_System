@@ -62,7 +62,12 @@ const useStyles = makeStyles((theme) => ({
   },
   listPaper: {
     height: "100%",
-    padding: "30px",
+    paddingTop: "30px",
+    paddingBottom: "30px",
+    paddingLeft: "30px",
+    paddingRight: "30px",
+    maringLeft: "10px",
+    maringRight: "10px",
     overflow: "scroll",
     maxHeight: "600px",
   },
@@ -137,7 +142,7 @@ export default function Detail(props) {
   return (
     <Container className={detailClasses.container}>
       <Grid container>
-        <Grid item xs={8} sm={8} md={8}>
+        <Grid item xs={12} sm={12} md={8} style={{ height: "700px" }}>
           <Paper elevation={3} className={detailClasses.cardPaper}>
             {cards.find(isCurrentId) && (
               <Card className={detailClasses.card}>
@@ -191,7 +196,13 @@ export default function Detail(props) {
             )}
           </Paper>
         </Grid>
-        <Grid item xs={4} sm={4} md={4}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={4}
+          style={{ paddingLeft: "29px", paddingRight: "29px" }}
+        >
           <Paper elevation={3} className={detailClasses.listPaper}>
             {cards.map((card, index) => {
               return (
