@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon index.js --exec babel-node --trace-warnings",
+    "server": "node index.js --exec babel-node --trace-warnings",
     "swagger": "babel-node ./swagger.js"
   },
   "dependencies": {
