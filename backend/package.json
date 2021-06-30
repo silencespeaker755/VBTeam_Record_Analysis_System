@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "engines": {
-    "node": "14.x",
-    "npm": ">= 4.4.0"
+    "node": "14.16.0"
   },
   "scripts": {
     "server": "nodemon index.js --exec babel-node --trace-warnings",
@@ -30,7 +29,12 @@
     "passport-facebook": "^3.0.0",
     "query-string": "^7.0.1",
     "swagger-autogen": "^2.10.0",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/node": "^7.14.2",
+    "@babel/preset-env": "^7.14.4",
+    "prettier": "^2.3.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.3",

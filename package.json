@@ -6,8 +6,7 @@
   "author": "silencespeaker <b06902019@ntu.edu.tw>",
   "license": "MIT",
   "engines": {
-    "node": "14.x",
-    "npm": ">= 4.4.0"
+    "node": "14.16.0"
   },
   "scripts": {
     "start": "yarn server",
