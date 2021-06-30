@@ -17,12 +17,12 @@ export default function DeleteSection({ recordId, refetch }) {
   const [modal, setModal] = useState(false);
 
   const handleClose = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setModal(false);
   };
 
   const handleClick = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setModal(true);
   };
 

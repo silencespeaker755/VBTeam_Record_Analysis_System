@@ -13,6 +13,7 @@ import { fade, makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import { useUserInfo } from "../hooks/useInfo";
 import axios from "../setting";
+import DeleteSection from "../my_record/DeleteSection";
 import AddButton from "../components/AddButton";
 import AddMatchModal from "./modal/AddMatchModal";
 import Loading from "../components/Loading";
@@ -51,7 +52,6 @@ const useStyles = makeStyles(() => ({
     border: "8px solid #6d6966",
     borderRadius: "25px",
     height: "100%",
-    // background: "#ecd3b1",
     backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -78,8 +78,20 @@ const useStyles = makeStyles(() => ({
     padding: "10px 30px 10px 30px",
     background: "#f9f9f9",
     "&:hover": {
-      background: "#ffedd1",
+      transition: "all ease 0.5s",
+      background: "#303b53",
+      "& $deleteSection": {
+        display: "block",
+      },
+      "& $cardText": {
+        transition: "all ease 1s",
+        color: "#FFFFFF",
+      },
     },
+  },
+  deleteSection: { display: "none" },
+  cardText: {
+    color: "#000000",
   },
   outTitle: {
     marginTop: "40px",
@@ -232,17 +244,25 @@ export default function MyRecord() {
                     className={classes.actionArea}
                     onClick={handleClick(element._id)}
                   >
+                    {userInfo.isAdmin && userInfo.id === element.creator ? (
+                      <div className={classes.deleteSection}>
+                        <DeleteSection
+                          recordId={element._id}
+                          refetch={refetchRecordList}
+                        />
+                      </div>
+                    ) : null}
                     <Typography
                       variant="body1"
                       color="textSecondary"
                       align="left"
-                      className={classes.type}
+                      className={`${classes.type} ${classes.cardText}`}
                     >
                       {element.type}
                     </Typography>
                     <Typography
                       variant="h5"
-                      className={classes.subtitle}
+                      className={`${classes.subtitle} ${classes.cardText}`}
                       align="left"
                     >
                       {element.team} v.s. {element.opponent}
@@ -252,6 +272,7 @@ export default function MyRecord() {
                       color="textSecondary"
                       component="p"
                       align="right"
+                      className={classes.cardText}
                     >
                       {element.date}
                     </Typography>

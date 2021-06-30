@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Authentication() {
   const classes = useStyles();
   const history = useHistory();
-  const { changeUser } = useUserInfo();
+  const { userInfo, changeUser } = useUserInfo();
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
   const [modal, setModal] = useState(false);
@@ -163,6 +163,8 @@ export default function Authentication() {
     setModal(false);
   };
 
+  console.log(userInfo);
+
   if (isLoading || isUserLoading || isUserFetching) return <Loading />;
 
   return (
@@ -180,7 +182,9 @@ export default function Authentication() {
               Code
             </Typography>
             <Typography variant="body2" component="h2" align="center">
-              Please check your email
+              Please check your email at:
+              <br />
+              {user.email}
             </Typography>
           </div>
           <div className={classes.textField}>

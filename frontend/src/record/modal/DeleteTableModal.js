@@ -24,10 +24,8 @@ export default function DeleteTableModal(props) {
     },
     {
       onSuccess: (msg) => {
-        console.log(msg);
         setMessage(msg.data);
         setHintModal(true);
-        refetchMatch();
       },
       onError: (err) => {
         setMessage(err.response.data);
@@ -38,6 +36,7 @@ export default function DeleteTableModal(props) {
 
   const handleHintClose = () => {
     setHintModal(false);
+    refetchMatch();
     onClose();
   };
 
