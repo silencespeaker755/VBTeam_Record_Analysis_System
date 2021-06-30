@@ -18,4 +18,18 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/teamList", (req, res) => {
+  console.log("/api/match/analysis/teamList");
+
+  AnalysisService.getTeamList()
+    .then((teamList) => {
+      console.log("All teams' name:", teamList);
+      res.status(200).json(teamList);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.staus(404).send(err);
+    });
+});
+
 export default router;

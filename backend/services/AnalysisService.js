@@ -18,14 +18,12 @@ class AnalysisService {
         lose: 0,
       },
     };
-    console.log("~~", analysis);
     let done = 0;
     const result = new Promise((resolve, reject) => {
       records.forEach((record) => {
         if (team && record.team !== team) {
           done += 1;
         } else {
-          console.log(record.sets);
           const all = record.sets.length;
           const win = record.sets.filter(
             (set) => set.teamScore > set.opponentScore
@@ -34,7 +32,6 @@ class AnalysisService {
           analysis.sets.all += all;
           analysis.sets.win += win;
           analysis.sets.lose += lose;
-          console.log(all, win, lose, analysis);
 
           analysis.matches.all += 1;
           if (win > lose) analysis.matches.win += 1;
@@ -46,6 +43,12 @@ class AnalysisService {
       });
     });
     return analysis;
+  }
+
+  static async getTeamList() {
+    const records = await Record.find({});
+
+    return records.map((record) => record.team);
   }
 }
 
