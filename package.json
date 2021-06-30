@@ -2,9 +2,12 @@
   "name": "VolleyballClubHouse",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:silencespeaker755/VBTeam_Record_Analysis_System.git",
+  "repository": "git@github.com:silencespeaker755/VolleyballClubHouse.git",
   "author": "silencespeaker <b06902019@ntu.edu.tw>",
   "license": "MIT",
+  "engines": {
+    "node": "10.3.0"
+  },
   "scripts": {
     "start": "cd backend && yarn server",
     "build": "cd backend && yarn",
