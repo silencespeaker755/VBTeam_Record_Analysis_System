@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/VolleyballClubHouse/static/css/main.c5294e6f.chunk.css",
-    "main.js": "/VolleyballClubHouse/static/js/main.17c9af28.chunk.js",
-    "main.js.map": "/VolleyballClubHouse/static/js/main.17c9af28.chunk.js.map",
-    "runtime-main.js": "/VolleyballClubHouse/static/js/runtime-main.1a54a8ac.js",
-    "runtime-main.js.map": "/VolleyballClubHouse/static/js/runtime-main.1a54a8ac.js.map",
+    "main.js": "/VolleyballClubHouse/static/js/main.77b0ae34.chunk.js",
+    "main.js.map": "/VolleyballClubHouse/static/js/main.77b0ae34.chunk.js.map",
+    "runtime-main.js": "/VolleyballClubHouse/static/js/runtime-main.f1268061.js",
+    "runtime-main.js.map": "/VolleyballClubHouse/static/js/runtime-main.f1268061.js.map",
     "static/css/2.510e5856.chunk.css": "/VolleyballClubHouse/static/css/2.510e5856.chunk.css",
-    "static/js/2.cddeeba1.chunk.js": "/VolleyballClubHouse/static/js/2.cddeeba1.chunk.js",
-    "static/js/2.cddeeba1.chunk.js.map": "/VolleyballClubHouse/static/js/2.cddeeba1.chunk.js.map",
-    "static/js/3.5db8656f.chunk.js": "/VolleyballClubHouse/static/js/3.5db8656f.chunk.js",
-    "static/js/3.5db8656f.chunk.js.map": "/VolleyballClubHouse/static/js/3.5db8656f.chunk.js.map",
+    "static/js/2.9587aba3.chunk.js": "/VolleyballClubHouse/static/js/2.9587aba3.chunk.js",
+    "static/js/2.9587aba3.chunk.js.map": "/VolleyballClubHouse/static/js/2.9587aba3.chunk.js.map",
+    "static/js/3.266ce9aa.chunk.js": "/VolleyballClubHouse/static/js/3.266ce9aa.chunk.js",
+    "static/js/3.266ce9aa.chunk.js.map": "/VolleyballClubHouse/static/js/3.266ce9aa.chunk.js.map",
     "index.html": "/VolleyballClubHouse/index.html",
     "static/css/2.510e5856.chunk.css.map": "/VolleyballClubHouse/static/css/2.510e5856.chunk.css.map",
     "static/css/main.c5294e6f.chunk.css.map": "/VolleyballClubHouse/static/css/main.c5294e6f.chunk.css.map",
-    "static/js/2.cddeeba1.chunk.js.LICENSE.txt": "/VolleyballClubHouse/static/js/2.cddeeba1.chunk.js.LICENSE.txt",
+    "static/js/2.9587aba3.chunk.js.LICENSE.txt": "/VolleyballClubHouse/static/js/2.9587aba3.chunk.js.LICENSE.txt",
     "static/media/Profile.css": "/VolleyballClubHouse/static/media/profileCover.39b3143e.jpeg"
   },
   "entrypoints": [
-    "static/js/runtime-main.1a54a8ac.js",
+    "static/js/runtime-main.f1268061.js",
     "static/css/2.510e5856.chunk.css",
-    "static/js/2.cddeeba1.chunk.js",
+    "static/js/2.9587aba3.chunk.js",
     "static/css/main.c5294e6f.chunk.css",
-    "static/js/main.17c9af28.chunk.js"
+    "static/js/main.77b0ae34.chunk.js"
   ]
 }
