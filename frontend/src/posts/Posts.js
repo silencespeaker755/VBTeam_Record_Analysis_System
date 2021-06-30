@@ -146,8 +146,7 @@ export default function Practice() {
         <main>
           <div className={classes.edit}>
             <Button
-              variant="contained"
-              color="primary"
+              variant="outlined"
               onClick={handleClickOpen}
               className={classes.btn}
             >
