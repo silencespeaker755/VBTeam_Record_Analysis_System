@@ -70,11 +70,12 @@ export default function Profile(props) {
             <div className="media align-items-end profile-head">
               <div className="profile mr-3 d-flex flex-column">
                 <img
-                  src="/profileTest.jpeg"
+                  src="https://i.ibb.co/B3Kw2fK/pexels-photo-771742.jpg"
                   alt=""
                   width="170"
                   className="rounded mb-2 img-thumbnail"
                 />
+
                 {user._id === userInfo.id ? (
                   <Button variant="outlined" onClick={handleClickOpen}>
                     Edit profile
@@ -83,7 +84,7 @@ export default function Profile(props) {
               </div>
               <div className="media-body mb-5 text-white">
                 <h4 className="mt-0 mb-0 profileUser">{user.name}</h4>
-                <p className="mt-0 mb-3">{user.birthday}</p>
+                <p className="mt-0 mb-3">{user.birthday || "YYYY-MM-DD"}</p>
               </div>
             </div>
           </div>

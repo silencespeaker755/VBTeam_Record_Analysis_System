@@ -56,11 +56,15 @@ const useStyles = makeStyles(() => ({
     display: "flex",
   },
   notification: {
+    borderRadius: "5px",
     padding: "10px",
     marginTop: "10px",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    "&:hover": {
+      background: "#Efefef",
+    },
   },
   link: {
     color: "black",
