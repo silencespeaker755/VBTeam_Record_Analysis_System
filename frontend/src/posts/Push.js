@@ -7,6 +7,7 @@ import Container from "@material-ui/core/Container";
 import { useMutation } from "react-query";
 import { useUserInfo } from "../hooks/useInfo";
 import instance from "../setting";
+import Loading from "../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   signUp: {
@@ -37,7 +38,7 @@ export default function Push({ refetchEvents, handleClose }) {
     setVideo({ ...video, [type]: e.target.value });
   };
 
-  const push = useMutation(
+  const { mutate: push, isLoading } = useMutation(
     async (err) => {
       const user = userInfo.id;
       const data = await instance.post("/api/practice/posts/upload", {
@@ -60,10 +61,11 @@ export default function Push({ refetchEvents, handleClose }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    push.mutate();
+    push();
     handleClose();
   };
 
+  if (isLoading) return <Loading />;
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.signUp}>
@@ -112,7 +114,6 @@ export default function Push({ refetchEvents, handleClose }) {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
             onClick={onSubmit}
             disabled={video.title === "" || video.content === ""}
