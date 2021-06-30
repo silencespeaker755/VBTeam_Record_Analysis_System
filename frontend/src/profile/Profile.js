@@ -70,9 +70,10 @@ export default function Profile(props) {
             <div className="media align-items-end profile-head">
               <div className="profile mr-3 d-flex flex-column">
                 <img
-                  src="https://i.ibb.co/B3Kw2fK/pexels-photo-771742.jpg"
+                  src={`${process.env.PUBLIC_URL}/profile.png`}
                   alt=""
                   width="170"
+                  style={{ background: "#f9f9f9" }}
                   className="rounded mb-2 img-thumbnail"
                 />
 
