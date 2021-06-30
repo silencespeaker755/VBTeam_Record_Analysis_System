@@ -23,7 +23,6 @@ export default function UpdateTableModal(props) {
     {
       retry: false,
       onSuccess: (msg) => {
-        console.log(msg);
         refetchMatch();
       },
       onError: (err) => {

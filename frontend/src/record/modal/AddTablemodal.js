@@ -63,7 +63,6 @@ export default function AddTablemodal(props) {
     {
       retry: false,
       onSuccess: (data) => {
-        console.log(data);
         handleClose();
         refetchMatch();
       },

@@ -25,7 +25,6 @@ export default function DeleteModal(props) {
       onSuccess: (msg) => {
         setMessage(msg.data);
         setHintModal(true);
-        refetch();
       },
       onError: (err) => {
         setMessage(err.response.data);
@@ -35,13 +34,14 @@ export default function DeleteModal(props) {
   );
 
   const handleHintClose = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setHintModal(false);
+    refetch();
     onClose();
   };
 
   const handleOk = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     deleteMatch();
   };
 

@@ -77,9 +77,14 @@ const useStyles = makeStyles(() => ({
     padding: "10px 30px 10px 30px",
     background: "#f9f9f9",
     "&:hover": {
-      background: "#ffedd1",
+      transition: "all ease 0.5s",
+      background: "#303b53",
       "& $deleteSection": {
         display: "block",
+      },
+      "& $cardText": {
+        transition: "all ease 1s",
+        color: "#FFFFFF",
       },
     },
   },
@@ -105,6 +110,9 @@ const useStyles = makeStyles(() => ({
     marginBottom: "5px",
   },
   deleteSection: { display: "none" },
+  cardText: {
+    color: "#000000",
+  },
   search: {
     display: "flex",
     alignItems: "center",
@@ -254,14 +262,14 @@ export default function MyRecord(props) {
                       variant="body1"
                       color="textSecondary"
                       align="left"
-                      className={classes.type}
+                      className={`${classes.type} ${classes.cardText}`}
                     >
                       {element.type}
                     </Typography>
                     <Typography
                       variant="h5"
-                      className={classes.subtitle}
                       align="left"
+                      className={`${classes.subtitle} ${classes.cardText}`}
                     >
                       {element.team} v.s. {element.opponent}
                     </Typography>
@@ -270,6 +278,7 @@ export default function MyRecord(props) {
                       color="textSecondary"
                       component="p"
                       align="right"
+                      className={classes.cardText}
                     >
                       {element.date}
                     </Typography>
