@@ -91,6 +91,7 @@ export default function Detail(props) {
   const [open, setOpen] = useState(false);
   const detailClasses = useStyles();
   const { userInfo } = useUserInfo();
+  const [textBox, setTextBox] = useState("");
   const {
     match: {
       params: { articleId },
@@ -112,7 +113,19 @@ export default function Detail(props) {
     },
     {
       retry: false,
-      onSuccess: () => {},
+      onSuccess: (data) => {
+        setTextBox(
+          !data.find(isCurrentId).url
+            ? useMapArr(
+                data.find(isCurrentId).content.split("\n"),
+                detailClasses.article
+              )
+            : useMapArr(
+                data.find(isCurrentId).description.split("\n"),
+                detailClasses.article
+              )
+        );
+      },
     }
   );
 
@@ -165,17 +178,7 @@ export default function Detail(props) {
                     {cards.find(isCurrentId).title}
                   </Typography>
                   <Divider />
-                  <div className={detailClasses.text}>
-                    {!cards.find(isCurrentId).url
-                      ? useMapArr(
-                          cards.find(isCurrentId).content.split("\n"),
-                          detailClasses.article
-                        )
-                      : useMapArr(
-                          cards.find(isCurrentId).description.split("\n"),
-                          detailClasses.article
-                        )}
-                  </div>
+                  <div className={detailClasses.text}>{textBox}</div>
                 </CardContent>
                 <CardActions className={detailClasses.cardActions}>
                   {userInfo.id === cards.find(isCurrentId).uploader._id && (
