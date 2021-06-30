@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
   createMuiTheme,
@@ -104,6 +104,10 @@ export default function SignIn() {
     signin();
     handleClose();
   };
+
+  useEffect(() => {
+    document.title = "登入頁面";
+  }, []);
 
   if (isLoading) return <Loading />;
 

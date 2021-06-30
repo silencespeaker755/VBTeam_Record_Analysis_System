@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import "../css/Match.css";
@@ -27,6 +27,10 @@ const useStyles = makeStyles(() => ({
 
 export default function Match() {
   const classes = useStyles();
+
+  useEffect(() => {
+    document.title = "數據＆分析";
+  }, []);
 
   return (
     <div className={classes.root}>
