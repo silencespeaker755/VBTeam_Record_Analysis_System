@@ -9,8 +9,8 @@
     "node": "14.6.0"
   },
   "scripts": {
-    "start": "cd backend && yarn server",
-    "build": "cd backend && yarn",
+    "start": "cd backend && npm run server",
+    "build": "cd backend && npm install",
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
