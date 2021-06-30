@@ -3,6 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Badge,
+  ClickAwayListener,
   IconButton,
   createMuiTheme,
   Popover,
@@ -98,6 +99,7 @@ export default function Menu() {
   const [notify, setNotify] = useState([]);
   const [openSmall, setOpenSmall] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [focus, setFocus] = useState(false);
   const openPopover = Boolean(anchorEl);
   const id = openPopover ? "simple-popover" : undefined;
 
@@ -147,7 +149,9 @@ export default function Menu() {
       onError: () => {},
     }
   );
+
   const handleClick = (event) => {
+    setFocus(true);
     setAnchorEl(event.currentTarget);
   };
 
@@ -195,11 +199,18 @@ export default function Menu() {
         >
           <PeopleIcon style={{ fontSize: 35 }} />
         </IconButton>
-        <IconButton color="inherit" onClick={handleClick} component="span">
-          <Badge badgeContent={notify.length} color="secondary">
-            <NotificationsIcon style={{ fontSize: 33 }} />
-          </Badge>
-        </IconButton>
+        <ClickAwayListener onClickAway={() => setFocus(false)}>
+          <IconButton color="inherit" onClick={handleClick} component="span">
+            <Badge badgeContent={notify.length} color="secondary">
+              <NotificationsIcon
+                style={{
+                  color: focus ? "#eb9e23" : "white",
+                  fontSize: 33,
+                }}
+              />
+            </Badge>
+          </IconButton>
+        </ClickAwayListener>
         <IconButton
           edge="end"
           onClick={toggleDrawer(true)}

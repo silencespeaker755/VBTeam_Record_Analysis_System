@@ -43,7 +43,7 @@ export default function PostModal(props) {
     notes: "",
   };
   const [info, setInfo] = useImmer(initForm);
-  const { userInfo, changeUser } = useUserInfo();
+  const { userInfo } = useUserInfo();
 
   const { mutate: updateForm, isLoading } = useMutation(
     async () => {

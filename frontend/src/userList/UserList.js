@@ -228,7 +228,7 @@ export default function UserList() {
                     className={classes.actionArea}
                     onClick={handleClick(element._id)}
                   >
-                    {userInfo.isAdmin ? (
+                    {userInfo.isAdmin && !element.isAdmin ? (
                       <div className={classes.adminSection}>
                         <AdminSection
                           userId={element._id}

@@ -13,7 +13,7 @@ const UserInfoProvider = (props) => {
   });
 
   const changeUser = (id, isAdmin = false, auth = false) => {
-    setUserInfo({ id, isAdmin });
+    setUserInfo({ id, isAdmin, auth });
   };
 
   return (
