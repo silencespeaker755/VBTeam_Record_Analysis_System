@@ -5,9 +5,14 @@
   "repository": "git@github.com:silencespeaker755/VBTeam_Record_Analysis_System.git",
   "author": "silencespeaker <b06902019@ntu.edu.tw>",
   "license": "MIT",
+  "engines": {
+    "node": "14.x",
+    "npm": ">= 4.4.0"
+  },
   "scripts": {
-    "start": "cd frontend && yarn start",
+    "start": "yarn server",
     "server": "cd backend && yarn server",
+    "build": "cd frontend && yarn && yarn build && cd ../backend && yarn ",
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
