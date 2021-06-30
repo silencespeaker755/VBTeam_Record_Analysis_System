@@ -54,6 +54,10 @@ export default function Profile(props) {
   const handleClose = () => {
     setOpen(false);
   };
+  const article = useMapArr(
+    user.about.split("\n"),
+    "font-italic mb-0 profileText"
+  );
 
   console.log(user);
 
@@ -128,12 +132,7 @@ export default function Profile(props) {
                 overflow: "auto",
               }}
             >
-              {user.about === ""
-                ? "No description"
-                : useMapArr(
-                    user.about.split("\n"),
-                    "font-italic mb-0 profileText"
-                  )}
+              {user.about === "" ? "No description" : article}
             </div>
           </div>
         </Paper>
