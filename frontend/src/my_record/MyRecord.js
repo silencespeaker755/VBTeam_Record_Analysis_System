@@ -232,7 +232,7 @@ export default function MyRecord(props) {
           <div className={classes.outPaperFrame}>
             {recordList.length === 0 ? (
               <img
-                src="/no-data.svg"
+                src={`${process.env.PUBLIC_URL}/no-data.svg`}
                 alt="no-data"
                 className={classes.noData}
               />

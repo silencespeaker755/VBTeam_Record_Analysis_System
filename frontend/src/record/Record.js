@@ -88,7 +88,11 @@ export default function Record(props) {
         </Typography>
       </div>
       {match.sets.length === 0 ? (
-        <img src="/no-data.svg" alt="no-data" className={classes.noData} />
+        <img
+          src={`${process.env.PUBLIC_URL}/no-data.svg`}
+          alt="no-data"
+          className={classes.noData}
+        />
       ) : (
         match.sets.map((item, index) => (
           <div key={`${item.number}-${index}`}>
