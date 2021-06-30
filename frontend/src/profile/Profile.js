@@ -118,7 +118,7 @@ export default function Profile(props) {
               style={{
                 minHeight: "350px",
                 maxHeight: "400px",
-                overflow: "scroll",
+                overflow: "auto",
               }}
             >
               {user.about === ""

@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardContent: {
     height: "100%",
-    overflow: "scroll",
+    overflow: "auto",
   },
   cardVedio: {
     position: "absolute",
