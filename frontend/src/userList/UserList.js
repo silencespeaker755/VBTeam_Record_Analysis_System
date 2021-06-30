@@ -159,6 +159,11 @@ const useStyles = makeStyles(() => ({
     position: "relative",
     marginLeft: "35px",
   },
+  noData: {
+    width: "35%",
+    margin: "5% 0 0 35%",
+    opacity: "0.6",
+  },
 }));
 
 export default function UserList() {
@@ -213,57 +218,65 @@ export default function UserList() {
             />
           </div>
           <div className={classes.outPaperFrame}>
-            {userList
-              .filter(({ name = "", position = "", email = "" }) => {
-                if (!searchInput || searchInput === "") return true;
-                return (
-                  name.includes(searchInput) ||
-                  position.includes(searchInput) ||
-                  email.includes(searchInput)
-                );
-              })
-              .map((element) => (
-                <Card key={element.email} className={classes.outCardFrame}>
-                  <CardActionArea
-                    className={classes.actionArea}
-                    onClick={handleClick(element._id)}
-                  >
-                    {userInfo.isAdmin && !element.isAdmin ? (
-                      <div className={classes.adminSection}>
-                        <AdminSection
-                          userId={element._id}
-                          username={element.name}
-                          refetch={refetchRecordList}
-                        />
-                      </div>
-                    ) : null}
-                    <Typography
-                      variant="body1"
-                      color="textSecondary"
-                      align="left"
-                      className={`${classes.type} ${classes.cardText}`}
+            {userList.length === 0 ? (
+              <img
+                src="/no-data.svg"
+                alt="no-data"
+                className={classes.noData}
+              />
+            ) : (
+              userList
+                .filter(({ name = "", position = "", email = "" }) => {
+                  if (!searchInput || searchInput === "") return true;
+                  return (
+                    name.includes(searchInput) ||
+                    position.includes(searchInput) ||
+                    email.includes(searchInput)
+                  );
+                })
+                .map((element) => (
+                  <Card key={element.email} className={classes.outCardFrame}>
+                    <CardActionArea
+                      className={classes.actionArea}
+                      onClick={handleClick(element._id)}
                     >
-                      {element.position}
-                    </Typography>
-                    <Typography
-                      variant="h5"
-                      className={`${classes.subtitle} ${classes.cardText}`}
-                      align="left"
-                    >
-                      {element.name}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      color="textSecondary"
-                      component="p"
-                      className={classes.cardText}
-                      align="right"
-                    >
-                      {element.email}
-                    </Typography>
-                  </CardActionArea>
-                </Card>
-              ))}
+                      {userInfo.isAdmin && !element.isAdmin ? (
+                        <div className={classes.adminSection}>
+                          <AdminSection
+                            userId={element._id}
+                            username={element.name}
+                            refetch={refetchRecordList}
+                          />
+                        </div>
+                      ) : null}
+                      <Typography
+                        variant="body1"
+                        color="textSecondary"
+                        align="left"
+                        className={`${classes.type} ${classes.cardText}`}
+                      >
+                        {element.position}
+                      </Typography>
+                      <Typography
+                        variant="h5"
+                        className={`${classes.subtitle} ${classes.cardText}`}
+                        align="left"
+                      >
+                        {element.name}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        color="textSecondary"
+                        component="p"
+                        className={classes.cardText}
+                        align="right"
+                      >
+                        {element.email}
+                      </Typography>
+                    </CardActionArea>
+                  </Card>
+                ))
+            )}
           </div>
         </div>
       </div>

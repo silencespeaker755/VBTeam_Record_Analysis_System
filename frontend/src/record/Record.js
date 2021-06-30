@@ -33,6 +33,11 @@ const useStyles = makeStyles(() => ({
   divider: {
     marginBottom: "67px",
   },
+  noData: {
+    width: "35%",
+    margin: "5% 0 0 35%",
+    opacity: "0.6",
+  },
 }));
 
 const dirNumber = {
@@ -82,28 +87,32 @@ export default function Record(props) {
           {match.type}
         </Typography>
       </div>
-      {match.sets.map((item, index) => (
-        <div key={`${item.number}-${index}`}>
-          {index !== 0 ? <Divider className={classes.divider} /> : null}
-          <div className={classes.subtitle}>
-            <Typography variant="h6" align="center">
-              {dirNumber[item.number]}
-            </Typography>
-            <Typography variant="h6" align="center">
-              {match.date}
-            </Typography>
-            <Typography className={classes.count} variant="h6" align="left">
-              比數： {`${item.teamScore} : ${item.opponentScore}`}
-            </Typography>
+      {match.sets.length === 0 ? (
+        <img src="/no-data.svg" alt="no-data" className={classes.noData} />
+      ) : (
+        match.sets.map((item, index) => (
+          <div key={`${item.number}-${index}`}>
+            {index !== 0 ? <Divider className={classes.divider} /> : null}
+            <div className={classes.subtitle}>
+              <Typography variant="h6" align="center">
+                {dirNumber[item.number]}
+              </Typography>
+              <Typography variant="h6" align="center">
+                {match.date}
+              </Typography>
+              <Typography className={classes.count} variant="h6" align="left">
+                比數： {`${item.teamScore} : ${item.opponentScore}`}
+              </Typography>
+            </div>
+            <RecordTable
+              initialData={item.data}
+              setsIndex={index}
+              match={match}
+              refetchMatch={refetchMatch}
+            />
           </div>
-          <RecordTable
-            initialData={item.data}
-            setsIndex={index}
-            match={match}
-            refetchMatch={refetchMatch}
-          />
-        </div>
-      ))}
+        ))
+      )}
       {userInfo.isAdmin ? (
         <AddButton inView={inView} openModal={() => setAddModel(true)} />
       ) : null}

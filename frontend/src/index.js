@@ -15,7 +15,7 @@ ReactDOM.render(
     <UserInfoProvider>
       <DateInfoProvider>
         <QueryClientProvider client={queryClient}>
-          <Router basename={process.env.PUBLIC_URL}>
+          <Router>
             <App />
           </Router>
         </QueryClientProvider>

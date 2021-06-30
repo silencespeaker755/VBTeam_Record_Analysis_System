@@ -162,6 +162,11 @@ const useStyles = makeStyles(() => ({
     position: "relative",
     marginLeft: "35px",
   },
+  noData: {
+    width: "35%",
+    margin: "5% 0 0 35%",
+    opacity: "0.6",
+  },
 }));
 
 export default function MyRecord(props) {
@@ -225,66 +230,74 @@ export default function MyRecord(props) {
             />
           </div>
           <div className={classes.outPaperFrame}>
-            {recordList
-              .filter(
-                ({
-                  type = "",
-                  title = "",
-                  date = "",
-                  team = "",
-                  opponent = "",
-                }) => {
-                  if (!searchInput || searchInput === "") return true;
-                  return (
-                    type.includes(searchInput) ||
-                    title.includes(searchInput) ||
-                    date.includes(searchInput) ||
-                    team.includes(searchInput) ||
-                    opponent.includes(searchInput)
-                  );
-                }
-              )
-              .map((element) => (
-                <Card key={element._id} className={classes.outCardFrame}>
-                  <CardActionArea
-                    className={classes.actionArea}
-                    onClick={handleClick(element._id)}
-                  >
-                    {userInfo.isAdmin ? (
-                      <div className={classes.deleteSection}>
-                        <DeleteSection
-                          recordId={element._id}
-                          refetch={refetchRecordList}
-                        />
-                      </div>
-                    ) : null}
-                    <Typography
-                      variant="body1"
-                      color="textSecondary"
-                      align="left"
-                      className={`${classes.type} ${classes.cardText}`}
+            {recordList.length === 0 ? (
+              <img
+                src="/no-data.svg"
+                alt="no-data"
+                className={classes.noData}
+              />
+            ) : (
+              recordList
+                .filter(
+                  ({
+                    type = "",
+                    title = "",
+                    date = "",
+                    team = "",
+                    opponent = "",
+                  }) => {
+                    if (!searchInput || searchInput === "") return true;
+                    return (
+                      type.includes(searchInput) ||
+                      title.includes(searchInput) ||
+                      date.includes(searchInput) ||
+                      team.includes(searchInput) ||
+                      opponent.includes(searchInput)
+                    );
+                  }
+                )
+                .map((element) => (
+                  <Card key={element._id} className={classes.outCardFrame}>
+                    <CardActionArea
+                      className={classes.actionArea}
+                      onClick={handleClick(element._id)}
                     >
-                      {element.type}
-                    </Typography>
-                    <Typography
-                      variant="h5"
-                      align="left"
-                      className={`${classes.subtitle} ${classes.cardText}`}
-                    >
-                      {element.team} v.s. {element.opponent}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      color="textSecondary"
-                      component="p"
-                      align="right"
-                      className={classes.cardText}
-                    >
-                      {element.date}
-                    </Typography>
-                  </CardActionArea>
-                </Card>
-              ))}
+                      {userInfo.isAdmin ? (
+                        <div className={classes.deleteSection}>
+                          <DeleteSection
+                            recordId={element._id}
+                            refetch={refetchRecordList}
+                          />
+                        </div>
+                      ) : null}
+                      <Typography
+                        variant="body1"
+                        color="textSecondary"
+                        align="left"
+                        className={`${classes.type} ${classes.cardText}`}
+                      >
+                        {element.type}
+                      </Typography>
+                      <Typography
+                        variant="h5"
+                        align="left"
+                        className={`${classes.subtitle} ${classes.cardText}`}
+                      >
+                        {element.team} v.s. {element.opponent}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        color="textSecondary"
+                        component="p"
+                        align="right"
+                        className={classes.cardText}
+                      >
+                        {element.date}
+                      </Typography>
+                    </CardActionArea>
+                  </Card>
+                ))
+            )}
           </div>
         </div>
       </div>
