@@ -277,7 +277,6 @@ export default function Menu() {
                 </>
               );
             })}
-            <Divider />
           </div>
           <Button
             variant="outlined"
