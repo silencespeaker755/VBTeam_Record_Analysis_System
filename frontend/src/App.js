@@ -66,28 +66,32 @@ export default function App() {
       {location.pathname !== "/" && location.pathname !== "/auth" && <Bar />}
       <Switch>
         <Route exact path="/" component={SignIn} />
-        <Route path="/home" component={Homepage} />
-        <Route path="/home/user_list" component={UserList} />
-        <Route path="/home/match" component={Match} />
-        <Route path="/home/posts" component={Posts} />
+        <Route exact path="/home" component={Homepage} />
+        <Route exact path="/home/user_list" component={UserList} />
+        <Route exact path="/home/match" component={Match} />
+        <Route exact path="/home/posts" component={Posts} />
         <Route
+          exact
           path="/home/posts/:articleId"
           render={(props) => <Detail match={props.match} />}
         />
-        <Route path="/home/records" component={RecordList} />
+        <Route exact path="/home/records" component={RecordList} />
         <Route
+          exact
           path="/home/record/:recordId"
           render={(props) => <Record match={props.match} />}
         />
         <Route
+          exact
           path="/home/profile/:userId"
           render={(props) => <Profile match={props.match} />}
         />
         <Route
+          exact
           path="/home/analysis/:userId"
           render={(props) => <MyRecord match={props.match} />}
         />
-        <Route path="/auth" component={Authentication} />
+        <Route exact path="/auth" component={Authentication} />
       </Switch>
     </>
   );
