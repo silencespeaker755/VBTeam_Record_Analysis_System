@@ -6,7 +6,7 @@
   "author": "silencespeaker <b06902019@ntu.edu.tw>",
   "license": "MIT",
   "engines": {
-    "node": "10.3.0"
+    "node": "14.6.0"
   },
   "scripts": {
     "start": "cd backend && yarn server",
