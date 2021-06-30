@@ -20,6 +20,7 @@ import Video from "./Video";
 import Push from "./Push";
 import Note from "./Note";
 import instance from "../setting";
+import Loading from "../components/Loading";
 
 const blackTheme = createMuiTheme({
   palette: {
@@ -139,6 +140,8 @@ export default function Practice() {
       )
     );
   }
+
+  if (isEventsLoading) return <Loading />;
 
   return (
     <>

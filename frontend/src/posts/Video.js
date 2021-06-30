@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardContent: {
     height: "100%",
-    overflow: "scroll",
+    overflow: "auto",
   },
   cardVedio: {
     position: "absolute",
@@ -93,9 +93,7 @@ export default function Video({ id, title, url, description }) {
         <CardActions className={movieClasses.cardActions}>
           <div className={movieClasses.more}>
             <Link to={`/home/posts/${id}`} className={movieClasses.link}>
-              <Button size="small" color="primary">
-                ...More
-              </Button>
+              <Button size="small">...More</Button>
             </Link>
           </div>
         </CardActions>

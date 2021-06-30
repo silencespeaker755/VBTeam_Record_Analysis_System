@@ -81,7 +81,7 @@ const useStyles = makeStyles(() => ({
   },
   popoverItem: {
     height: "290px",
-    overflow: "scroll",
+    overflow: "auto",
     minWidth: "200px",
     borderRadius: "0.25",
   },
@@ -93,6 +93,7 @@ const useStyles = makeStyles(() => ({
 const linkDir = {
   video: "/home/posts/",
   article: "/home/posts/",
+  record: "/home/record/",
 };
 
 export default function Menu() {
@@ -247,7 +248,24 @@ export default function Menu() {
         <div className={classes.popoverBox}>
           <div className={classes.popoverItem}>
             {notify.map((el, index) => {
-              return el.type === "video" || el.type === "article" ? (
+              return el.type === "event" ? (
+                <>
+                  <Typography
+                    key={`${index}+${el}`}
+                    className={classes.notification}
+                  >
+                    {noticon(el.type)}
+                    {`${el.uploader} 上傳了一${
+                      el.type === "record" ? "個比賽紀錄" : "個練球事件"
+                    }`}
+                    &nbsp;&nbsp;
+                    <small>{`${moment(el.uploadTime).format(
+                      "YYYY-MM-DD hh:mm"
+                    )}`}</small>
+                  </Typography>
+                  <Divider />
+                </>
+              ) : (
                 <Link
                   to={`${linkDir[el.type]}${el.id}`}
                   className={classes.link}
@@ -269,23 +287,6 @@ export default function Menu() {
                     <Divider />
                   </>
                 </Link>
-              ) : (
-                <>
-                  <Typography
-                    key={`${index}+${el}`}
-                    className={classes.notification}
-                  >
-                    {noticon(el.type)}
-                    {`${el.uploader} 上傳了一${
-                      el.type === "record" ? "個比賽紀錄" : "個練球事件"
-                    }`}
-                    &nbsp;&nbsp;
-                    <small>{`${moment(el.uploadTime).format(
-                      "YYYY-MM-DD hh:mm"
-                    )}`}</small>
-                  </Typography>
-                  <Divider />
-                </>
               );
             })}
           </div>
