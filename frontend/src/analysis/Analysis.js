@@ -30,13 +30,17 @@ const useStyle = makeStyles({
     padding: 20,
     maxWidth: 600,
     borderBottom: "gray solid 7px",
-    textShadow: "0.1em 0.1em 0.15em black",
+    textShadow: "5px 7px 10px black",
   },
   formControl: {
     position: "relative",
     left: "-50%",
     margin: 20,
     minWidth: 120,
+  },
+  tyophy: {
+    height: "50px",
+    width: "50px",
   },
 });
 
@@ -97,7 +101,7 @@ export default function Analysis() {
   return (
     <div className={classes.root}>
       <Typography variant="h1" className={classes.title}>
-        球隊數據分析
+        Analysis
       </Typography>
       <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel>Team</InputLabel>
@@ -121,38 +125,38 @@ export default function Analysis() {
           <Typography variant="h3">
             {analysisData?.matches?.all || "X"}
           </Typography>
-          <Typography variant="h3">總場數</Typography>
+          <Typography variant="h3">Total games</Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="h3" color="primary">
             {analysisData?.matches?.win || "X"}
           </Typography>
-          <Typography variant="h3">勝場數</Typography>
+          <Typography variant="h3">Win</Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="h3" color="secondary">
             {analysisData?.matches?.lose || "X"}
           </Typography>
-          <Typography variant="h3">敗場數</Typography>
+          <Typography variant="h3">Lose</Typography>
         </Grid>
         <Grid item xs={12}>
           <Divider />
         </Grid>
         <Grid item xs={4}>
           <Typography variant="h3">{analysisData?.sets?.all || "X"}</Typography>
-          <Typography variant="h3">總局數</Typography>
+          <Typography variant="h3">Total board</Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="h3" color="primary">
             {analysisData?.sets?.win || "X"}
           </Typography>
-          <Typography variant="h3">勝局數</Typography>
+          <Typography variant="h3">Win</Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="h3" color="secondary">
             {analysisData?.sets?.lose || "X"}
           </Typography>
-          <Typography variant="h3">敗局數</Typography>
+          <Typography variant="h3">Lose</Typography>
         </Grid>
       </Grid>
     </div>
