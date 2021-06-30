@@ -33,8 +33,6 @@ import RecordList from "./recordList/RecordList";
 // Record
 import Record from "./record/Record";
 
-import Analysis from "./analysis/Analysis";
-
 import "./App.css";
 
 import { useUserInfo } from "./hooks/useInfo";
@@ -89,7 +87,6 @@ export default function App() {
           path="/home/profile/:userId"
           render={(props) => <Profile match={props.match} />}
         />
-        <Route exact path="/home/analysis" component={Analysis} />
         <Route
           exact
           path="/home/analysis/:userId"

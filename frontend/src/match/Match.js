@@ -36,9 +36,9 @@ export default function Match() {
             <span className="text">Records</span>
           </div>
         </Link>
-        <Link to="/home/analysis" className={classes.link}>
+        <Link to="/home/posts" className={classes.link}>
           <div className="rightbtn">
-            <span className="text">Analysis</span>
+            <span className="text">Posts</span>
           </div>
         </Link>
       </div>
