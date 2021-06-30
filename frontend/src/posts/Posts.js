@@ -30,8 +30,7 @@ const blackTheme = createMuiTheme({
   overrides: {
     MuiCard: {
       root: {
-        boxShadow: "2px 2px 10px 2px rgba(0,0,0,0.3)",
-        "&:hover": { boxShadow: "2px 4px 20px 2px rgba(0,0,0,0.3)" },
+        "&:hover": { boxShadow: "1px 0px 10px 1px rgba(0,0,0,0.3)" },
       },
     },
   },
