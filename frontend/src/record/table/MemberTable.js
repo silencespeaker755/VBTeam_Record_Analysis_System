@@ -30,6 +30,8 @@ export default function MemberTable({
   current,
   setCurrent = () => {},
   setDeleteIndex = () => {},
+  noteVisible = true,
+  faultVisible = true,
 }) {
   const classes = useStyles();
 
@@ -164,6 +166,8 @@ export default function MemberTable({
         <TableHead>
           <TableRow>
             {Object.keys(Unit).map((value) => {
+              if (!noteVisible && value === "notes") return null;
+              if (!faultVisible && value === "faults") return null;
               if (value === "name")
                 return (
                   <TableCell

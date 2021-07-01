@@ -12,6 +12,8 @@ import {
 import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import axios from "../setting";
+import DetailButton from "./DetailButton";
+import MemberList from "./modal/MerberList";
 import Loading from "../components/Loading";
 import "../css/Analysis.css";
 
@@ -49,6 +51,7 @@ export default function Analysis() {
   const history = useHistory();
 
   const [team, setTeam] = useState("");
+  const [modal, setModal] = useState(false);
 
   const {
     data: teamList = [],
@@ -88,6 +91,10 @@ export default function Analysis() {
     }
   );
 
+  const openModal = () => {
+    setModal(true);
+  };
+
   const handleChange = async (event) => {
     setTeam(event.target.value);
   };
@@ -115,8 +122,10 @@ export default function Analysis() {
           <MenuItem value="">
             <em>-</em>
           </MenuItem>
-          {teamList.map((t) => (
-            <MenuItem value={t}>{t}</MenuItem>
+          {teamList.map((t, i) => (
+            <MenuItem key={`team-${i}-t`} value={t}>
+              {t}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
@@ -150,6 +159,8 @@ export default function Analysis() {
           </div>
         </div>
       </div>
+      <DetailButton openModal={openModal} height={80} width={80} />
+      <MemberList open={modal} onClose={() => setModal(false)} />
     </div>
   );
 }
