@@ -250,6 +250,7 @@ export default function RecordTable({
       <AddMemberModal
         open={createDataModal}
         setId={match.sets[setsIndex]._id}
+        data={data}
         onClose={() => setCreateDataModal(false)}
         refetchMatch={refetchMatch}
       />

@@ -19,23 +19,34 @@ router.post("/create", (req, res) => {
   */
 
   console.log(req.body);
-  const { setId, userId } = req.body;
+  const { setId, data, userId } = req.body;
 
-  RecordService.createData({ setId, userId })
-    .then((dataId) => {
-      console.log("Created data:", dataId);
-      /*
+  RecordService.updateData({ data, userId })
+    .then(() =>
+      RecordService.createData({ setId, data, userId })
+        .then((dataId) => {
+          console.log("Created data:", dataId);
+          /*
         #swagger.responses[200] = { 
           schema: {
             id: "60d619a88da34eda2a6ebc41"
           }
         }
       */
-      res.status(200).json({ id: dataId });
-    })
+          res.status(200).json({ id: dataId });
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err === "Admin required") {
+            res.status(403).send(err);
+          } else {
+            res.status(404).send(err);
+          }
+        })
+    )
     .catch((err) => {
       console.log(err);
-      if (err === "Admin required") {
+      if (err === "Admin required!") {
         res.status(403).send(err);
       } else {
         res.status(404).send(err);

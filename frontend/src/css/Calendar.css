@@ -19,6 +19,7 @@
 }
 
 .calendar-frame {
+  min-width: 558px;
   margin: 50px;
   border: 20px solid #a78758;
   border-radius: 25px;

@@ -12,6 +12,7 @@ import EditProfile from "./EditProfile";
 import instance from "../setting";
 import { useUserInfo } from "../hooks/useInfo";
 import useMapArr from "../utils/functions/useMapArr";
+import Loading from "../components/Loading";
 
 export default function Profile(props) {
   const [open, setOpen] = useState(false);
@@ -32,6 +33,7 @@ export default function Profile(props) {
     },
     isError: isEventsError,
     isLoading: isEventsLoading,
+    isFetching: isEventsFetching,
     refetch: refetchEvents,
   } = useQuery(
     "UserFetching",
@@ -43,6 +45,7 @@ export default function Profile(props) {
     },
     {
       retry: false,
+      refetchOnWindowFocus: false,
       onSuccess: () => {},
     }
   );
@@ -59,13 +62,12 @@ export default function Profile(props) {
     "font-italic mb-0 profileText"
   );
 
-  console.log(user);
-
   useEffect(() => {
     if (user) document.title = user.name;
     else document.title = "用戶";
   }, [JSON.stringify(user)]);
 
+  if (isEventsLoading || isEventsFetching) return <Loading />;
   return (
     <div className="row py-5 ">
       <div className="margin-sm col-md-5 mx-auto">

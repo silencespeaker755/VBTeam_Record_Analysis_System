@@ -13,12 +13,13 @@ import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import axios from "../setting";
 import Loading from "../components/Loading";
+import "../css/Analysis.css";
 
 const useStyle = makeStyles({
   root: {
     position: "absolute",
     top: "10%",
-    left: "10%",
+    left: "8%",
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
@@ -29,14 +30,13 @@ const useStyle = makeStyles({
     // position: ""
     padding: 20,
     maxWidth: 600,
-    borderBottom: "gray solid 7px",
-    textShadow: "5px 7px 10px black",
+    color: "#303b53",
   },
   formControl: {
     position: "relative",
     left: "-50%",
     margin: 20,
-    minWidth: 120,
+    minWidth: 80,
   },
   tyophy: {
     height: "50px",
@@ -113,52 +113,43 @@ export default function Analysis() {
           label="球隊名稱"
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>-</em>
           </MenuItem>
           {teamList.map((t) => (
             <MenuItem value={t}>{t}</MenuItem>
           ))}
         </Select>
       </FormControl>
-      <Grid container className={classes.gridContainer} spacing={6}>
-        <Grid item xs={4}>
-          <Typography variant="h3">
-            {analysisData?.matches?.all || "X"}
-          </Typography>
-          <Typography variant="h3">Total games</Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h3" color="primary">
-            {analysisData?.matches?.win || "X"}
-          </Typography>
-          <Typography variant="h3">Win</Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h3" color="secondary">
-            {analysisData?.matches?.lose || "X"}
-          </Typography>
-          <Typography variant="h3">Lose</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Divider />
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h3">{analysisData?.sets?.all || "X"}</Typography>
-          <Typography variant="h3">Total board</Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h3" color="primary">
+      <div className="Ascoreboard">
+        <div className="Ateam Ateam1 Atop">
+          <div className="Aboard">
+            {analysisData?.matches?.all || "-"}
+            <small>總場數</small>
+          </div>
+          <div className="Aname">
+            {analysisData?.matches?.win || "-"}
+            <small>勝場數</small>
+          </div>
+          <div className="Ascore">
+            {analysisData?.matches?.lose || "-"}
+            <small>敗場數</small>
+          </div>
+        </div>
+        <div className="Ateam Ateam2 Abot">
+          <div className="Aboard">
+            {analysisData?.sets?.all || "-"}
+            <small>總局數</small>
+          </div>
+          <div className="Aname">
             {analysisData?.sets?.win || "X"}
-          </Typography>
-          <Typography variant="h3">Win</Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h3" color="secondary">
+            <small>勝局數</small>
+          </div>
+          <div className="Ascore">
             {analysisData?.sets?.lose || "X"}
-          </Typography>
-          <Typography variant="h3">Lose</Typography>
-        </Grid>
-      </Grid>
+            <small>敗局數</small>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

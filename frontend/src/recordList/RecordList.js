@@ -124,7 +124,7 @@ const useStyles = makeStyles(() => ({
       backgroundColor: fade("#5a5a5a", 0.25),
     },
     margin: "30px 0 0 35px",
-    width: "100%",
+    width: "60%",
     [theme.breakpoints.up("sm")]: {
       width: "auto",
     },
