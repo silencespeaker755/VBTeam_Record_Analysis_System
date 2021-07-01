@@ -5,7 +5,9 @@ class NotificationService {
     const user = await User.findById(userId);
     if (!user) throw "User not exists!";
 
-    return user.notifications;
+    return user.notifications.sort((a, b) =>
+      a.uploadTime < b.uploadTime ? 1 : -1
+    );
   }
 
   static async deleteNotifications({ userId }) {
