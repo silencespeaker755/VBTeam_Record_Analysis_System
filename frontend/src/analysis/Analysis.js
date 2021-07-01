@@ -19,7 +19,7 @@ const useStyle = makeStyles({
   root: {
     position: "absolute",
     top: "10%",
-    left: "10%",
+    left: "8%",
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
@@ -36,7 +36,7 @@ const useStyle = makeStyles({
     position: "relative",
     left: "-50%",
     margin: 20,
-    minWidth: 120,
+    minWidth: 80,
   },
   tyophy: {
     height: "50px",
@@ -113,7 +113,7 @@ export default function Analysis() {
           label="球隊名稱"
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>-</em>
           </MenuItem>
           {teamList.map((t) => (
             <MenuItem value={t}>{t}</MenuItem>
