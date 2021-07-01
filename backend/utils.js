@@ -1,6 +1,8 @@
 import nodemailer from "nodemailer";
 import moment from "moment";
 import crypto from "crypto";
+import Handlebars from "handlebars";
+import fs from "fs";
 import config from "./config";
 import Mail from "./models/Mail";
 
@@ -26,14 +28,21 @@ const sendMail = async (mailOptions) => {
   });
 };
 
-const sendVerification = async (userMail) => {
+const sendVerification = async (username, userMail) => {
   const verification = crypto.randomBytes(4).toString("hex");
-
+  const templateStr = fs.readFileSync("./mail.html").toString("utf8");
+  const template = Handlebars.compile(templateStr, { noEscape: true });
+  const data = {
+    username,
+    verification,
+  };
+  const htmlToSend = template(data);
+  console.log(htmlToSend);
   const mailOptions = {
     from: config.email,
     to: userMail,
     subject: "Verification",
-    text: `Verification Code: ${verification}`,
+    html: htmlToSend,
   };
 
   const expire = moment().add(20, "minutes").format("YYYY-MM-DD HH:mm:ss");
@@ -45,7 +54,6 @@ const sendVerification = async (userMail) => {
   });
 
   await mail.save();
-  console.log(mail);
   const emailRes = await sendMail(mailOptions);
 
   return emailRes;
