@@ -137,7 +137,7 @@ class RecordService {
     return deletedSet;
   }
 
-  static async createData({ setId, userId }) {
+  static async createData({ setId, data, userId }) {
     const user = await User.findById(userId);
     if (!user) throw "User not found!";
     else if (!user.isAdmin) throw "Admin required!";
