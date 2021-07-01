@@ -73,6 +73,7 @@ export default function Practice() {
     data: cards = [],
     isError: isEventsError,
     isLoading: isEventsLoading,
+    isFetching: isEventsFetching,
     refetch: refetchEvents,
   } = useQuery(
     "CardsFetching",
@@ -82,6 +83,7 @@ export default function Practice() {
     },
     {
       retry: false,
+      refetchOnWindowFocus: false,
       onSuccess: () => {},
     }
   );
@@ -145,7 +147,7 @@ export default function Practice() {
     document.title = "文章&影片";
   }, []);
 
-  if (isEventsLoading) return <Loading />;
+  if (isEventsLoading || isEventsFetching) return <Loading />;
 
   return (
     <>
