@@ -11,7 +11,7 @@ import {
   Button,
   Divider,
 } from "@material-ui/core";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import MenuIcon from "@material-ui/icons/Menu";
 import PeopleIcon from "@material-ui/icons/People";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MovieIcon from "@material-ui/icons/Movie";
@@ -189,7 +189,7 @@ export default function Menu() {
           color="inherit"
           component="span"
         >
-          <AccountCircleIcon style={{ fontSize: 33 }} />
+          <MenuIcon style={{ fontSize: 33 }} />
         </IconButton>
       </div>
     );
@@ -222,7 +222,7 @@ export default function Menu() {
           color="inherit"
           component="span"
         >
-          <AccountCircleIcon style={{ fontSize: 33 }} />
+          <MenuIcon style={{ fontSize: 33 }} />
         </IconButton>
       </div>
 

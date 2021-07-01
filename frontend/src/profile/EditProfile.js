@@ -7,6 +7,7 @@ import Container from "@material-ui/core/Container";
 import { useMutation } from "react-query";
 import { useUserInfo } from "../hooks/useInfo";
 import instance from "../setting";
+import Loading from "../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   head: {
@@ -40,7 +41,7 @@ export default function EditProfile({
     number: profileData.number,
   });
 
-  const editUser = useMutation(
+  const { mutate: editUser, isLoading } = useMutation(
     async (err) => {
       const data = await instance.post("/api/user/update", {
         userId: userInfo.id,
@@ -53,8 +54,13 @@ export default function EditProfile({
       return data;
     },
     {
+      retry: false,
       onSuccess: ({ data }) => {
         refetchEvents();
+        handleClose();
+      },
+      onError: () => {
+        handleClose();
       },
     }
   );
@@ -65,10 +71,9 @@ export default function EditProfile({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    editUser.mutate();
-    handleClose();
+    editUser();
   };
-
+  if (isLoading) return <Loading />;
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.head}>

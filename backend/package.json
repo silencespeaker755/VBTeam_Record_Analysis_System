@@ -19,6 +19,7 @@
     "dotenv-defaults": "^2.0.2",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "handlebars": "^4.7.7",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "mongoose": "^5.12.10",

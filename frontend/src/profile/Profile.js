@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import {
   Paper,
   Button,
@@ -12,6 +12,7 @@ import EditProfile from "./EditProfile";
 import instance from "../setting";
 import { useUserInfo } from "../hooks/useInfo";
 import useMapArr from "../utils/functions/useMapArr";
+import Loading from "../components/Loading";
 
 export default function Profile(props) {
   const [open, setOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function Profile(props) {
 
   const {
     data: user = {
-      username: "",
+      name: "",
       city: "",
       position: "",
       isAdmin: true,
@@ -32,6 +33,7 @@ export default function Profile(props) {
     },
     isError: isEventsError,
     isLoading: isEventsLoading,
+    isFetching: isEventsFetching,
     refetch: refetchEvents,
   } = useQuery(
     "UserFetching",
@@ -43,6 +45,7 @@ export default function Profile(props) {
     },
     {
       retry: false,
+      refetchOnWindowFocus: false,
       onSuccess: () => {},
     }
   );
@@ -54,7 +57,17 @@ export default function Profile(props) {
   const handleClose = () => {
     setOpen(false);
   };
+  const article = useMapArr(
+    user.about.split("\n"),
+    "font-italic mb-0 profileText"
+  );
 
+  useEffect(() => {
+    if (user) document.title = user.name;
+    else document.title = "用戶";
+  }, [JSON.stringify(user)]);
+
+  if (isEventsLoading || isEventsFetching) return <Loading />;
   return (
     <div className="row py-5 ">
       <div className="margin-sm col-md-5 mx-auto">
@@ -121,12 +134,7 @@ export default function Profile(props) {
                 overflow: "auto",
               }}
             >
-              {user.about === ""
-                ? "No description"
-                : useMapArr(
-                    user.about.split("\n"),
-                    "font-italic mb-0 profileText"
-                  )}
+              {user.about === "" ? "No description" : article}
             </div>
           </div>
         </Paper>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useQuery } from "react-query";
 import {
@@ -192,6 +192,10 @@ export default function UserList() {
   const handleClick = (id) => () => {
     history.push(`/home/profile/${id}`);
   };
+
+  useEffect(() => {
+    document.title = "用戶列表";
+  }, []);
 
   if (isRecordListFetching || isListLoading) return <Loading />;
 

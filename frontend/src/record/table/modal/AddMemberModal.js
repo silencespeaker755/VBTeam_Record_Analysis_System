@@ -9,7 +9,7 @@ import HintModal from "../../../components/HintModal";
 import Loading from "../../../components/Loading";
 
 export default function AddMemberModal(props) {
-  const { open, onClose, setId, refetchMatch } = props;
+  const { open, onClose, setId, data, refetchMatch } = props;
   const { userInfo } = useUserInfo();
   const [message, setMessage] = useState("");
   const [hintModal, setHintModal] = useState(false);
@@ -18,6 +18,7 @@ export default function AddMemberModal(props) {
     async () => {
       const msg = await axios.post("/api/match/records/sets/data/create", {
         setId,
+        data,
         userId: userInfo.id,
       });
       return msg;
@@ -53,7 +54,7 @@ export default function AddMemberModal(props) {
       <AlertModel
         open={open}
         alertTitle="新增"
-        alertDesciption="確定要新增一個欄位嗎?"
+        alertDesciption="確定要儲存變更並新增一個欄位嗎?"
         alertButton={
           <div>
             <Button onClick={onClose}>取消</Button>

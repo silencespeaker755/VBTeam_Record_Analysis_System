@@ -24,7 +24,7 @@ class UserService {
     });
     await user.save();
 
-    const emailRes = await sendVerification(user.email);
+    const emailRes = await sendVerification(user.name, user.email);
 
     console.log(`Email: ${emailRes}`);
 
@@ -88,7 +88,7 @@ class UserService {
 
     if (moment(expireDate).tz("Asia/Taipei").isSameOrBefore(moment())) {
       await mail.deleteOne();
-      const emailRes = await sendVerification(user.email);
+      const emailRes = await sendVerification(user.name, user.email);
       console.log(`Email: ${emailRes}`);
       throw "Verification is expired! Please Enter New Verification Code";
     }
