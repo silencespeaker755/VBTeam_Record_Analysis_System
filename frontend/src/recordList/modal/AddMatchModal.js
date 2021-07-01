@@ -69,7 +69,6 @@ export default function AddMatchModal(props) {
     {
       retry: false,
       onSuccess: (data) => {
-        console.log(data);
         handleClose();
         refetch();
       },

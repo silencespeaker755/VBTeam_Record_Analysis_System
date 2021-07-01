@@ -26,7 +26,6 @@ export default function AddMemberModal(props) {
     {
       retry: false,
       onSuccess: (msg) => {
-        console.log(msg);
         setMessage(msg.data);
         setHintModal(true);
         refetchMatch();
