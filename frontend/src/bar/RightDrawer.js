@@ -77,7 +77,7 @@ export default function RightDrawer(props) {
       icon: <AssignmentIcon />,
       link: `/home/analysis/${userInfo.id}`,
       event: null,
-      visible: true,
+      visible: userInfo.isAdmin,
     },
     {
       label: "Practice",
