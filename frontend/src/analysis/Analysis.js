@@ -141,11 +141,11 @@ export default function Analysis() {
             <small>總局數</small>
           </div>
           <div className="Aname">
-            {analysisData?.sets?.win || "X"}
+            {analysisData?.sets?.win || "-"}
             <small>勝局數</small>
           </div>
           <div className="Ascore">
-            {analysisData?.sets?.lose || "X"}
+            {analysisData?.sets?.lose || "-"}
             <small>敗局數</small>
           </div>
         </div>
