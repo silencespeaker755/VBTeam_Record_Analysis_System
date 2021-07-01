@@ -32,4 +32,17 @@ router.get("/teamList", (req, res) => {
     });
 });
 
+router.get("/players", (req, res) => {
+  console.log("/api/match/analysis/players");
+  AnalysisService.getPlayersAnalysis()
+    .then((analysis) => {
+      console.log("All players' analysis:", analysis);
+      res.status(200).json(analysis);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).send(err);
+    });
+});
+
 export default router;

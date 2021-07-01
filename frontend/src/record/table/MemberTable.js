@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
@@ -8,23 +8,13 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
 } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
-import DeleteIcon from "@material-ui/icons/Delete";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import { useImmer } from "../../hooks/useImmer";
 import { useUserInfo } from "../../hooks/useInfo";
-import MemberTable from "./MemberTable";
 import EditableCell from "./EditableCell";
 import EditableTextCeil from "./EditableTextCeil";
-import UpdateTableModal from "../modal/UpdateTableModal";
-import DeleteTableModal from "../modal/DeleteTableModal";
-import AddMemberModal from "./modal/AddMemberModal";
-import RemoveMemberModal from "./modal/RemoveMemberModal";
-import { Unit, columnDir, detailDir } from "../../utils/record/constant";
 import "../../css/RecordTable.css";
+
+import { Unit, columnDir, detailDir } from "../../utils/record/constant";
 
 const useStyles = makeStyles({
   table: {
@@ -33,36 +23,19 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RecordTable({
-  initialData = [],
-  setsIndex,
-  match,
-  refetchMatch,
+export default function MemberTable({
+  viewOnly = false,
+  data,
+  setData = () => {},
+  current,
+  setCurrent = () => {},
+  setDeleteIndex = () => {},
+  noteVisible = true,
+  faultVisible = true,
 }) {
   const classes = useStyles();
+
   const { userInfo } = useUserInfo();
-  const [data, setData] = useImmer(initialData);
-  const [current, setCurrent] = useState("");
-  const [deleteIndex, setDeleteIndex] = useState(null);
-  const [updateModal, setUpdatemodal] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [createDataModal, setCreateDataModal] = useState(false);
-  const [deleteDataModal, setDeleteDataModal] = useState(false);
-  const [removeId, setRemoveId] = useState(null);
-
-  const AddNewMember = () => {
-    setCreateDataModal(true);
-  };
-
-  const RemoveNewMember = () => {
-    setRemoveId(match.sets[setsIndex].data[deleteIndex]._id);
-    setDeleteDataModal(true);
-    setDeleteIndex(null);
-  };
-
-  useEffect(() => {
-    setData(() => initialData.filter((el) => el !== "__v" || el !== "_id"));
-  }, [initialData]);
 
   const mappingHeaderWithSubHeader = (header, subHeader) => {
     return (
@@ -90,7 +63,7 @@ export default function RecordTable({
         >
           <div className="column-content-postion height-52">
             <EditableCell
-              editable={userInfo.isAdmin}
+              editable={!viewOnly && userInfo.isAdmin}
               initialValue={item}
               label={`${key}-${index}`}
               current={current}
@@ -127,7 +100,7 @@ export default function RecordTable({
         >
           <div className="column-content-postion height-52">
             <EditableTextCeil
-              editable={userInfo.isAdmin}
+              editable={!viewOnly && userInfo.isAdmin}
               initialValue={item}
               label={`${key}-${item}-${index}`}
               current={current}
@@ -161,7 +134,7 @@ export default function RecordTable({
               className="column-content-postion"
             >
               <EditableCell
-                editable={userInfo.isAdmin}
+                editable={!viewOnly && userInfo.isAdmin}
                 initialValue={item[value]}
                 label={`${key}-${value}-${index}`}
                 current={current}
@@ -188,82 +161,50 @@ export default function RecordTable({
   };
 
   return (
-    <div
-      className="margin-50"
-      style={{ position: "relative", marginTop: "10px", marginBottom: "80px" }}
-    >
-      {userInfo.isAdmin ? (
-        <div>
-          <Button
-            className="delete-button"
-            size="medium"
-            onClick={() => setDeleteModal(true)}
-          >
-            <DeleteIcon className="delete-icon" />
-            Delete
-          </Button>
-          <Button
-            className="update-button"
-            size="medium"
-            onClick={() => setUpdatemodal(true)}
-          >
-            <CloudUploadIcon className="edit-icon" />
-            Update
-          </Button>
-        </div>
-      ) : null}
-      <MemberTable
-        data={data}
-        setData={setData}
-        current={current}
-        setCurrent={setCurrent}
-        setDeleteIndex={setDeleteIndex}
-      />
-      {userInfo.isAdmin ? (
-        <div className="add-member-section">
-          {deleteIndex !== null && deleteIndex < data.length ? (
-            <Button className="add-member-button" onClick={RemoveNewMember}>
-              <RemoveIcon />
-            </Button>
-          ) : (
-            <Button className="add-member-button" onClick={AddNewMember}>
-              <AddIcon />
-            </Button>
-          )}
-        </div>
-      ) : null}
-      <UpdateTableModal
-        open={updateModal}
-        onClose={() => {
-          setUpdatemodal(false);
-        }}
-        data={data}
-        refetchMatch={refetchMatch}
-      />
-      <DeleteTableModal
-        open={deleteModal}
-        onClose={() => setDeleteModal(false)}
-        recordId={match._id}
-        setId={match.sets[setsIndex]._id}
-        refetchMatch={refetchMatch}
-      />
-      <AddMemberModal
-        open={createDataModal}
-        setId={match.sets[setsIndex]._id}
-        data={data}
-        onClose={() => setCreateDataModal(false)}
-        refetchMatch={refetchMatch}
-      />
-      <RemoveMemberModal
-        open={deleteDataModal}
-        setId={match.sets[setsIndex]._id}
-        dataId={removeId}
-        onClose={() => {
-          setDeleteDataModal(false);
-          setRemoveId(null);
-        }}
-        refetchMatch={refetchMatch}
-      />
-    </div>
+    <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            {Object.keys(Unit).map((value) => {
+              if (!noteVisible && value === "notes") return null;
+              if (!faultVisible && value === "faults") return null;
+              if (value === "name")
+                return (
+                  <TableCell
+                    key={`${value}`}
+                    className="header-frame column-content-name width-60"
+                    align="center"
+                  >
+                    {columnDir[value]}
+                  </TableCell>
+                );
+              return (
+                <TableCell
+                  key={`${value}`}
+                  className="header-frame width-120"
+                  align="center"
+                >
+                  {value === "notes"
+                    ? mappingHeaderWithSubHeader("", [value])
+                    : mappingHeaderWithSubHeader(
+                        columnDir[value],
+                        Object.keys(Unit[value])
+                      )}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((row, i) => (
+            <TableRow key={`row-${row.name}-${i}`} hover>
+              {Object.keys(row).map((value) =>
+                mappingColumnWithContents(i, value, row[value])
+              )}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
