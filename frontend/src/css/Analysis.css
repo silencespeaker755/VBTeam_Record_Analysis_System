@@ -1,0 +1,98 @@
+.Ascoreboard {
+  width: 73vw;
+  height: 25vw;
+  border-radius: 20px;
+  background: linear-gradient(-60deg, #46404f 53%, #4b4452 53%);
+  box-shadow: 2px 3px 5px 0px rgba(0, 0, 0, 0a25);
+  margin-left: 100px;
+}
+
+.Ateam {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  font-size: 4vw;
+  color: white;
+}
+.Ateam .Aname {
+  flex-shrink: 0;
+  width: auto;
+  padding-left: 10px;
+  display: flex;
+  justify-content: center;
+  letter-spacing: 2px;
+}
+.Ateam:nth-child(1) .Aboard {
+  border-top-left-radius: 20px;
+}
+
+.Ateam .Aboard {
+  height: 100%;
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5vw;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.Ateam .Ascore {
+  flex-shrink: 0;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  margin: 30px;
+  letter-spacing: 2px;
+}
+
+.Ateam1 .Aboard {
+  background-color: #eabf4f;
+  color: #4b4452;
+}
+.Ateam1.Atop .Aname {
+  color: #eabf4f;
+}
+
+.Ateam2 .Aboard {
+  background-color: #072242;
+}
+.Ateam2.Abot .Aname {
+  color: #072242;
+}
+
+.Ateam.Ateam2.Abot {
+  border-top: 0.5px solid white;
+}
+
+.Ascore {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.Aboard {
+  display: flex;
+  flex-direction: column;
+}
+.Ascore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Aname {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 16vw;
+}
+
+.Aboard small {
+  font-size: 1vw;
+}
+.Ascore small {
+  font-size: 1vw;
+}
+.Aname small {
+  font-size: 1vw;
+}
