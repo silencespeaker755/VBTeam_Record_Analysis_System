@@ -141,6 +141,10 @@ export default function Practice() {
     );
   }
 
+  useEffect(() => {
+    document.title = "文章&影片";
+  }, []);
+
   if (isEventsLoading) return <Loading />;
 
   return (

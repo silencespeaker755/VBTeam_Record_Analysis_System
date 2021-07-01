@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
@@ -16,6 +16,10 @@ export default function Homepage() {
     title: "Access Fail",
     message: "There is something wrong during request.",
   };
+
+  useEffect(() => {
+    document.title = "Volleyball Club House";
+  }, []);
 
   return (
     <>

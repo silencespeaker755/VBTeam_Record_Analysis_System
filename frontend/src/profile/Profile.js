@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import {
   Paper,
   Button,
@@ -24,7 +24,7 @@ export default function Profile(props) {
 
   const {
     data: user = {
-      username: "",
+      name: "",
       city: "",
       position: "",
       isAdmin: true,
@@ -58,6 +58,13 @@ export default function Profile(props) {
     user.about.split("\n"),
     "font-italic mb-0 profileText"
   );
+
+  console.log(user);
+
+  useEffect(() => {
+    if (user) document.title = user.name;
+    else document.title = "用戶";
+  }, [JSON.stringify(user)]);
 
   return (
     <div className="row py-5 ">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Paper, Typography, TextField, Button } from "@material-ui/core";
 import { PermIdentity } from "@material-ui/icons";
@@ -163,7 +163,9 @@ export default function Authentication() {
     setModal(false);
   };
 
-  console.log(userInfo);
+  useEffect(() => {
+    document.title = "信箱認證";
+  }, []);
 
   if (isLoading || isUserLoading || isUserFetching) return <Loading />;
 

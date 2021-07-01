@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useQuery } from "react-query";
 import {
@@ -198,6 +198,10 @@ export default function MyRecord() {
   const handleClick = (id) => () => {
     history.push(`/home/record/${id}`);
   };
+
+  useEffect(() => {
+    document.title = "比賽數據列表";
+  }, []);
 
   if (isRecordListFetching || isListLoading) return <Loading />;
 
