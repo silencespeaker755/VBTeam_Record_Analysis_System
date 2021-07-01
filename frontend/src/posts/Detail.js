@@ -19,6 +19,7 @@ import instance from "../setting";
 import { useUserInfo } from "../hooks/useInfo";
 import Edit from "./Edit";
 import useMapArr from "../utils/functions/useMapArr";
+import Loading from "../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   container: { marginTop: "50px" },
@@ -104,6 +105,7 @@ export default function Detail(props) {
     data: cards = [],
     isError: isEventsError,
     isLoading: isEventsLoading,
+    isFetching: isEventsFetching,
     refetch: refetchEvents,
   } = useQuery(
     "CardFetching",
@@ -151,6 +153,7 @@ export default function Detail(props) {
   const handleClose = () => {
     setOpen(false);
   };
+  if (isEventsLoading || isEventsFetching) return <Loading />;
 
   return (
     <Container className={detailClasses.container}>

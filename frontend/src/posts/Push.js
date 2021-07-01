@@ -53,8 +53,13 @@ export default function Push({ refetchEvents, handleClose }) {
       return data;
     },
     {
+      retry: false,
       onSuccess: ({ data }) => {
         refetchEvents();
+        handleClose();
+      },
+      onError: () => {
+        handleClose();
       },
     }
   );
@@ -62,7 +67,6 @@ export default function Push({ refetchEvents, handleClose }) {
   const onSubmit = (e) => {
     e.preventDefault();
     push();
-    handleClose();
   };
 
   if (isLoading) return <Loading />;
