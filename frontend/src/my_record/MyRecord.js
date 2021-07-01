@@ -216,7 +216,7 @@ export default function MyRecord(props) {
       <div className={classes.flexCenter}>
         <div className={classes.outFrame}>
           <div className={classes.titleSection}>
-            <Typography className={classes.outTitle}>My Record</Typography>
+            <Typography className={classes.outTitle}>My Records</Typography>
             <Divider className={classes.divider} />
           </div>
           <div className={classes.search}>
