@@ -49,7 +49,9 @@ class AnalysisService {
   static async getTeamList() {
     const records = await Record.find({});
 
-    return records.map((record) => record.team);
+    return records
+      .map((record) => record.team)
+      .filter((el, idx, arr) => arr.indexOf(el) === idx);
   }
 
   static async getPlayersAnalysis() {
