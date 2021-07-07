@@ -2,6 +2,7 @@ import React, { isValidElement, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import { Alert } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useMutation } from "react-query";
@@ -23,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 6),
   },
+  alert: {
+    marginTop: "10px",
+  },
 }));
 
 export default function Push({ refetchEvents, handleClose }) {
@@ -33,18 +37,26 @@ export default function Push({ refetchEvents, handleClose }) {
     url: "",
     content: "",
   });
+  const [err, setErr] = useState(false);
+
+  const getVideoURL = (url) => {
+    const p =
+      /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+    return url.match(p) ? `https://www.youtube.com/embed/${RegExp.$1}` : false;
+  };
 
   const handleChange = (e, type) => {
-    setVideo({ ...video, [type]: e.target.value });
+    const { value } = e.target;
+    setVideo({ ...video, [type]: value });
   };
 
   const { mutate: push, isLoading } = useMutation(
-    async (err) => {
+    async (url) => {
       const user = userInfo.id;
       const data = await instance.post("/api/practice/posts/upload", {
         post: {
           title: video.title,
-          url: video.url,
+          url,
           content: video.content,
           description: video.content,
         },
@@ -66,7 +78,12 @@ export default function Push({ refetchEvents, handleClose }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    push();
+    const url = getVideoURL(video.url);
+    if (url) {
+      push(url);
+    } else {
+      setErr(true);
+    }
   };
 
   if (isLoading) return <Loading />;
@@ -102,6 +119,11 @@ export default function Push({ refetchEvents, handleClose }) {
             type="text"
             onChange={(e) => handleChange(e, "content")}
           />
+          {err ? (
+            <Alert className={classes.alert} severity="error">
+              URL doesn&nbsp;t exist !
+            </Alert>
+          ) : null}
 
           <TextField
             value={video.url}
